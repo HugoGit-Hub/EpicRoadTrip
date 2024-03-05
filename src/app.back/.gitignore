@@ -1,4 +1,7 @@
 /*/bin/*
 /*/obj/*
 /.vs/*
+/data/*
+/log/*
+/secrets/*
 /EpicRoadTrip.sln.DotSettings.user

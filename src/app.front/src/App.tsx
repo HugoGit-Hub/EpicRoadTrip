@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import InputTextSearchBar from "./components/InputTextSearchBar";
 import SubmitButtonSearchBar from "./components/SubmitButtonSearchBar";
 import { Map, Marker } from "pigeon-maps";
+import SliderSearchBar from "./components/SliderSearchBar";
 
 function App() {
   const [data, setData] = useState({
@@ -13,14 +14,18 @@ function App() {
       value: "",
       active: false,
     },
+    budget: {
+      value: 0,
+      active: false
+    }
   });
 
   const active = useMemo(
-    () => data.depart.active || data.destination.active,
-    [data.depart.active, data.destination.active]
+    () => data.depart.active || data.destination.active || data.budget.active,
+    [data.depart.active, data.destination.active, data.budget.active]
   );
 
-  const [coord, setCoord] = useState([50.879, 4.6997])
+  const [coord, setCoord] = useState([50.879, 4.6997]);
 
   useEffect(() => {
     const options = {
@@ -28,23 +33,22 @@ function App() {
       timeout: 5000,
       maximumAge: 0,
     };
-    
+
     function success(pos) {
       const crd = pos.coords;
-      setCoord([crd.latitude, crd.longitude])
+      setCoord([crd.latitude, crd.longitude]);
       console.log("Your current position is:");
       console.log(`Latitude : ${crd.latitude}`);
       console.log(`Longitude: ${crd.longitude}`);
       console.log(`More or less ${crd.accuracy} meters.`);
     }
-    
+
     function error(err) {
       console.warn(`ERROR(${err.code}): ${err.message}`);
     }
-    
+
     navigator.geolocation.getCurrentPosition(success, error, options);
-    
-  }, [])
+  }, []);
   return (
     <>
       <div className="w-full h-screen relative flex flex-col items-center">
@@ -69,6 +73,10 @@ function App() {
                     ...data.destination,
                     active: false,
                   },
+                  budget: {
+                    ...data.budget,
+                    active: false
+                  }
                 });
               }}
               onChange={(value) => {
@@ -96,6 +104,10 @@ function App() {
                     ...data.destination,
                     active: true,
                   },
+                  budget: {
+                    ...data.budget,
+                    active: false
+                  }
                 });
               }}
               onChange={(value) => {
@@ -105,6 +117,37 @@ function App() {
                     ...data.destination,
                     value,
                   },
+                });
+              }}
+            />
+            <SliderSearchBar
+              label="Budget"
+              placeholder="Votre budget"
+              value={data.budget.value}
+              active={data.budget.active}
+              onChange={(value) => {
+                setData({
+                  ...data,
+                  budget: {
+                    ...data.budget,
+                    value
+                  }
+                });
+              }}
+              onClick={() => {
+                setData({
+                  depart: {
+                    ...data.depart,
+                    active: false,
+                  },
+                  destination: {
+                    ...data.destination,
+                    active: false,
+                  },
+                  budget: {
+                    ...data.budget,
+                    active: true
+                  }
                 });
               }}
             />
@@ -125,7 +168,6 @@ function App() {
           onChange={(value) => {}}
         /> */}
           </div>
-          {/* {active && <AutocompletionBox />} */}
         </div>
         <Map
           defaultCenter={coord}
@@ -138,6 +180,10 @@ function App() {
               },
               destination: {
                 ...data.destination,
+                active: false,
+              },
+              budget: {
+                ...data.budget,
                 active: false,
               },
             });

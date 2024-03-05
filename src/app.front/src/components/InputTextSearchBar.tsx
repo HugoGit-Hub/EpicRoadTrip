@@ -49,7 +49,7 @@ function InputTextSearchBar({
         className="border-0 focus:border-0 bg-transparent outline-none"
       />
 
-      {value.length > 0 && (
+      {value.length > 0 && active && (
         <div
           ref={clearButton}
           className="absolute right-[20px] rounded-full hover:bg-zinc-100 p-[2px] cursor-pointer"

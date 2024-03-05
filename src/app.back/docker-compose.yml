@@ -1,0 +1,43 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    user: root
+    container_name: sqlserver
+    environment:
+      - "ACCEPT_EULA=Y"
+      - "MSSQL_SA_PASSWORD=Password123!"
+    ports:
+      - 1433:1433
+    volumes:
+      - ./data:/var/opt/mssql/data
+      - ./log:/var/opt/mssql/log
+      - ./secrets:/var/opt/mssql/secrets
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "Password123!" -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    networks:
+      - epic-road-trip
+  
+  epic-road-trip-api:
+    image: epic-road-trip-api
+    build:
+      context: .
+      dockerfile: EpicRoadTrip.Api/Dockerfile
+    container_name: epic-road-trip-api
+    ports:
+      - "5000:8080"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - epic-road-trip
+
+volumes:
+  sqlserver_data:
+
+networks:
+  epic-road-trip:
+    driver: bridge

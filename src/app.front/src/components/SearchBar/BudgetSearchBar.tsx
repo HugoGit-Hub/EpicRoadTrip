@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
-import AutocompletionBox from "./AutocompletionBox";
-import closeIcon from "../icons/close.svg";
+import AutocompletionBox from "./Box";
+import closeIcon from "../../icons/close.svg";
 
-interface SliderSearchBarProps {
+interface BudgetSearchBarProps {
   active?: boolean;
   label: string;
-  value: number | null;
+  value: number;
   placeholder?: string;
   min?: number;
   max?: number;
@@ -13,7 +13,7 @@ interface SliderSearchBarProps {
   onChange: (value: number) => void;
 }
 
-function SliderSearchBar({
+function BudgetSearchBar({
   active,
   label,
   value,
@@ -22,7 +22,7 @@ function SliderSearchBar({
   max = 1500,
   onClick,
   onChange,
-}: SliderSearchBarProps) {
+}: BudgetSearchBarProps) {
   const clearButton = useRef<HTMLDivElement>(null);
 
   return (
@@ -87,4 +87,4 @@ function SliderSearchBar({
   );
 }
 
-export default SliderSearchBar;
+export default BudgetSearchBar;

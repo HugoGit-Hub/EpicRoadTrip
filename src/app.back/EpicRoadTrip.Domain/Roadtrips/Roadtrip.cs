@@ -6,7 +6,7 @@ namespace EpicRoadTrip.Domain.Roadtrips;
 
 public sealed class Roadtrip
 {
-    public int Id { get; }
+    public int Id { get; init; }
 
     public double Budget { get; }
 
@@ -21,7 +21,6 @@ public sealed class Roadtrip
     public ICollection<Route> Routes { get; } = [];
 
     private Roadtrip(
-        int id,
         double budget,
         DateTime startDate,
         DateTime? endDate,
@@ -37,7 +36,6 @@ public sealed class Roadtrip
             throw new RoadtripNotValidDatesException();
         }
 
-        Id = id;
         StartDate = startDate;
         EndDate = endDate;
         UserId = userId;
@@ -45,12 +43,11 @@ public sealed class Roadtrip
     }
 
     public static Roadtrip Create(
-        int id,
         double budget,
         DateTime startDate,
         DateTime? endDate,
         int userId)
     {
-        return new Roadtrip(id, budget, startDate, endDate, userId);
+        return new Roadtrip(budget, startDate, endDate, userId);
     }
 }

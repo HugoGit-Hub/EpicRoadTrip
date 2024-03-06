@@ -1,7 +1,7 @@
 ﻿using EpicRoadTrip.Domain.Cities;
 using EpicRoadTrip.Domain.Cities.Exceptions;
 
-namespace EpicRoadTrip.Test.Cities;
+namespace EpicRoadTrip.Test.Domain.Cities;
 
 [TestClass]
 public class CityTest
@@ -13,7 +13,7 @@ public class CityTest
     {
         // Act
         var city = City.Create(Name);
-        
+
         // Assert
         Assert.AreEqual(Name, city.Name);
     }

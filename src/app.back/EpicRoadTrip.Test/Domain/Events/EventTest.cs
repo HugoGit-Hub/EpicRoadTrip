@@ -1,7 +1,7 @@
 ﻿using EpicRoadTrip.Domain.Events;
 using EpicRoadTrip.Domain.Institutions.Exceptions;
 
-namespace EpicRoadTrip.Test.Events;
+namespace EpicRoadTrip.Test.Domain.Events;
 
 [TestClass]
 public class EventTest

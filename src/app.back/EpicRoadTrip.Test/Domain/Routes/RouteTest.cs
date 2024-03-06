@@ -1,7 +1,7 @@
 ﻿using EpicRoadTrip.Domain.Routes;
 using EpicRoadTrip.Domain.Routes.Exceptions;
 
-namespace EpicRoadTrip.Test.Routes;
+namespace EpicRoadTrip.Test.Domain.Routes;
 
 [TestClass]
 public class RouteTest

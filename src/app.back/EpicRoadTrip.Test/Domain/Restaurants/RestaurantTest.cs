@@ -1,7 +1,7 @@
 ﻿using EpicRoadTrip.Domain.Institutions.Exceptions;
 using EpicRoadTrip.Domain.Restaurants;
 
-namespace EpicRoadTrip.Test.Restaurants;
+namespace EpicRoadTrip.Test.Domain.Restaurants;
 
 [TestClass]
 public class RestaurantTest

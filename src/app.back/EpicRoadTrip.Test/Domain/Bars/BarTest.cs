@@ -1,7 +1,7 @@
 ﻿using EpicRoadTrip.Domain.Bars;
 using EpicRoadTrip.Domain.Institutions.Exceptions;
 
-namespace EpicRoadTrip.Test.Bars;
+namespace EpicRoadTrip.Test.Domain.Bars;
 
 [TestClass]
 public class BarTest

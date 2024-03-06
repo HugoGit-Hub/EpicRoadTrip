@@ -1,7 +1,7 @@
 ﻿using EpicRoadTrip.Domain.Roadtrips.Exceptions;
 using EpicRoadTrip.Domain.Roadtrips;
 
-namespace EpicRoadTrip.Test.Roadtrips;
+namespace EpicRoadTrip.Test.Domain.Roadtrips;
 
 [TestClass]
 public class RoadtripTest

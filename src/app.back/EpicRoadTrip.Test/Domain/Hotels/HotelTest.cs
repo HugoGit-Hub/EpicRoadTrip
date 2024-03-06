@@ -1,7 +1,7 @@
 ﻿using EpicRoadTrip.Domain.Hotels;
 using EpicRoadTrip.Domain.Institutions.Exceptions;
 
-namespace EpicRoadTrip.Test.Hotels;
+namespace EpicRoadTrip.Test.Domain.Hotels;
 
 [TestClass]
 public sealed class HotelTest

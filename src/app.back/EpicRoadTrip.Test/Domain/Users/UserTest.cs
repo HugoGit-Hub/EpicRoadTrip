@@ -2,7 +2,7 @@
 using EpicRoadTrip.Domain.Users.Exceptions;
 using Moq;
 
-namespace EpicRoadTrip.Test.Users;
+namespace EpicRoadTrip.Test.Domain.Users;
 
 [TestClass]
 public class UserTest

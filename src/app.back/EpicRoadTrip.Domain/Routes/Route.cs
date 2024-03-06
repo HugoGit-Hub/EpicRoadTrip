@@ -6,7 +6,7 @@ namespace EpicRoadTrip.Domain.Routes;
 
 public sealed class Route
 {
-    public int Id { get; }
+    public int Id { get; init; }
 
     public double Distance { get; }
 
@@ -25,7 +25,6 @@ public sealed class Route
     public Roadtrip Roadtrip { get; } = null!;
     
     private Route(
-        int id,
         double distance,
         TimeSpan duration,
         int cityOneId,
@@ -47,7 +46,6 @@ public sealed class Route
             throw new RouteInvalidCitiesException();
         }
 
-        Id = id;
         Distance = distance;
         Duration = duration;
         CityOneId = cityOneId;
@@ -56,13 +54,12 @@ public sealed class Route
     }
 
     public static Route Create(
-        int id,
         double distance,
         TimeSpan duration,
         int cityOneId,
         int cityTwoId,
         int roadtripId)
     {
-        return new Route(id, distance, duration, cityOneId, cityTwoId, roadtripId);
+        return new Route(distance, duration, cityOneId, cityTwoId, roadtripId);
     }
 }

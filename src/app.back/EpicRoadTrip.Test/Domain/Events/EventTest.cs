@@ -1,12 +1,11 @@
 ﻿using EpicRoadTrip.Domain.Events;
 using EpicRoadTrip.Domain.Institutions.Exceptions;
 
-namespace EpicRoadTrip.Test.Events;
+namespace EpicRoadTrip.Test.Domain.Events;
 
 [TestClass]
 public class EventTest
 {
-    private const int Id = 1;
     private const string Name = "Event";
     private const double Price = 100.0;
     private const string PhoneNumber = "123456789";
@@ -18,10 +17,9 @@ public class EventTest
     public void CreateEvent_ValidParameters_CreatesEvent()
     {
         // Act
-        var eventEntity = Event.Create(Id, Name, Price, PhoneNumber, Email, Address, CityId);
+        var eventEntity = Event.Create(Name, Price, PhoneNumber, Email, Address, CityId);
 
         // Assert
-        Assert.AreEqual(Id, eventEntity.Id);
         Assert.AreEqual(Name, eventEntity.Name);
         Assert.AreEqual(Price, eventEntity.Price);
         Assert.AreEqual(PhoneNumber, eventEntity.PhoneNumber);
@@ -38,7 +36,7 @@ public class EventTest
         var invalidName = string.Empty;
 
         // Act
-        Event.Create(Id, invalidName, Price, PhoneNumber, Email, Address, CityId);
+        Event.Create(invalidName, Price, PhoneNumber, Email, Address, CityId);
     }
 
     [TestMethod]
@@ -49,6 +47,6 @@ public class EventTest
         var invalidAddress = string.Empty;
 
         // Act
-        Event.Create(Id, Name, Price, PhoneNumber, Email, invalidAddress, CityId);
+        Event.Create(Name, Price, PhoneNumber, Email, invalidAddress, CityId);
     }
 }

@@ -2,12 +2,11 @@
 using EpicRoadTrip.Domain.Users.Exceptions;
 using Moq;
 
-namespace EpicRoadTrip.Test.Users;
+namespace EpicRoadTrip.Test.Domain.Users;
 
 [TestClass]
 public class UserTest
 {
-    private const int Id = 1;
     private const string FirstName = "John";
     private const string LastName = "Doe";
     private const string Email = "john.doe@example.com";
@@ -19,10 +18,9 @@ public class UserTest
     public void CreateUser_ValidParameters_CreatesUser()
     {
         // Act
-        var user = User.Create(Id, FirstName, LastName, Email, Password, Age, Gender);
+        var user = User.Create(FirstName, LastName, Email, Password, Age, Gender);
 
         // Assert
-        Assert.AreEqual(Id, user.Id);
         Assert.AreEqual(FirstName, user.FirstName);
         Assert.AreEqual(LastName, user.LastName);
         Assert.AreEqual(Email, user.Email);
@@ -40,7 +38,7 @@ public class UserTest
         var password = It.IsAny<string>();
 
         // Act
-        User.Create(Id, firstName, lastName, email, password, Age, Gender);
+        User.Create(firstName, lastName, email, password, Age, Gender);
     }
 
     [TestMethod]
@@ -51,6 +49,6 @@ public class UserTest
         const int age = -10;
 
         // Act
-        User.Create(Id, FirstName, LastName, Email, Password, age, Gender);
+        User.Create(FirstName, LastName, Email, Password, age, Gender);
     }
 }

@@ -5,7 +5,7 @@ namespace EpicRoadTrip.Domain.Users;
 
 public sealed class User
 {
-    public int Id { get; }
+    public int Id { get; init; }
 
     public string FirstName { get; }
 
@@ -22,7 +22,6 @@ public sealed class User
     public ICollection<Roadtrip> Roadtrips { get; } = [];
     
     private User(
-        int id,
         string firstName,
         string lastName,
         string email,
@@ -43,7 +42,6 @@ public sealed class User
             throw new UserInvalidAgeException();
         }
 
-        Id = id;
         FirstName = firstName;
         LastName = lastName;
         Email = email;
@@ -53,7 +51,6 @@ public sealed class User
     }
 
     public static User Create(
-        int id,
         string firstName,
         string lastName,
         string email,
@@ -61,6 +58,6 @@ public sealed class User
         int age,
         bool gender)
     {
-        return new User(id, firstName, lastName, email, password, age, gender);
+        return new User(firstName, lastName, email, password, age, gender);
     }
 }

@@ -1,12 +1,11 @@
 ﻿using EpicRoadTrip.Domain.Hotels;
 using EpicRoadTrip.Domain.Institutions.Exceptions;
 
-namespace EpicRoadTrip.Test.Hotels;
+namespace EpicRoadTrip.Test.Domain.Hotels;
 
 [TestClass]
 public sealed class HotelTest
 {
-    private const int Id = 1;
     private const string Name = "Hotel";
     private const double Price = 100.0;
     private const string PhoneNumber = "123456789";
@@ -18,10 +17,9 @@ public sealed class HotelTest
     public void CreateHotel_ValidParameters_CreatesHotel()
     {
         // Act
-        var hotel = Hotel.Create(Id, Name, Price, PhoneNumber, Email, Address, CityId);
+        var hotel = Hotel.Create(Name, Price, PhoneNumber, Email, Address, CityId);
 
         // Assert
-        Assert.AreEqual(Id, hotel.Id);
         Assert.AreEqual(Name, hotel.Name);
         Assert.AreEqual(Price, hotel.Price);
         Assert.AreEqual(PhoneNumber, hotel.PhoneNumber);
@@ -38,7 +36,7 @@ public sealed class HotelTest
         var invalidName = string.Empty;
 
         // Act
-        Hotel.Create(Id, invalidName, Price, PhoneNumber, Email, Address, CityId);
+        Hotel.Create(invalidName, Price, PhoneNumber, Email, Address, CityId);
     }
 
     [TestMethod]
@@ -49,6 +47,6 @@ public sealed class HotelTest
         var invalidAddress = string.Empty;
 
         // Act
-        Hotel.Create(Id, Name, Price, PhoneNumber, Email, invalidAddress, CityId);
+        Hotel.Create(Name, Price, PhoneNumber, Email, invalidAddress, CityId);
     }
 }

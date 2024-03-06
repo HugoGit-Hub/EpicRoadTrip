@@ -4,7 +4,7 @@ namespace EpicRoadTrip.Domain.Transportations;
 
 public sealed class Transportation
 {
-    public int Id { get; }
+    public int Id { get; init; }
 
     public double Score { get; }
 
@@ -15,7 +15,6 @@ public sealed class Transportation
     public TransportationType TransportationType { get; }
     
     private Transportation(
-        int id,
         double score,
         string company,
         string address,
@@ -36,7 +35,6 @@ public sealed class Transportation
             throw new TransportationInvalidAddressException();
         }
 
-        Id = id;
         Score = score;
         Company = company;
         Address = address;
@@ -44,12 +42,11 @@ public sealed class Transportation
     }
 
     public static Transportation Create(
-        int id,
         double score, 
         string company, 
         string address, 
         TransportationType transportationType)
     {
-        return new Transportation(id, score, company, address, transportationType);
+        return new Transportation(score, company, address, transportationType);
     }
 }

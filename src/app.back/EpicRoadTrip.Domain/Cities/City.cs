@@ -9,7 +9,7 @@ namespace EpicRoadTrip.Domain.Cities;
 
 public sealed class City
 {
-    public int Id { get; }
+    public int Id { get; init; }
 
     public string Name { get; }
  
@@ -23,19 +23,18 @@ public sealed class City
     
     public ICollection<Event> Events { get; } = [];
 
-    private City(int id, string name)
+    private City(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
         {
             throw new CityInvalidNameException();
         }
 
-        Id = id;
         Name = name;
     }
 
-    public static City Create(int id, string name)
+    public static City Create(string name)
     {
-        return new City(id, name);
+        return new City(name);
     }
 }

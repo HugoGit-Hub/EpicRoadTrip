@@ -1,22 +1,20 @@
 ﻿using EpicRoadTrip.Domain.Cities;
 using EpicRoadTrip.Domain.Cities.Exceptions;
 
-namespace EpicRoadTrip.Test.Cities;
+namespace EpicRoadTrip.Test.Domain.Cities;
 
 [TestClass]
 public class CityTest
 {
-    private const int Id = 1;
     private const string Name = "Paris";
 
     [TestMethod]
     public void CreateCity_WithValidParameters_CreatesCity()
     {
         // Act
-        var city = City.Create(Id, Name);
-        
+        var city = City.Create(Name);
+
         // Assert
-        Assert.AreEqual(Id, city.Id);
         Assert.AreEqual(Name, city.Name);
     }
 
@@ -28,6 +26,6 @@ public class CityTest
         var invalidName = string.Empty;
 
         // Act
-        City.Create(Id, invalidName);
+        City.Create(invalidName);
     }
 }

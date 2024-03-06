@@ -6,7 +6,6 @@ namespace EpicRoadTrip.Test.Routes;
 [TestClass]
 public class RouteTest
 {
-    private const int Id = 1;
     private const double Distance = 100.5;
     private const int CityOneId = 1;
     private const int CityTwoId = 2;
@@ -18,10 +17,9 @@ public class RouteTest
     public void CreateRoute_WithValidData_ShouldCreateRoute()
     {
         // Act
-        var route = Route.Create(Id, Distance, Duration, CityOneId, CityTwoId, RoadtripId);
+        var route = Route.Create(Distance, Duration, CityOneId, CityTwoId, RoadtripId);
 
         // Assert
-        Assert.AreEqual(Id, route.Id);
         Assert.AreEqual(Distance, route.Distance);
         Assert.AreEqual(Duration, route.Duration);
         Assert.AreEqual(CityOneId, route.CityOneId);
@@ -37,7 +35,7 @@ public class RouteTest
         const double distance = -1;
 
         // Act
-        Route.Create(Id, distance, Duration, CityOneId, CityTwoId, RoadtripId);
+        Route.Create(distance, Duration, CityOneId, CityTwoId, RoadtripId);
     }
 
     [TestMethod]
@@ -48,7 +46,7 @@ public class RouteTest
         var duration = TimeSpan.FromHours(-1);
 
         // Act
-        Route.Create(Id, Distance, duration, CityOneId, CityTwoId, RoadtripId);
+        Route.Create(Distance, duration, CityOneId, CityTwoId, RoadtripId);
     }
 
     [TestMethod]
@@ -59,6 +57,6 @@ public class RouteTest
         const int cityTwoId = 1;
 
         // Act
-        Route.Create(Id, Distance, Duration, CityOneId, cityTwoId, RoadtripId);
+        Route.Create(Distance, Duration, CityOneId, cityTwoId, RoadtripId);
     }
 }

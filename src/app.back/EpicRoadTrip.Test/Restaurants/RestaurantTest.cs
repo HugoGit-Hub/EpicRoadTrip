@@ -6,7 +6,6 @@ namespace EpicRoadTrip.Test.Restaurants;
 [TestClass]
 public class RestaurantTest
 {
-    private const int Id = 1;
     private const string Name = "Restaurant";
     private const double Price = 100.0;
     private const string PhoneNumber = "123456789";
@@ -18,10 +17,9 @@ public class RestaurantTest
     public void CreateRestaurant_ValidParameters_CreatesRestaurant()
     {
         // Act
-        var hotel = Restaurant.Create(Id, Name, Price, PhoneNumber, Email, Address, CityId);
+        var hotel = Restaurant.Create(Name, Price, PhoneNumber, Email, Address, CityId);
 
         // Assert
-        Assert.AreEqual(Id, hotel.Id);
         Assert.AreEqual(Name, hotel.Name);
         Assert.AreEqual(Price, hotel.Price);
         Assert.AreEqual(PhoneNumber, hotel.PhoneNumber);
@@ -38,7 +36,7 @@ public class RestaurantTest
         var invalidName = string.Empty;
 
         // Act
-        Restaurant.Create(Id, invalidName, Price, PhoneNumber, Email, Address, CityId);
+        Restaurant.Create(invalidName, Price, PhoneNumber, Email, Address, CityId);
     }
 
     [TestMethod]
@@ -49,6 +47,6 @@ public class RestaurantTest
         var invalidAddress = string.Empty;
 
         // Act
-        Restaurant.Create(Id, Name, Price, PhoneNumber, Email, invalidAddress, CityId);
+        Restaurant.Create(Name, Price, PhoneNumber, Email, invalidAddress, CityId);
     }
 }

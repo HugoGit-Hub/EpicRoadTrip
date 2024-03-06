@@ -6,7 +6,6 @@ namespace EpicRoadTrip.Test.Roadtrips;
 [TestClass]
 public class RoadtripTest
 {
-    private const int Id = 1;
     private const double PositiveBudget = 1000.0;
     private readonly DateTime _dateTimeNow = DateTime.Now;
 
@@ -18,10 +17,9 @@ public class RoadtripTest
         DateTime? endDate = DateTime.Now.AddDays(7);
 
         // Act
-        var roadtrip = Roadtrip.Create(Id, PositiveBudget, _dateTimeNow, endDate, userId);
+        var roadtrip = Roadtrip.Create(PositiveBudget, _dateTimeNow, endDate, userId);
 
         // Assert
-        Assert.AreEqual(Id, roadtrip.Id);
         Assert.AreEqual(PositiveBudget, roadtrip.Budget);
         Assert.AreEqual(_dateTimeNow, roadtrip.StartDate);
         Assert.AreEqual(endDate, roadtrip.EndDate);
@@ -38,7 +36,7 @@ public class RoadtripTest
         const int userId = 1;
 
         // Act
-        Roadtrip.Create(Id, budget, _dateTimeNow, endDate, userId);
+        Roadtrip.Create(budget, _dateTimeNow, endDate, userId);
     }
 
     [TestMethod]
@@ -50,7 +48,7 @@ public class RoadtripTest
         const int userId = 1;
 
         // Act
-        Roadtrip.Create(Id, PositiveBudget, startDate, _dateTimeNow, userId);
+        Roadtrip.Create(PositiveBudget, startDate, _dateTimeNow, userId);
     }
 
 }

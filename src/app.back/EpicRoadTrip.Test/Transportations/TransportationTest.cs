@@ -6,7 +6,6 @@ namespace EpicRoadTrip.Test.Transportations;
 [TestClass]
 public class TransportationTest
 {
-    private const int Id = 1;
     private const double Score = 4.5;
     private const string Company = "Company";
     private const string Address = "Address";
@@ -16,11 +15,10 @@ public class TransportationTest
     public void CreateTransportation_WithValidParameters_ShouldReturnTransportation()
     {
         // Act
-        var transportation = Transportation.Create(Id, Score, Company, Address, Type);
+        var transportation = Transportation.Create(Score, Company, Address, Type);
 
         // Assert
         Assert.IsNotNull(transportation);
-        Assert.AreEqual(Id, transportation.Id);
         Assert.AreEqual(Score, transportation.Score);
         Assert.AreEqual(Company, transportation.Company);
         Assert.AreEqual(Address, transportation.Address);
@@ -34,7 +32,7 @@ public class TransportationTest
     public void CreateTransportation_WithInvalidScore_ShouldThrowTransportationInvalidScoreException(double invalidScore)
     {
         // Act
-        Transportation.Create(Id, invalidScore, Company, Address, Type);
+        Transportation.Create(invalidScore, Company, Address, Type);
     }
 
     [TestMethod]
@@ -45,7 +43,7 @@ public class TransportationTest
         var invalidCompany = string.Empty;
 
         // Act
-        Transportation.Create(Id, Score, invalidCompany, Address, Type);
+        Transportation.Create(Score, invalidCompany, Address, Type);
     }
 
     [TestMethod]
@@ -56,6 +54,6 @@ public class TransportationTest
         var invalidAddress = string.Empty;
 
         // Act
-        Transportation.Create(Id, Score, Company, invalidAddress, Type);
+        Transportation.Create(Score, Company, invalidAddress, Type);
     }
 }

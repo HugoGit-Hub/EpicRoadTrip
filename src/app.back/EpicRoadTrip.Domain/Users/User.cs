@@ -15,6 +15,10 @@ public sealed class User
 
     public string Password { get; }
 
+    public int Age { get; }
+
+    public bool Gender { get; }
+
     public ICollection<Roadtrip> Roadtrips { get; } = [];
     
     private User(
@@ -22,7 +26,9 @@ public sealed class User
         string firstName,
         string lastName,
         string email,
-        string password)
+        string password,
+        int age,
+        bool gender)
     {
         if (string.IsNullOrWhiteSpace(firstName)
             || string.IsNullOrWhiteSpace(lastName)
@@ -32,11 +38,18 @@ public sealed class User
             throw new UserInvalidFormatException();
         }
 
+        if (age < 0)
+        {
+            throw new UserInvalidAgeException();
+        }
+
         Id = id;
         FirstName = firstName;
         LastName = lastName;
         Email = email;
         Password = password;
+        Age = age;
+        Gender = gender;
     }
 
     public static User Create(
@@ -44,8 +57,10 @@ public sealed class User
         string firstName,
         string lastName,
         string email,
-        string password)
+        string password,
+        int age,
+        bool gender)
     {
-        return new User(id, firstName, lastName, email, password);
+        return new User(id, firstName, lastName, email, password, age, gender);
     }
 }

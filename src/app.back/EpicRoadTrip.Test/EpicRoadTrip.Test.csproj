@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EpicRoadTrip.Api\EpicRoadTrip.Api.csproj" />
     <ProjectReference Include="..\EpicRoadTrip.Domain\EpicRoadTrip.Domain.csproj" />
   </ItemGroup>
 

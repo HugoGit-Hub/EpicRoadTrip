@@ -1,4 +1,4 @@
-﻿using EpicRoadTrip.Application.Authentication.Register;
+﻿using EpicRoadTrip.Application.Authentications.Registers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,6 +1,6 @@
 ﻿using EpicRoadTrip.Domain.ErrorHandling;
 
-namespace EpicRoadTrip.Application.Authentication;
+namespace EpicRoadTrip.Application.Authentications;
 
 public static class AuthenticationErrors
 {

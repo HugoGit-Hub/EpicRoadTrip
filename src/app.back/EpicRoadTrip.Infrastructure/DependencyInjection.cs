@@ -1,9 +1,9 @@
-﻿using EpicRoadTrip.Application.Authentication;
+﻿using EpicRoadTrip.Application.Authentications;
 using EpicRoadTrip.Application.Users;
-using EpicRoadTrip.Infrastructure.Authentication;
+using EpicRoadTrip.Infrastructure.Authentications;
 using EpicRoadTrip.Infrastructure.Context;
 using EpicRoadTrip.Infrastructure.Options;
-using EpicRoadTrip.Infrastructure.User;
+using EpicRoadTrip.Infrastructure.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

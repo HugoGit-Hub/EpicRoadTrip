@@ -1,10 +1,10 @@
-﻿using EpicRoadTrip.Application.Authentication.Register;
+﻿using EpicRoadTrip.Application.Authentications.Registers;
 using EpicRoadTrip.Domain.Authentications;
 using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.Users;
 using Moq;
 
-namespace EpicRoadTrip.Test.Application.Register;
+namespace EpicRoadTrip.Test.Application.Registers;
 
 [TestClass]
 public class RegisterCommandHandlerTest
@@ -35,7 +35,7 @@ public class RegisterCommandHandlerTest
         var command = new RegisterCommand(request);
         mockAuthenticationService
             .Setup(service => service.IsEmailAlreadyUse(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(true);
+            .ReturnsAsync(false);
         
         mockAuthenticationService
             .Setup(service => service.Encrypt(It.IsAny<string>()))
@@ -81,7 +81,7 @@ public class RegisterCommandHandlerTest
         var command = new RegisterCommand(request);
         mockAuthenticationService
             .Setup(service => service.IsEmailAlreadyUse(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(false);
+            .ReturnsAsync(true);
         
         var handler = new RegisterCommandHandler(mockAuthenticationService.Object, mockUserService.Object);
 
@@ -111,7 +111,7 @@ public class RegisterCommandHandlerTest
         var command = new RegisterCommand(request);
         mockAuthenticationService
             .Setup(service => service.IsEmailAlreadyUse(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(true);
+            .ReturnsAsync(false);
 
         mockAuthenticationService
             .Setup(service => service.Encrypt(It.IsAny<string>()))
@@ -145,7 +145,7 @@ public class RegisterCommandHandlerTest
         var command = new RegisterCommand(request);
         mockAuthenticationService
             .Setup(service => service.IsEmailAlreadyUse(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(true);
+            .ReturnsAsync(false);
 
         mockAuthenticationService
             .Setup(service => service.Encrypt(It.IsAny<string>()))
@@ -183,7 +183,7 @@ public class RegisterCommandHandlerTest
         var command = new RegisterCommand(request);
         mockAuthenticationService
             .Setup(service => service.IsEmailAlreadyUse(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(true);
+            .ReturnsAsync(false);
 
         mockAuthenticationService
             .Setup(service => service.Encrypt(It.IsAny<string>()))
@@ -221,7 +221,7 @@ public class RegisterCommandHandlerTest
         var command = new RegisterCommand(request);
         mockAuthenticationService
             .Setup(service => service.IsEmailAlreadyUse(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(true);
+            .ReturnsAsync(false);
 
         mockAuthenticationService
             .Setup(service => service.Encrypt(It.IsAny<string>()))
@@ -263,7 +263,7 @@ public class RegisterCommandHandlerTest
         var command = new RegisterCommand(request);
         mockAuthenticationService
             .Setup(service => service.IsEmailAlreadyUse(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(true);
+            .ReturnsAsync(false);
 
         mockAuthenticationService
             .Setup(service => service.Encrypt(It.IsAny<string>()))

@@ -1,10 +1,10 @@
-﻿using EpicRoadTrip.Domain.Authentications;
+﻿using System.Text.Json;
+using EpicRoadTrip.Domain.Authentications;
 using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.Users;
 using MediatR;
-using System.Text.Json;
 
-namespace EpicRoadTrip.Application.Authentication.Register;
+namespace EpicRoadTrip.Application.Authentications.Registers;
 
 public class RegisterCommandHandler(IAuthenticationService authenticationService, IUserService userService)
     : IRequestHandler<RegisterCommand, Result<string>>

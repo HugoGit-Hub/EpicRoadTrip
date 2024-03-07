@@ -1,4 +1,4 @@
-﻿using EpicRoadTrip.Application.Authentication;
+﻿using EpicRoadTrip.Application.Authentications;
 using EpicRoadTrip.Application.Options;
 using EpicRoadTrip.Application.Users;
 using EpicRoadTrip.Domain.Authentications;

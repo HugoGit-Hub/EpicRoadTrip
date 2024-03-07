@@ -7,7 +7,6 @@ using EpicRoadTrip.Domain.Roadtrips;
 using EpicRoadTrip.Domain.Routes;
 using EpicRoadTrip.Domain.RouteTransportations;
 using EpicRoadTrip.Domain.Transportations;
-using EpicRoadTrip.Domain.Users;
 using EpicRoadTrip.Infrastructure.Context.Configurations;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,7 +32,7 @@ public class EpicRoadTripContext(DbContextOptions<EpicRoadTripContext> options) 
 
     public DbSet<Transportation> Transportations { get; set; } = null!;
 
-    public DbSet<User> Users { get; set; } = null!;
+    public DbSet<Domain.Users.User> Users { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -46,7 +45,7 @@ public class EpicRoadTripContext(DbContextOptions<EpicRoadTripContext> options) 
         new RouteConfiguration().Configure(modelBuilder.Entity<Route>());
         new RouteTransportationConfiguration().Configure(modelBuilder.Entity<RouteTransportation>());
         new TransportationConfiguration().Configure(modelBuilder.Entity<Transportation>());
-        new UserConfiguration().Configure(modelBuilder.Entity<User>());
+        new UserConfiguration().Configure(modelBuilder.Entity<Domain.Users.User>());
 
         base.OnModelCreating(modelBuilder);
     }

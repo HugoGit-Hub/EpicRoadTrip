@@ -1,4 +1,5 @@
-﻿using EpicRoadTrip.Domain.Roadtrips;
+﻿using EpicRoadTrip.Domain.ErrorHandling;
+using EpicRoadTrip.Domain.Roadtrips;
 using EpicRoadTrip.Domain.Users.Exceptions;
 
 namespace EpicRoadTrip.Domain.Users;
@@ -50,7 +51,7 @@ public sealed class User
         Gender = gender;
     }
 
-    public static User Create(
+    public static Result<User> Create(
         string firstName,
         string lastName,
         string email,
@@ -58,6 +59,15 @@ public sealed class User
         int age,
         bool gender)
     {
-        return new User(firstName, lastName, email, password, age, gender);
+        try
+        {
+            var user = new User(firstName, lastName, email, password, age, gender);
+
+            return Result<User>.Success(user);
+        }
+        catch (Exception e)
+        {
+            return Result<User>.Failure(UserErrors.UserInvalidFormatException(e));
+        }
     }
 }

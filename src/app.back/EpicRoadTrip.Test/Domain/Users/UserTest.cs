@@ -21,14 +21,15 @@ public class UserTest
         var user = User.Create(FirstName, LastName, Email, Password, Age, Gender);
 
         // Assert
-        Assert.AreEqual(FirstName, user.FirstName);
-        Assert.AreEqual(LastName, user.LastName);
-        Assert.AreEqual(Email, user.Email);
-        Assert.AreEqual(Password, user.Password);
+        Assert.AreEqual(FirstName, user.Value.FirstName);
+        Assert.AreEqual(LastName, user.Value.LastName);
+        Assert.AreEqual(Email, user.Value.Email);
+        Assert.AreEqual(Password, user.Value.Password);
+        Assert.AreEqual(Age, user.Value.Age);
+        Assert.AreEqual(Gender, user.Value.Gender);
     }
 
     [TestMethod]
-    [ExpectedException(typeof(UserInvalidFormatException))]
     public void CreateUser_InvalidParameters_ThrowsException()
     {
         // Arrange
@@ -38,17 +39,22 @@ public class UserTest
         var password = It.IsAny<string>();
 
         // Act
-        User.Create(firstName, lastName, email, password, Age, Gender);
+        var user = User.Create(firstName, lastName, email, password, Age, Gender);
+
+        // Assert
+        Assert.IsTrue(user.IsFailure);
     }
 
     [TestMethod]
-    [ExpectedException(typeof(UserInvalidAgeException))]
     public void CreateUser_InvalidAge_ThrowsException()
     {
         // Arrange
         const int age = -10;
 
         // Act
-        User.Create(FirstName, LastName, Email, Password, age, Gender);
+        var user = User.Create(FirstName, LastName, Email, Password, age, Gender);
+
+        // Assert
+        Assert.IsTrue(user.IsFailure);
     }
 }

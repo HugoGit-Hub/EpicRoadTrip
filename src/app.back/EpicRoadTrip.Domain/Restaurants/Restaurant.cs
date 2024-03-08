@@ -1,4 +1,6 @@
-﻿using EpicRoadTrip.Domain.Institutions;
+﻿using EpicRoadTrip.Domain.ErrorHandling;
+using EpicRoadTrip.Domain.ErrorHandling.Generics;
+using EpicRoadTrip.Domain.Institutions;
 
 namespace EpicRoadTrip.Domain.Restaurants;
 
@@ -17,7 +19,7 @@ public sealed class Restaurant : Institution
     {
     }
 
-    public static Restaurant Create(
+    public static Result<Restaurant> Create(
         string name, 
         double? price, 
         string? phoneNumber, 
@@ -25,6 +27,15 @@ public sealed class Restaurant : Institution
         string address, 
         int cityId)
     {
-        return new Restaurant(name, price, phoneNumber, email, address, cityId);
+        try
+        {
+            var restaurant = new Restaurant(name, price, phoneNumber, email, address, cityId);
+
+            return Result<Restaurant>.Success(restaurant);
+        }
+        catch (Exception e)
+        {
+            return Result<Restaurant>.Failure(GenericErrors<Restaurant>.InvalidFormatError(e));
+        }
     }
 }

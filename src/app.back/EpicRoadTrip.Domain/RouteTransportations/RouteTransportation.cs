@@ -1,4 +1,6 @@
-﻿using EpicRoadTrip.Domain.Routes;
+﻿using EpicRoadTrip.Domain.ErrorHandling;
+using EpicRoadTrip.Domain.ErrorHandling.Generics;
+using EpicRoadTrip.Domain.Routes;
 using EpicRoadTrip.Domain.RouteTransportations.Exceptions;
 using EpicRoadTrip.Domain.Transportations;
 
@@ -28,8 +30,17 @@ public sealed class RouteTransportation
         TransportationId = transportationId;
     }
 
-    public static RouteTransportation Create(double cost, int routeId, int transportationId)
+    public static Result<RouteTransportation> Create(double cost, int routeId, int transportationId)
     {
-        return new RouteTransportation(cost, routeId, transportationId);
+        try
+        {
+            var routeTransportation = new RouteTransportation(cost, routeId, transportationId);
+
+            return Result<RouteTransportation>.Success(routeTransportation);
+        }
+        catch (Exception e)
+        {
+            return Result<RouteTransportation>.Failure(GenericErrors<RouteTransportation>.InvalidFormatError(e));
+        }
     }
 }

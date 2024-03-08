@@ -1,4 +1,6 @@
-﻿using EpicRoadTrip.Domain.Transportations.Exceptions;
+﻿using EpicRoadTrip.Domain.ErrorHandling;
+using EpicRoadTrip.Domain.ErrorHandling.Generics;
+using EpicRoadTrip.Domain.Transportations.Exceptions;
 
 namespace EpicRoadTrip.Domain.Transportations;
 
@@ -41,12 +43,21 @@ public sealed class Transportation
         TransportationType = transportationType;
     }
 
-    public static Transportation Create(
+    public static Result<Transportation> Create(
         double score, 
         string company, 
         string address, 
         TransportationType transportationType)
     {
-        return new Transportation(score, company, address, transportationType);
+        try
+        {
+            var transportation = new Transportation(score, company, address, transportationType);
+
+            return Result<Transportation>.Success(transportation);
+        }
+        catch (Exception e)
+        {
+            return Result<Transportation>.Failure(GenericErrors<Transportation>.InvalidFormatError(e));
+        }
     }
 }

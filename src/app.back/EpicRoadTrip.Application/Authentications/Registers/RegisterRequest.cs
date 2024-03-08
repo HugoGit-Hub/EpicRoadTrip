@@ -1,4 +1,4 @@
-﻿namespace EpicRoadTrip.Application.Authentication.Register;
+﻿namespace EpicRoadTrip.Application.Authentications.Registers;
 
 public record RegisterRequest
 {

@@ -3,11 +3,11 @@ using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.Users;
 using EpicRoadTrip.Infrastructure.Context;
 
-namespace EpicRoadTrip.Infrastructure.User;
+namespace EpicRoadTrip.Infrastructure.Users;
 
 public class UserRepository(EpicRoadTripContext context) : IUserRepository
 {
-    public async Task<Result<Domain.Users.User>> Create(Domain.Users.User user, CancellationToken cancellationToken)
+    public async Task<Result<User>> Create(User user, CancellationToken cancellationToken)
     {
         var create = await context.Users.AddAsync(user, cancellationToken);
         try
@@ -16,9 +16,9 @@ public class UserRepository(EpicRoadTripContext context) : IUserRepository
         }
         catch (Exception e)
         {
-            return Result<Domain.Users.User>.Failure(UserErrors.ContextFailedToCreateUser(e));
+            return Result<User>.Failure(UserErrors.ContextFailedToCreateUser(e));
         }
 
-        return Result<Domain.Users.User>.Success(create.Entity);
+        return Result<User>.Success(create.Entity);
     }
 }

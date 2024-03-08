@@ -1,5 +1,4 @@
 ﻿using EpicRoadTrip.Domain.Users;
-using EpicRoadTrip.Domain.Users.Exceptions;
 using Moq;
 
 namespace EpicRoadTrip.Test.Domain.Users;

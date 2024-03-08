@@ -1,16 +1,16 @@
-﻿using EpicRoadTrip.Application.Options;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+using EpicRoadTrip.Application.Options;
 using EpicRoadTrip.Domain.Authentications;
 using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.Users;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.Json;
 
-namespace EpicRoadTrip.Application.Authentication;
+namespace EpicRoadTrip.Application.Authentications;
 
 public class AuthenticationService(
     IConfiguration configuration,

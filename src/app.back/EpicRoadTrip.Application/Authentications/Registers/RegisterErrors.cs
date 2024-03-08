@@ -1,6 +1,6 @@
 ﻿using EpicRoadTrip.Domain.ErrorHandling;
 
-namespace EpicRoadTrip.Application.Authentication.Register;
+namespace EpicRoadTrip.Application.Authentications.Registers;
 
 public static class RegisterErrors
 {

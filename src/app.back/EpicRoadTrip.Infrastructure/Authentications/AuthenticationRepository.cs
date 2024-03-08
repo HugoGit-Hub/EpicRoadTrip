@@ -1,8 +1,8 @@
-﻿using EpicRoadTrip.Application.Authentication;
+﻿using EpicRoadTrip.Application.Authentications;
 using EpicRoadTrip.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace EpicRoadTrip.Infrastructure.Authentication;
+namespace EpicRoadTrip.Infrastructure.Authentications;
 
 public class AuthenticationRepository(EpicRoadTripContext context) : IAuthenticationRepository
 {

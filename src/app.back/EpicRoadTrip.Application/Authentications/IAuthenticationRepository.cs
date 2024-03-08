@@ -1,4 +1,4 @@
-﻿namespace EpicRoadTrip.Application.Authentication;
+﻿namespace EpicRoadTrip.Application.Authentications;
 
 public interface IAuthenticationRepository
 {

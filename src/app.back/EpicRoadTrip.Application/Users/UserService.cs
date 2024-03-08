@@ -13,4 +13,13 @@ public class UserService(IUserRepository userRepository) : IUserService
             ? Result<User>.Failure(create.Error) 
             : Result<User>.Success(create.Value);
     }
+
+    public async Task<Result<User>> GetByEmail(string email, CancellationToken cancellationToken)
+    {
+        var user = await userRepository.GetByEmail(email, cancellationToken);
+
+        return user.IsFailure
+            ? Result<User>.Failure(user.Error)
+            : Result<User>.Success(user.Value);
+    }
 }

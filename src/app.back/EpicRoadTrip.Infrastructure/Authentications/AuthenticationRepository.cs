@@ -10,4 +10,9 @@ public class AuthenticationRepository(EpicRoadTripContext context) : IAuthentica
     {
         return await context.Users.AnyAsync(u => u.Email == email, cancellationToken);
     }
+
+    public async Task<bool> AreCredentialscorrects(string email, string password, CancellationToken cancellationToken)
+    {
+        return await context.Users.AnyAsync(u => u.Email == email && u.Password == password, cancellationToken);
+    }
 }

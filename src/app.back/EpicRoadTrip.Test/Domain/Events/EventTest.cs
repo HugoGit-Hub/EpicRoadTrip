@@ -1,5 +1,4 @@
 ﻿using EpicRoadTrip.Domain.Events;
-using EpicRoadTrip.Domain.Institutions.Exceptions;
 
 namespace EpicRoadTrip.Test.Domain.Events;
 
@@ -20,33 +19,37 @@ public class EventTest
         var eventEntity = Event.Create(Name, Price, PhoneNumber, Email, Address, CityId);
 
         // Assert
-        Assert.AreEqual(Name, eventEntity.Name);
-        Assert.AreEqual(Price, eventEntity.Price);
-        Assert.AreEqual(PhoneNumber, eventEntity.PhoneNumber);
-        Assert.AreEqual(Email, eventEntity.Email);
-        Assert.AreEqual(Address, eventEntity.Address);
-        Assert.AreEqual(CityId, eventEntity.CityId);
+        Assert.AreEqual(Name, eventEntity.Value.Name);
+        Assert.AreEqual(Price, eventEntity.Value.Price);
+        Assert.AreEqual(PhoneNumber, eventEntity.Value.PhoneNumber);
+        Assert.AreEqual(Email, eventEntity.Value.Email);
+        Assert.AreEqual(Address, eventEntity.Value.Address);
+        Assert.AreEqual(CityId, eventEntity.Value.CityId);
     }
 
     [TestMethod]
-    [ExpectedException(typeof(InstitutionInvalidNameException))]
     public void CreateEvent_WithInvalidName_ThrowException()
     {
         // Arrange
         var invalidName = string.Empty;
 
         // Act
-        Event.Create(invalidName, Price, PhoneNumber, Email, Address, CityId);
+        var result = Event.Create(invalidName, Price, PhoneNumber, Email, Address, CityId);
+
+        // Assert
+        Assert.IsTrue(result.IsFailure);
     }
 
     [TestMethod]
-    [ExpectedException(typeof(InstitutionInvalidAddressException))]
     public void CreateEvent_WithInvalidAddress_ThrowException()
     {
         // Arrange
         var invalidAddress = string.Empty;
 
         // Act
-        Event.Create(Name, Price, PhoneNumber, Email, invalidAddress, CityId);
+        var result = Event.Create(Name, Price, PhoneNumber, Email, invalidAddress, CityId);
+    
+        // Assert
+        Assert.IsTrue(result.IsFailure);
     }
 }

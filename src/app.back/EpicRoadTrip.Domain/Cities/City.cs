@@ -1,5 +1,7 @@
 ﻿using EpicRoadTrip.Domain.Bars;
 using EpicRoadTrip.Domain.Cities.Exceptions;
+using EpicRoadTrip.Domain.ErrorHandling;
+using EpicRoadTrip.Domain.ErrorHandling.Generics;
 using EpicRoadTrip.Domain.Events;
 using EpicRoadTrip.Domain.Hotels;
 using EpicRoadTrip.Domain.Restaurants;
@@ -33,8 +35,17 @@ public sealed class City
         Name = name;
     }
 
-    public static City Create(string name)
+    public static Result<City> Create(string name)
     {
-        return new City(name);
+        try
+        {
+            var city = new City(name);
+
+            return Result<City>.Success(city);
+        }
+        catch (Exception e)
+        {
+            return Result<City>.Failure(GenericErrors<City>.InvalidFormatError(e));
+        }
     }
 }

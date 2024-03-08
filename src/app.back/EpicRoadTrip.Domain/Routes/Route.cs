@@ -1,4 +1,6 @@
 ﻿using EpicRoadTrip.Domain.Cities;
+using EpicRoadTrip.Domain.ErrorHandling;
+using EpicRoadTrip.Domain.ErrorHandling.Generics;
 using EpicRoadTrip.Domain.Roadtrips;
 using EpicRoadTrip.Domain.Routes.Exceptions;
 
@@ -53,13 +55,22 @@ public sealed class Route
         RoadtripId = roadtripId;
     }
 
-    public static Route Create(
+    public static Result<Route> Create(
         double distance,
         TimeSpan duration,
         int cityOneId,
         int cityTwoId,
         int roadtripId)
     {
-        return new Route(distance, duration, cityOneId, cityTwoId, roadtripId);
+        try
+        {
+            var route = new Route(distance, duration, cityOneId, cityTwoId, roadtripId);
+
+            return Result<Route>.Success(route);
+        }
+        catch (Exception e)
+        {
+            return Result<Route>.Failure(GenericErrors<Route>.InvalidFormatError(e));
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using EpicRoadTrip.Domain.ErrorHandling;
+using EpicRoadTrip.Domain.ErrorHandling.Generics;
 using EpicRoadTrip.Domain.Roadtrips;
 using EpicRoadTrip.Domain.Users.Exceptions;
 
@@ -67,7 +68,7 @@ public sealed class User
         }
         catch (Exception e)
         {
-            return Result<User>.Failure(UserErrors.UserInvalidFormatException(e));
+            return Result<User>.Failure(GenericErrors<User>.InvalidFormatError(e));
         }
     }
 }

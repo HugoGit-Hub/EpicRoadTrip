@@ -1,5 +1,4 @@
 ﻿using EpicRoadTrip.Domain.Hotels;
-using EpicRoadTrip.Domain.Institutions.Exceptions;
 
 namespace EpicRoadTrip.Test.Domain.Hotels;
 
@@ -20,33 +19,37 @@ public sealed class HotelTest
         var hotel = Hotel.Create(Name, Price, PhoneNumber, Email, Address, CityId);
 
         // Assert
-        Assert.AreEqual(Name, hotel.Name);
-        Assert.AreEqual(Price, hotel.Price);
-        Assert.AreEqual(PhoneNumber, hotel.PhoneNumber);
-        Assert.AreEqual(Email, hotel.Email);
-        Assert.AreEqual(Address, hotel.Address);
-        Assert.AreEqual(CityId, hotel.CityId);
+        Assert.AreEqual(Name, hotel.Value.Name);
+        Assert.AreEqual(Price, hotel.Value.Price);
+        Assert.AreEqual(PhoneNumber, hotel.Value.PhoneNumber);
+        Assert.AreEqual(Email, hotel.Value.Email);
+        Assert.AreEqual(Address, hotel.Value.Address);
+        Assert.AreEqual(CityId, hotel.Value.CityId);
     }
 
     [TestMethod]
-    [ExpectedException(typeof(InstitutionInvalidNameException))]
     public void CreateHotel_WithInvalidName_ThrowException()
     {
         // Arrange
         var invalidName = string.Empty;
 
         // Act
-        Hotel.Create(invalidName, Price, PhoneNumber, Email, Address, CityId);
+        var result = Hotel.Create(invalidName, Price, PhoneNumber, Email, Address, CityId);
+
+        // Assert
+        Assert.IsTrue(result.IsFailure);
     }
 
     [TestMethod]
-    [ExpectedException(typeof(InstitutionInvalidAddressException))]
     public void CreateHotel_WithInvalidAddress_ThrowException()
     {
         // Arrange
         var invalidAddress = string.Empty;
 
         // Act
-        Hotel.Create(Name, Price, PhoneNumber, Email, invalidAddress, CityId);
+        var result = Hotel.Create(Name, Price, PhoneNumber, Email, invalidAddress, CityId);
+    
+        // Assert
+        Assert.IsTrue(result.IsFailure);
     }
 }

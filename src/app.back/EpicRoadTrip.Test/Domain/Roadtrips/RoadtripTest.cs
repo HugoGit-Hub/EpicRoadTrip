@@ -1,5 +1,4 @@
-﻿using EpicRoadTrip.Domain.Roadtrips.Exceptions;
-using EpicRoadTrip.Domain.Roadtrips;
+﻿using EpicRoadTrip.Domain.Roadtrips;
 
 namespace EpicRoadTrip.Test.Domain.Roadtrips;
 
@@ -20,14 +19,13 @@ public class RoadtripTest
         var roadtrip = Roadtrip.Create(PositiveBudget, _dateTimeNow, endDate, userId);
 
         // Assert
-        Assert.AreEqual(PositiveBudget, roadtrip.Budget);
-        Assert.AreEqual(_dateTimeNow, roadtrip.StartDate);
-        Assert.AreEqual(endDate, roadtrip.EndDate);
-        Assert.AreEqual(userId, roadtrip.UserId);
+        Assert.AreEqual(PositiveBudget, roadtrip.Value.Budget);
+        Assert.AreEqual(_dateTimeNow, roadtrip.Value.StartDate);
+        Assert.AreEqual(endDate, roadtrip.Value.EndDate);
+        Assert.AreEqual(userId, roadtrip.Value.UserId);
     }
 
     [TestMethod]
-    [ExpectedException(typeof(RoadtripNotValidBudgetException))]
     public void CreateRoadtrip_InvalidBudget_ThrowsException()
     {
         // Arrange
@@ -36,11 +34,13 @@ public class RoadtripTest
         const int userId = 1;
 
         // Act
-        Roadtrip.Create(budget, _dateTimeNow, endDate, userId);
+        var result =Roadtrip.Create(budget, _dateTimeNow, endDate, userId);
+
+        // Assert
+        Assert.IsTrue(result.IsFailure);
     }
 
     [TestMethod]
-    [ExpectedException(typeof(RoadtripNotValidDatesException))]
     public void CreateRoadtrip_InvalidDates_ThrowsException()
     {
         // Arrange
@@ -48,7 +48,10 @@ public class RoadtripTest
         const int userId = 1;
 
         // Act
-        Roadtrip.Create(PositiveBudget, startDate, _dateTimeNow, userId);
+        var result =Roadtrip.Create(PositiveBudget, startDate, _dateTimeNow, userId);
+    
+        // Assert
+        Assert.IsTrue(result.IsFailure);
     }
 
 }

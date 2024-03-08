@@ -1,4 +1,6 @@
-﻿using EpicRoadTrip.Domain.Institutions;
+﻿using EpicRoadTrip.Domain.ErrorHandling;
+using EpicRoadTrip.Domain.ErrorHandling.Generics;
+using EpicRoadTrip.Domain.Institutions;
 
 namespace EpicRoadTrip.Domain.Events;
 
@@ -17,7 +19,7 @@ public sealed class Event : Institution
     {
     }
 
-    public static Event Create(
+    public static Result<Event> Create(
         string name,
         double? price,
         string? phoneNumber,
@@ -25,6 +27,15 @@ public sealed class Event : Institution
         string address, 
         int cityId)
     {
-        return new Event(name, price, phoneNumber, email, address, cityId);
+        try
+        {
+            var events = new Event(name, price, phoneNumber, email, address, cityId);
+
+            return Result<Event>.Success(events);
+        }
+        catch (Exception e)
+        {
+            return Result<Event>.Failure(GenericErrors<Event>.InvalidFormatError(e));
+        }
     }
 }

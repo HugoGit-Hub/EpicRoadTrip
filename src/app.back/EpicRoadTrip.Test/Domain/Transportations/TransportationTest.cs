@@ -1,5 +1,4 @@
 ﻿using EpicRoadTrip.Domain.Transportations;
-using EpicRoadTrip.Domain.Transportations.Exceptions;
 
 namespace EpicRoadTrip.Test.Domain.Transportations;
 
@@ -19,41 +18,48 @@ public class TransportationTest
 
         // Assert
         Assert.IsNotNull(transportation);
-        Assert.AreEqual(Score, transportation.Score);
-        Assert.AreEqual(Company, transportation.Company);
-        Assert.AreEqual(Address, transportation.Address);
-        Assert.AreEqual(Type, transportation.TransportationType);
+        Assert.AreEqual(Score, transportation.Value.Score);
+        Assert.AreEqual(Company, transportation.Value.Company);
+        Assert.AreEqual(Address, transportation.Value.Address);
+        Assert.AreEqual(Type, transportation.Value.TransportationType);
     }
 
     [TestMethod]
     [DataRow(5.1)]
     [DataRow(-2)]
-    [ExpectedException(typeof(TransportationInvalidScoreException))]
     public void CreateTransportation_WithInvalidScore_ShouldThrowTransportationInvalidScoreException(double invalidScore)
     {
         // Act
-        Transportation.Create(invalidScore, Company, Address, Type);
+        var result = Transportation.Create(invalidScore, Company, Address, Type);
+
+        // Assert
+        Assert.IsTrue(result.IsFailure);
     }
 
     [TestMethod]
-    [ExpectedException(typeof(TransportationInvalidCompanyException))]
     public void CreateTransportation_WithInvalidCompany_ShouldThrowTransportationInvalidCompanyException()
     {
         // Arrange
         var invalidCompany = string.Empty;
 
         // Act
-        Transportation.Create(Score, invalidCompany, Address, Type);
+        var result = Transportation.Create(Score, invalidCompany, Address, Type);
+
+
+        // Assert
+        Assert.IsTrue(result.IsFailure);
     }
 
     [TestMethod]
-    [ExpectedException(typeof(TransportationInvalidAddressException))]
     public void CreateTransportation_WithInvalidAddress_ShouldThrowTransportationInvalidAddressException()
     {
         // Arrange
         var invalidAddress = string.Empty;
 
         // Act
-        Transportation.Create(Score, Company, invalidAddress, Type);
+        var result = Transportation.Create(Score, Company, invalidAddress, Type);
+
+        // Assert
+        Assert.IsTrue(result.IsFailure);
     }
 }

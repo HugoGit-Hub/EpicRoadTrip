@@ -1,4 +1,6 @@
-﻿using EpicRoadTrip.Domain.Roadtrips.Exceptions;
+﻿using EpicRoadTrip.Domain.ErrorHandling;
+using EpicRoadTrip.Domain.ErrorHandling.Generics;
+using EpicRoadTrip.Domain.Roadtrips.Exceptions;
 using EpicRoadTrip.Domain.Routes;
 using EpicRoadTrip.Domain.Users;
 
@@ -42,12 +44,21 @@ public sealed class Roadtrip
         Budget = budget;
     }
 
-    public static Roadtrip Create(
+    public static Result<Roadtrip> Create(
         double budget,
         DateTime startDate,
         DateTime? endDate,
         int userId)
     {
-        return new Roadtrip(budget, startDate, endDate, userId);
+        try
+        {
+            var roadtrip = new Roadtrip(budget, startDate, endDate, userId);
+
+            return Result<Roadtrip>.Success(roadtrip);
+        }
+        catch (Exception e)
+        {
+            return Result<Roadtrip>.Failure(GenericErrors<Roadtrip>.InvalidFormatError(e));
+        }
     }
 }

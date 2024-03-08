@@ -1,4 +1,6 @@
-﻿using EpicRoadTrip.Domain.Institutions;
+﻿using EpicRoadTrip.Domain.ErrorHandling;
+using EpicRoadTrip.Domain.ErrorHandling.Generics;
+using EpicRoadTrip.Domain.Institutions;
 
 namespace EpicRoadTrip.Domain.Bars;
 
@@ -17,7 +19,7 @@ public sealed class Bar : Institution
     {
     }
 
-    public static Bar Create(
+    public static Result<Bar> Create(
         string name,
         double? price,
         string? phoneNumber,
@@ -25,6 +27,15 @@ public sealed class Bar : Institution
         string address, 
         int cityId)
     {
-        return new Bar(name, price, phoneNumber, email, address, cityId);
+        try
+        {
+            var bar = new Bar(name, price, phoneNumber, email, address, cityId);
+
+            return Result<Bar>.Success(bar);
+        }
+        catch (Exception e)
+        {
+            return Result<Bar>.Failure(GenericErrors<Bar>.InvalidFormatError(e));
+        }
     }
 }

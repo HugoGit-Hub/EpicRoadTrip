@@ -1,5 +1,4 @@
 ﻿using EpicRoadTrip.Domain.Cities;
-using EpicRoadTrip.Domain.Cities.Exceptions;
 
 namespace EpicRoadTrip.Test.Domain.Cities;
 
@@ -15,17 +14,19 @@ public class CityTest
         var city = City.Create(Name);
 
         // Assert
-        Assert.AreEqual(Name, city.Name);
+        Assert.AreEqual(Name, city.Value.Name);
     }
 
     [TestMethod]
-    [ExpectedException(typeof(CityInvalidNameException))]
     public void CreateCity_WithInvalidName_ThrowException()
     {
         // Arrange
         var invalidName = string.Empty;
 
         // Act
-        City.Create(invalidName);
+        var result = City.Create(invalidName);
+
+        // Assert
+        Assert.IsTrue(result.IsFailure);
     }
 }

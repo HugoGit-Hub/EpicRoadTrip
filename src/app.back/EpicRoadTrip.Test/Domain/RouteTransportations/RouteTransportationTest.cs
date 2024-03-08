@@ -1,5 +1,4 @@
 ﻿using EpicRoadTrip.Domain.RouteTransportations;
-using EpicRoadTrip.Domain.RouteTransportations.Exceptions;
 
 namespace EpicRoadTrip.Test.Domain.RouteTransportations;
 
@@ -17,19 +16,21 @@ public class RouteTransportationTest
         var routeTransportation = RouteTransportation.Create(Cost, RouteId, TransportationId);
 
         // Assert
-        Assert.AreEqual(Cost, routeTransportation.Cost);
-        Assert.AreEqual(RouteId, routeTransportation.RouteId);
-        Assert.AreEqual(TransportationId, routeTransportation.TransportationId);
+        Assert.AreEqual(Cost, routeTransportation.Value.Cost);
+        Assert.AreEqual(RouteId, routeTransportation.Value.RouteId);
+        Assert.AreEqual(TransportationId, routeTransportation.Value.TransportationId);
     }
 
     [TestMethod]
-    [ExpectedException(typeof(RouteTransportationInvalidCostException))]
     public void CreateRouteTransportation_WithInvalidCost_ShoudlThrowRouteTransportationInvalidCostException()
     {
         // Arrange
         const double invalidCost = -1.0;
 
         // Act
-        RouteTransportation.Create(invalidCost, RouteId, TransportationId);
+        var result = RouteTransportation.Create(invalidCost, RouteId, TransportationId);
+
+        // Assert
+        Assert.IsTrue(result.IsFailure);
     }
 }

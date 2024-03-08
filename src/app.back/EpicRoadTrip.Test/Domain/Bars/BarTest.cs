@@ -1,5 +1,4 @@
 ﻿using EpicRoadTrip.Domain.Bars;
-using EpicRoadTrip.Domain.Institutions.Exceptions;
 
 namespace EpicRoadTrip.Test.Domain.Bars;
 
@@ -20,33 +19,37 @@ public class BarTest
         var bar = Bar.Create(Name, Price, PhoneNumber, Email, Address, CityId);
 
         // Assert
-        Assert.AreEqual(Name, bar.Name);
-        Assert.AreEqual(Price, bar.Price);
-        Assert.AreEqual(PhoneNumber, bar.PhoneNumber);
-        Assert.AreEqual(Email, bar.Email);
-        Assert.AreEqual(Address, bar.Address);
-        Assert.AreEqual(CityId, bar.CityId);
+        Assert.AreEqual(Name, bar.Value.Name);
+        Assert.AreEqual(Price, bar.Value.Price);
+        Assert.AreEqual(PhoneNumber, bar.Value.PhoneNumber);
+        Assert.AreEqual(Email, bar.Value.Email);
+        Assert.AreEqual(Address, bar.Value.Address);
+        Assert.AreEqual(CityId, bar.Value.CityId);
     }
 
     [TestMethod]
-    [ExpectedException(typeof(InstitutionInvalidNameException))]
     public void CreateBar_WithInvalidName_ThrowException()
     {
         // Arrange
         var invalidName = string.Empty;
 
         // Act
-        Bar.Create(invalidName, Price, PhoneNumber, Email, Address, CityId);
+        var result = Bar.Create(invalidName, Price, PhoneNumber, Email, Address, CityId);
+
+        // Assert
+        Assert.IsTrue(result.IsFailure);
     }
 
     [TestMethod]
-    [ExpectedException(typeof(InstitutionInvalidAddressException))]
     public void CreateBar_WithInvalidAddress_ThrowException()
     {
         // Arrange
         var invalidAddress = string.Empty;
 
         // Act
-        Bar.Create(Name, Price, PhoneNumber, Email, invalidAddress, CityId);
+        var result = Bar.Create(Name, Price, PhoneNumber, Email, invalidAddress, CityId);
+    
+        // Assert
+        Assert.IsTrue(result.IsFailure);
     }
 }

@@ -6,7 +6,9 @@ using MediatR;
 
 namespace EpicRoadTrip.Application.Authentications.Registers;
 
-public class RegisterCommandHandler(IAuthenticationService authenticationService, IUserService userService)
+public class RegisterCommandHandler(
+    IAuthenticationService authenticationService,
+    IUserService userService)
     : IRequestHandler<RegisterCommand, Result<string>>
 {
     public async Task<Result<string>> Handle(RegisterCommand command, CancellationToken cancellationToken)

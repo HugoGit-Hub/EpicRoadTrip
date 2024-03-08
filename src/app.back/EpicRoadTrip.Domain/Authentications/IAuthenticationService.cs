@@ -7,6 +7,8 @@ public interface IAuthenticationService
 {
     public Task<bool> IsEmailAlreadyUse(string email, CancellationToken cancellationToken);
 
+    public Task<bool> AreCredentialscorrects(string email, string password, CancellationToken cancellationToken);
+
     public Result<string> Encrypt(string content);
 
     public Result<string> HashWithSalt(string content);

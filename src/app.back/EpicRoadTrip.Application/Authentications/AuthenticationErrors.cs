@@ -15,6 +15,9 @@ public static class AuthenticationErrors
     public static Error TokenGenerationConfigurationError =>
         new($"{Authentication}.{nameof(TokenGenerationConfigurationError)}", "Token generation configuration error.");
 
+    public static Error InvalidEmailOrPasswordError =>
+        new($"{Authentication}.{nameof(InvalidEmailOrPasswordError)}", "Invalid email or password.");
+
     public static Error EncryptionFailedError(Exception e) =>
         new($"{Authentication}.{nameof(EncryptionFailedError)}", $"Failed to encrypt the content : {e}");
 

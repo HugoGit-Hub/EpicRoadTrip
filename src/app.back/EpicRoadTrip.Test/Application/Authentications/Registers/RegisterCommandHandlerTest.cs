@@ -4,7 +4,7 @@ using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.Users;
 using Moq;
 
-namespace EpicRoadTrip.Test.Application.Registers;
+namespace EpicRoadTrip.Test.Application.Authentications.Registers;
 
 [TestClass]
 public class RegisterCommandHandlerTest
@@ -36,11 +36,11 @@ public class RegisterCommandHandlerTest
         mockAuthenticationService
             .Setup(service => service.IsEmailAlreadyUse(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(false);
-        
+
         mockAuthenticationService
             .Setup(service => service.Encrypt(It.IsAny<string>()))
             .Returns(Result<string>.Success("encryptedPassword"));
-        
+
         mockAuthenticationService
             .Setup(service => service.HashWithSalt(It.IsAny<string>()))
             .Returns(Result<string>.Success("hashedAndSaltedPassword"));
@@ -52,7 +52,7 @@ public class RegisterCommandHandlerTest
         mockAuthenticationService
             .Setup(service => service.GenerateToken(It.IsAny<User>()))
             .Returns(Result<string>.Success("token"));
-        
+
         var handler = new RegisterCommandHandler(mockAuthenticationService.Object, mockUserService.Object);
 
         // Act
@@ -82,7 +82,7 @@ public class RegisterCommandHandlerTest
         mockAuthenticationService
             .Setup(service => service.IsEmailAlreadyUse(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(true);
-        
+
         var handler = new RegisterCommandHandler(mockAuthenticationService.Object, mockUserService.Object);
 
         // Act
@@ -243,7 +243,7 @@ public class RegisterCommandHandlerTest
         // Assert
         Assert.IsTrue(result.IsFailure);
     }
-    
+
     [TestMethod]
     public async Task Handle_ReturnsFailureResult_WhenGenerateTokenFails()
     {

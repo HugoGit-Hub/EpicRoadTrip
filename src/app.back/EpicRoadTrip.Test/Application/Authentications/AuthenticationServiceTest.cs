@@ -33,6 +33,20 @@ public class AuthenticationServiceTest
     }
 
     [TestMethod]
+    public async Task AreCredentialscorrects_ShouldReturnTrue()
+    {
+        // Arrange
+        const string email = "test@gmail.com";
+        const string password = "password";
+
+        // Act
+        var result = await _authenticationService.AreCredentialscorrects(email, password, CancellationToken.None);
+
+        // Assert
+        Assert.IsFalse(result);
+    }
+
+    [TestMethod]
     public void Encrypt_ShouldReturnResultSuccess()
     {
         // Arrange

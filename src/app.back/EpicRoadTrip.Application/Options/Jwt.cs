@@ -1,6 +1,6 @@
 ﻿namespace EpicRoadTrip.Application.Options;
 
-internal sealed class Jwt
+public sealed class Jwt
 {
     public string Issuer { get; init; } = null!;
 

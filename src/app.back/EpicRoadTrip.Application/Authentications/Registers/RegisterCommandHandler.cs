@@ -1,14 +1,15 @@
-﻿using System.Text.Json;
+﻿using EpicRoadTrip.Application.Repositories;
 using EpicRoadTrip.Domain.Authentications;
 using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.Users;
 using MediatR;
+using System.Text.Json;
 
 namespace EpicRoadTrip.Application.Authentications.Registers;
 
 public class RegisterCommandHandler(
     IAuthenticationService authenticationService,
-    IUserService userService)
+    IRepository<User> repository)
     : IRequestHandler<RegisterCommand, Result<string>>
 {
     public async Task<Result<string>> Handle(RegisterCommand command, CancellationToken cancellationToken)
@@ -44,7 +45,7 @@ public class RegisterCommandHandler(
             return Result<string>.Failure(user.Error);
         }
 
-        var createUser = await userService.Create(user.Value, cancellationToken);
+        var createUser = await repository.Create(user.Value, cancellationToken);
         if (createUser.IsFailure)
         {
             return Result<string>.Failure(createUser.Error);

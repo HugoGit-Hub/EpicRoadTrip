@@ -16,46 +16,6 @@ public class UserServiceTest
     private const bool Gender = true;
 
     [TestMethod]
-    public async Task Create_WhenUserIsCreated_ShouldReturnSuccess()
-    {
-        // Arrange
-        var userRepository = new Mock<IUserRepository>();
-        var user = User.Create(Firstname, Lastname, Email, Password, Age, Gender);
-
-        userRepository
-            .Setup(x => x.Create(It.IsAny<User>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Result<User>.Success(user.Value));
-
-        var userService = new UserService(userRepository.Object);
-
-        // Act
-        var result = await userService.Create(user.Value, CancellationToken.None);
-
-        // Assert
-        Assert.IsTrue(result.IsSuccess);
-    }
-
-    [TestMethod]
-    public async Task Create_WhenUserIsNotCreated_ShouldReturnFailure()
-    {
-        // Arrange
-        var userRepository = new Mock<IUserRepository>();
-        var user = User.Create(Firstname, Lastname, Email, Password, Age, Gender);
-
-        userRepository
-            .Setup(x => x.Create(It.IsAny<User>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Result<User>.Failure(It.IsAny<Error>()));
-
-        var userService = new UserService(userRepository.Object);
-
-        // Act
-        var result = await userService.Create(user.Value, CancellationToken.None);
-
-        // Assert
-        Assert.IsTrue(result.IsFailure);
-    }
-
-    [TestMethod]
     public async Task GetByEmail_WhenUserExists_ShouldReturnSuccess()
     {
         // Arrange

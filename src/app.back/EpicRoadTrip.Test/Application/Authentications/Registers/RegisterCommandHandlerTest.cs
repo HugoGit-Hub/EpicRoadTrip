@@ -1,4 +1,5 @@
 ﻿using EpicRoadTrip.Application.Authentications.Registers;
+using EpicRoadTrip.Application.Repositories;
 using EpicRoadTrip.Domain.Authentications;
 using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.Users;
@@ -21,7 +22,7 @@ public class RegisterCommandHandlerTest
     {
         // Arrange
         var mockAuthenticationService = new Mock<IAuthenticationService>();
-        var mockUserService = new Mock<IUserService>();
+        var mockRepository = new Mock<IRepository<User>>();
         var request = new RegisterRequest
         {
             Email = Email,
@@ -45,15 +46,15 @@ public class RegisterCommandHandlerTest
             .Setup(service => service.HashWithSalt(It.IsAny<string>()))
             .Returns(Result<string>.Success("hashedAndSaltedPassword"));
 
-        mockUserService
-            .Setup(service => service.Create(It.IsAny<User>(), It.IsAny<CancellationToken>()))
+        mockRepository
+            .Setup(repository => repository.Create(It.IsAny<User>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result<User>.Success(It.IsAny<User>()));
 
         mockAuthenticationService
             .Setup(service => service.GenerateToken(It.IsAny<User>()))
             .Returns(Result<string>.Success("token"));
 
-        var handler = new RegisterCommandHandler(mockAuthenticationService.Object, mockUserService.Object);
+        var handler = new RegisterCommandHandler(mockAuthenticationService.Object, mockRepository.Object);
 
         // Act
         var result = await handler.Handle(command, CancellationToken.None);
@@ -67,7 +68,7 @@ public class RegisterCommandHandlerTest
     {
         // Arrange
         var mockAuthenticationService = new Mock<IAuthenticationService>();
-        var mockUserService = new Mock<IUserService>();
+        var mockRepository = new Mock<IRepository<User>>();
         var request = new RegisterRequest
         {
             Email = Email,
@@ -83,7 +84,7 @@ public class RegisterCommandHandlerTest
             .Setup(service => service.IsEmailAlreadyUse(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(true);
 
-        var handler = new RegisterCommandHandler(mockAuthenticationService.Object, mockUserService.Object);
+        var handler = new RegisterCommandHandler(mockAuthenticationService.Object, mockRepository.Object);
 
         // Act
         var result = await handler.Handle(command, CancellationToken.None);
@@ -97,7 +98,7 @@ public class RegisterCommandHandlerTest
     {
         // Arrange
         var mockAuthenticationService = new Mock<IAuthenticationService>();
-        var mockUserService = new Mock<IUserService>();
+        var mockRepository = new Mock<IRepository<User>>();
         var request = new RegisterRequest
         {
             Email = Email,
@@ -117,7 +118,7 @@ public class RegisterCommandHandlerTest
             .Setup(service => service.Encrypt(It.IsAny<string>()))
             .Returns(Result<string>.Failure(It.IsAny<Error>()));
 
-        var handler = new RegisterCommandHandler(mockAuthenticationService.Object, mockUserService.Object);
+        var handler = new RegisterCommandHandler(mockAuthenticationService.Object, mockRepository.Object);
 
         // Act
         var result = await handler.Handle(command, CancellationToken.None);
@@ -131,7 +132,7 @@ public class RegisterCommandHandlerTest
     {
         // Arrange
         var mockAuthenticationService = new Mock<IAuthenticationService>();
-        var mockUserService = new Mock<IUserService>();
+        var mockRepository = new Mock<IRepository<User>>();
         var request = new RegisterRequest
         {
             Email = Email,
@@ -155,7 +156,7 @@ public class RegisterCommandHandlerTest
             .Setup(service => service.HashWithSalt(It.IsAny<string>()))
             .Returns(Result<string>.Failure(It.IsAny<Error>()));
 
-        var handler = new RegisterCommandHandler(mockAuthenticationService.Object, mockUserService.Object);
+        var handler = new RegisterCommandHandler(mockAuthenticationService.Object, mockRepository.Object);
 
         // Act
         var result = await handler.Handle(command, CancellationToken.None);
@@ -169,7 +170,7 @@ public class RegisterCommandHandlerTest
     {
         // Arrange
         var mockAuthenticationService = new Mock<IAuthenticationService>();
-        var mockUserService = new Mock<IUserService>();
+        var mockRepository = new Mock<IRepository<User>>();
         var request = new RegisterRequest
         {
             Email = Email,
@@ -193,7 +194,7 @@ public class RegisterCommandHandlerTest
             .Setup(service => service.HashWithSalt(It.IsAny<string>()))
             .Returns(Result<string>.Success("hashedAndSaltedPassword"));
 
-        var handler = new RegisterCommandHandler(mockAuthenticationService.Object, mockUserService.Object);
+        var handler = new RegisterCommandHandler(mockAuthenticationService.Object, mockRepository.Object);
 
         // Act
         var result = await handler.Handle(command, CancellationToken.None);
@@ -207,7 +208,7 @@ public class RegisterCommandHandlerTest
     {
         // Arrange
         var mockAuthenticationService = new Mock<IAuthenticationService>();
-        var mockUserService = new Mock<IUserService>();
+        var mockRepository = new Mock<IRepository<User>>();
         var request = new RegisterRequest
         {
             Email = Email,
@@ -231,11 +232,11 @@ public class RegisterCommandHandlerTest
             .Setup(service => service.HashWithSalt(It.IsAny<string>()))
             .Returns(Result<string>.Success("hashedAndSaltedPassword"));
 
-        mockUserService
-            .Setup(service => service.Create(It.IsAny<User>(), It.IsAny<CancellationToken>()))
+        mockRepository
+            .Setup(repository => repository.Create(It.IsAny<User>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result<User>.Failure(It.IsAny<Error>()));
 
-        var handler = new RegisterCommandHandler(mockAuthenticationService.Object, mockUserService.Object);
+        var handler = new RegisterCommandHandler(mockAuthenticationService.Object, mockRepository.Object);
 
         // Act
         var result = await handler.Handle(command, CancellationToken.None);
@@ -249,7 +250,7 @@ public class RegisterCommandHandlerTest
     {
         // Arrange
         var mockAuthenticationService = new Mock<IAuthenticationService>();
-        var mockUserService = new Mock<IUserService>();
+        var mockRepository = new Mock<IRepository<User>>();
         var request = new RegisterRequest
         {
             Email = Email,
@@ -273,15 +274,15 @@ public class RegisterCommandHandlerTest
             .Setup(service => service.HashWithSalt(It.IsAny<string>()))
             .Returns(Result<string>.Success("hashedAndSaltedPassword"));
 
-        mockUserService
-            .Setup(service => service.Create(It.IsAny<User>(), It.IsAny<CancellationToken>()))
+        mockRepository
+            .Setup(repository => repository.Create(It.IsAny<User>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result<User>.Success(It.IsAny<User>()));
 
         mockAuthenticationService
             .Setup(service => service.GenerateToken(It.IsAny<User>()))
             .Returns(Result<string>.Failure(It.IsAny<Error>()));
 
-        var handler = new RegisterCommandHandler(mockAuthenticationService.Object, mockUserService.Object);
+        var handler = new RegisterCommandHandler(mockAuthenticationService.Object, mockRepository.Object);
 
         // Act
         var result = await handler.Handle(command, CancellationToken.None);

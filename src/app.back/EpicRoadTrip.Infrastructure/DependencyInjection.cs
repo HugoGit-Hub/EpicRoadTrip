@@ -1,8 +1,10 @@
 ﻿using EpicRoadTrip.Application.Authentications;
+using EpicRoadTrip.Application.Repositories;
 using EpicRoadTrip.Application.Users;
 using EpicRoadTrip.Infrastructure.Authentications;
 using EpicRoadTrip.Infrastructure.Context;
 using EpicRoadTrip.Infrastructure.Options;
+using EpicRoadTrip.Infrastructure.Repositories;
 using EpicRoadTrip.Infrastructure.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +28,7 @@ public static class DependencyInjection
 
     private static void ConfigureRepositories(this IServiceCollection services)
     {
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped(typeof(IAuthenticationRepository), typeof(AuthenticationRepository));
         services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
     }

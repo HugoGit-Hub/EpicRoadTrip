@@ -6,9 +6,10 @@ namespace EpicRoadTrip.Domain.Events;
 
 public sealed class Event : Institution
 {
-    public int Id { get; init; }
+    public int Id { get; }
 
     private Event(
+        int id,
         string name,
         double? price,
         string? phoneNumber,
@@ -17,9 +18,11 @@ public sealed class Event : Institution
         int cityId) 
         : base(name, price, phoneNumber, email, address, cityId)
     {
+        Id = id;
     }
 
     public static Result<Event> Create(
+        int id,
         string name,
         double? price,
         string? phoneNumber,
@@ -29,7 +32,7 @@ public sealed class Event : Institution
     {
         try
         {
-            var events = new Event(name, price, phoneNumber, email, address, cityId);
+            var events = new Event(id, name, price, phoneNumber, email, address, cityId);
 
             return Result<Event>.Success(events);
         }

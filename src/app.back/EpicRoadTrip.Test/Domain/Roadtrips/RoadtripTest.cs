@@ -16,7 +16,7 @@ public class RoadtripTest
         DateTime? endDate = DateTime.Now.AddDays(7);
 
         // Act
-        var roadtrip = Roadtrip.Create(PositiveBudget, _dateTimeNow, endDate, userId);
+        var roadtrip = Roadtrip.Create(1, PositiveBudget, _dateTimeNow, endDate, userId);
 
         // Assert
         Assert.AreEqual(PositiveBudget, roadtrip.Value.Budget);
@@ -34,7 +34,7 @@ public class RoadtripTest
         const int userId = 1;
 
         // Act
-        var result =Roadtrip.Create(budget, _dateTimeNow, endDate, userId);
+        var result =Roadtrip.Create(1, budget, _dateTimeNow, endDate, userId);
 
         // Assert
         Assert.IsTrue(result.IsFailure);
@@ -48,7 +48,7 @@ public class RoadtripTest
         const int userId = 1;
 
         // Act
-        var result =Roadtrip.Create(PositiveBudget, startDate, _dateTimeNow, userId);
+        var result =Roadtrip.Create(1, PositiveBudget, startDate, _dateTimeNow, userId);
     
         // Assert
         Assert.IsTrue(result.IsFailure);

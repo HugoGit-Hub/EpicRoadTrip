@@ -5,6 +5,7 @@ namespace EpicRoadTrip.Test.Domain.Hotels;
 [TestClass]
 public sealed class HotelTest
 {
+    private const int Id = 1;
     private const string Name = "Hotel";
     private const double Price = 100.0;
     private const string PhoneNumber = "123456789";
@@ -16,7 +17,7 @@ public sealed class HotelTest
     public void CreateHotel_ValidParameters_CreatesHotel()
     {
         // Act
-        var hotel = Hotel.Create(Name, Price, PhoneNumber, Email, Address, CityId);
+        var hotel = Hotel.Create(Id, Name, Price, PhoneNumber, Email, Address, CityId);
 
         // Assert
         Assert.AreEqual(Name, hotel.Value.Name);
@@ -34,7 +35,7 @@ public sealed class HotelTest
         var invalidName = string.Empty;
 
         // Act
-        var result = Hotel.Create(invalidName, Price, PhoneNumber, Email, Address, CityId);
+        var result = Hotel.Create(Id, invalidName, Price, PhoneNumber, Email, Address, CityId);
 
         // Assert
         Assert.IsTrue(result.IsFailure);
@@ -47,7 +48,7 @@ public sealed class HotelTest
         var invalidAddress = string.Empty;
 
         // Act
-        var result = Hotel.Create(Name, Price, PhoneNumber, Email, invalidAddress, CityId);
+        var result = Hotel.Create(Id, Name, Price, PhoneNumber, Email, invalidAddress, CityId);
     
         // Assert
         Assert.IsTrue(result.IsFailure);

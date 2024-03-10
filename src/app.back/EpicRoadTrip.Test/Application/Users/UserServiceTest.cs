@@ -20,7 +20,7 @@ public class UserServiceTest
     {
         // Arrange
         var userRepository = new Mock<IUserRepository>();
-        var user = User.Create(Firstname, Lastname, Email, Password, Age, Gender);
+        var user = User.Create(1, Firstname, Lastname, Email, Password, Age, Gender);
 
         userRepository
             .Setup(x => x.GetByEmail(It.IsAny<string>(), It.IsAny<CancellationToken>()))
@@ -40,7 +40,7 @@ public class UserServiceTest
     {
         // Arrange
         var userRepository = new Mock<IUserRepository>();
-        var user = User.Create(Firstname, Lastname, Email, Password, Age, Gender);
+        var user = User.Create(1, Firstname, Lastname, Email, Password, Age, Gender);
 
         userRepository
             .Setup(x => x.GetByEmail(It.IsAny<string>(), It.IsAny<CancellationToken>()))

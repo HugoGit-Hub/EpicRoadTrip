@@ -6,9 +6,10 @@ namespace EpicRoadTrip.Domain.Restaurants;
 
 public sealed class Restaurant : Institution
 {
-    public int Id { get; init; }
+    public int Id { get; }
 
     private Restaurant(
+        int id,
         string name,
         double? price,
         string? phoneNumber,
@@ -17,9 +18,11 @@ public sealed class Restaurant : Institution
         int cityId) 
         : base(name, price, phoneNumber, email, address, cityId)
     {
+        Id = id;
     }
 
     public static Result<Restaurant> Create(
+        int id,
         string name, 
         double? price, 
         string? phoneNumber, 
@@ -29,7 +32,7 @@ public sealed class Restaurant : Institution
     {
         try
         {
-            var restaurant = new Restaurant(name, price, phoneNumber, email, address, cityId);
+            var restaurant = new Restaurant(id, name, price, phoneNumber, email, address, cityId);
 
             return Result<Restaurant>.Success(restaurant);
         }

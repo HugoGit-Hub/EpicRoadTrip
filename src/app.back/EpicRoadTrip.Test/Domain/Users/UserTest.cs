@@ -6,6 +6,7 @@ namespace EpicRoadTrip.Test.Domain.Users;
 [TestClass]
 public class UserTest
 {
+    private const int Id = 1;
     private const string FirstName = "John";
     private const string LastName = "Doe";
     private const string Email = "john.doe@example.com";
@@ -17,7 +18,7 @@ public class UserTest
     public void CreateUser_ValidParameters_CreatesUser()
     {
         // Act
-        var user = User.Create(FirstName, LastName, Email, Password, Age, Gender);
+        var user = User.Create(Id, FirstName, LastName, Email, Password, Age, Gender);
 
         // Assert
         Assert.AreEqual(FirstName, user.Value.FirstName);
@@ -38,7 +39,7 @@ public class UserTest
         var password = It.IsAny<string>();
 
         // Act
-        var user = User.Create(firstName, lastName, email, password, Age, Gender);
+        var user = User.Create(Id, firstName, lastName, email, password, Age, Gender);
 
         // Assert
         Assert.IsTrue(user.IsFailure);
@@ -51,7 +52,7 @@ public class UserTest
         const int age = -10;
 
         // Act
-        var user = User.Create(FirstName, LastName, Email, Password, age, Gender);
+        var user = User.Create(Id, FirstName, LastName, Email, Password, age, Gender);
 
         // Assert
         Assert.IsTrue(user.IsFailure);

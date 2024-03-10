@@ -6,9 +6,10 @@ namespace EpicRoadTrip.Domain.Hotels;
 
 public sealed class Hotel : Institution
 {
-    public int Id { get; init; }
+    public int Id { get; }
 
     private Hotel(
+        int id,
         string name,
         double? price,
         string? phoneNumber,
@@ -17,9 +18,11 @@ public sealed class Hotel : Institution
         int cityId) 
         : base(name, price, phoneNumber, email, address, cityId)
     {
+        Id = id;
     }
 
     public static Result<Hotel> Create(
+        int id,
         string name,
         double price,
         string phoneNumber,
@@ -29,7 +32,7 @@ public sealed class Hotel : Institution
     {
         try
         {
-            var hotel = new Hotel(name, price, phoneNumber, email, address, cityId);
+            var hotel = new Hotel(id, name, price, phoneNumber, email, address, cityId);
 
             return Result<Hotel>.Success(hotel);
         }

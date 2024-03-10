@@ -16,6 +16,8 @@ public static class Container
 {
     public static WebApplication Configure(this WebApplicationBuilder builder)
     {
+        builder.Services.AddHttpContextAccessor();
+
         RegisterServices(builder.Services, builder.Configuration);
 
         var app = builder.Build();

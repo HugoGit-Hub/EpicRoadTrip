@@ -34,6 +34,7 @@ public class RegisterCommandHandler(
         }
 
         var user = User.Create(
+            0,
             request.FirstName,
             request.LastName,
             request.Email,

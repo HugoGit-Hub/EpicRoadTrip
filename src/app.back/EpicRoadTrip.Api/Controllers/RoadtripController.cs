@@ -1,4 +1,5 @@
 ﻿using EpicRoadTrip.Application.Roadtrips.CreateRoadtrip;
+using EpicRoadTrip.Application.Roadtrips.DeleteRoadtrip;
 using EpicRoadTrip.Application.Roadtrips.GetAllRoadtrip;
 using EpicRoadTrip.Application.Roadtrips.GetRoadtrip;
 using EpicRoadTrip.Application.Roadtrips.UpdateRoadtrip;
@@ -56,6 +57,19 @@ public class RoadtripController(ISender sender) : Controller
     public async Task<ActionResult<UpdateRoadtripResponse>> Update(UpdateRoadtripRequest request, CancellationToken cancellationToken)
     {
         var result = await sender.Send(new UpdateRoadtripCommand(request), cancellationToken);
+        if (result.IsFailure)
+        {
+            return BadRequest(result.Error);
+        }
+
+        return Ok(result.Value);
+    }
+
+    [Authorize]
+    [HttpDelete(nameof(Delete))]
+    public async Task<ActionResult<DeleteRoadtripResponse>> Delete(int id, CancellationToken cancellationToken)
+    {
+        var result = await sender.Send(new DeleteRoadtripCommand(id), cancellationToken);
         if (result.IsFailure)
         {
             return BadRequest(result.Error);

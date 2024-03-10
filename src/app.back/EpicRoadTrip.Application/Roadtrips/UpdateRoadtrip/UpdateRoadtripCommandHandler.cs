@@ -7,7 +7,7 @@ using MediatR;
 
 namespace EpicRoadTrip.Application.Roadtrips.UpdateRoadtrip;
 
-public class UpdateRoadtripCommandHandler (
+public class UpdateRoadtripCommandHandler(
     ICurrentUserService currentUserService,
     IRepository<Roadtrip> repository)
     : IRequestHandler<UpdateRoadtripCommand, Result<UpdateRoadtripResponse>>

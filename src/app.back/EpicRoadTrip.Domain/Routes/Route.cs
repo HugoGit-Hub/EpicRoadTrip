@@ -21,6 +21,8 @@ public sealed class Route
 
     public int RoadtripId { get; }
 
+    public string GeoJson { get; }
+
     public City CityOne { get; } = null!;
 
     public City CityTwo { get; } = null!;

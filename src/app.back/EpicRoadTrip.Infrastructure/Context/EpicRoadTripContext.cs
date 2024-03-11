@@ -3,6 +3,7 @@ using EpicRoadTrip.Domain.Institutions;
 using EpicRoadTrip.Domain.Roadtrips;
 using EpicRoadTrip.Domain.Routes;
 using EpicRoadTrip.Domain.Transportations;
+using EpicRoadTrip.Domain.Users;
 using EpicRoadTrip.Infrastructure.Context.Configurations;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +21,7 @@ public class EpicRoadTripContext(DbContextOptions<EpicRoadTripContext> options) 
 
     public DbSet<Transportation> Transportations { get; set; } = null!;
 
-    public DbSet<Domain.Users.User> Users { get; set; } = null!;
+    public DbSet<User> Users { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -2,10 +2,10 @@
 
 public enum TransportationType
 {
-    Walk,
-    Bike,
-    Airplane,
-    Bus,
-    Car,
-    Train
+    Walk        = 0,
+    Bike        = 1,
+    Airplane    = 2,
+    Bus         = 3,
+    Car         = 4,
+    Train       = 5
 }

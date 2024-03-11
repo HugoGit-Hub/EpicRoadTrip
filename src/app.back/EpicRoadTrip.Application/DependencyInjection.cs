@@ -2,8 +2,11 @@
 using EpicRoadTrip.Application.CurrentUsers;
 using EpicRoadTrip.Application.Options;
 using EpicRoadTrip.Application.Roadtrips;
+using EpicRoadTrip.Application.Routes;
+using EpicRoadTrip.Application.Users;
 using EpicRoadTrip.Domain.Authentications;
 using EpicRoadTrip.Domain.CurrentUsers;
+using EpicRoadTrip.Domain.Routes;
 using EpicRoadTrip.Domain.Roadtrips;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +26,8 @@ public static class DependencyInjection
     {
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IRouteService, RouteService>();
         services.AddScoped<IRoadtripService, RoadtripService>();
     }
 }

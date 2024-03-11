@@ -21,6 +21,7 @@ public class LoginCommandHandlerTest()
             Password = "password"
         };
         var user = User.Create(
+            1,
             "Test",
             "Test",
             "test@gmail.com",
@@ -68,6 +69,7 @@ public class LoginCommandHandlerTest()
             Password = "password"
         };
         var user = User.Create(
+            1,
             "Test",
             "Test",
             "test@gmail.com",

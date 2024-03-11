@@ -5,6 +5,7 @@ namespace EpicRoadTrip.Test.Domain.Bars;
 [TestClass]
 public class BarTest
 {
+    private const int Id = 1;
     private const string Name = "Bar";
     private const double Price = 100.0;
     private const string PhoneNumber = "123456789";
@@ -16,7 +17,7 @@ public class BarTest
     public void CreateBar_ValidParameters_CreatesBar()
     {
         // Act
-        var bar = Bar.Create(Name, Price, PhoneNumber, Email, Address, CityId);
+        var bar = Bar.Create(Id, Name, Price, PhoneNumber, Email, Address, CityId);
 
         // Assert
         Assert.AreEqual(Name, bar.Value.Name);
@@ -34,7 +35,7 @@ public class BarTest
         var invalidName = string.Empty;
 
         // Act
-        var result = Bar.Create(invalidName, Price, PhoneNumber, Email, Address, CityId);
+        var result = Bar.Create(Id, invalidName, Price, PhoneNumber, Email, Address, CityId);
 
         // Assert
         Assert.IsTrue(result.IsFailure);
@@ -47,7 +48,7 @@ public class BarTest
         var invalidAddress = string.Empty;
 
         // Act
-        var result = Bar.Create(Name, Price, PhoneNumber, Email, invalidAddress, CityId);
+        var result = Bar.Create(Id, Name, Price, PhoneNumber, Email, invalidAddress, CityId);
     
         // Assert
         Assert.IsTrue(result.IsFailure);

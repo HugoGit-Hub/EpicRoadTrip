@@ -10,7 +10,10 @@ public class UserRepository(EpicRoadTripContext context) : IUserRepository
 {
     public async Task<Result<User>> GetByEmail(string email, CancellationToken cancellationToken)
     {
-        var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
+        var user = await context.Users
+            .AsNoTracking()
+            .Include(u => u.Roadtrips)
+            .FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
         
         return user is null 
             ? Result<User>.Failure(UserErrors.UserNotFoundByEmailError) 

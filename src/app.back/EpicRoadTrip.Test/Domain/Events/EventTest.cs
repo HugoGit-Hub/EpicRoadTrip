@@ -5,6 +5,7 @@ namespace EpicRoadTrip.Test.Domain.Events;
 [TestClass]
 public class EventTest
 {
+    private const int Id = 1;
     private const string Name = "Event";
     private const double Price = 100.0;
     private const string PhoneNumber = "123456789";
@@ -16,7 +17,7 @@ public class EventTest
     public void CreateEvent_ValidParameters_CreatesEvent()
     {
         // Act
-        var eventEntity = Event.Create(Name, Price, PhoneNumber, Email, Address, CityId);
+        var eventEntity = Event.Create(Id, Name, Price, PhoneNumber, Email, Address, CityId);
 
         // Assert
         Assert.AreEqual(Name, eventEntity.Value.Name);
@@ -34,7 +35,7 @@ public class EventTest
         var invalidName = string.Empty;
 
         // Act
-        var result = Event.Create(invalidName, Price, PhoneNumber, Email, Address, CityId);
+        var result = Event.Create(Id, invalidName, Price, PhoneNumber, Email, Address, CityId);
 
         // Assert
         Assert.IsTrue(result.IsFailure);
@@ -47,7 +48,7 @@ public class EventTest
         var invalidAddress = string.Empty;
 
         // Act
-        var result = Event.Create(Name, Price, PhoneNumber, Email, invalidAddress, CityId);
+        var result = Event.Create(Id, Name, Price, PhoneNumber, Email, invalidAddress, CityId);
     
         // Assert
         Assert.IsTrue(result.IsFailure);

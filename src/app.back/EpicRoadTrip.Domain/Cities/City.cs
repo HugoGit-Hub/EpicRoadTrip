@@ -11,7 +11,7 @@ namespace EpicRoadTrip.Domain.Cities;
 
 public sealed class City
 {
-    public int Id { get; init; }
+    public int Id { get; }
 
     public string Name { get; }
  
@@ -25,21 +25,22 @@ public sealed class City
     
     public ICollection<Event> Events { get; } = [];
 
-    private City(string name)
+    private City(int id, string name)
     {
         if (string.IsNullOrWhiteSpace(name))
         {
             throw new CityInvalidNameException();
         }
 
+        Id = id;
         Name = name;
     }
 
-    public static Result<City> Create(string name)
+    public static Result<City> Create(int id, string name)
     {
         try
         {
-            var city = new City(name);
+            var city = new City(id, name);
 
             return Result<City>.Success(city);
         }

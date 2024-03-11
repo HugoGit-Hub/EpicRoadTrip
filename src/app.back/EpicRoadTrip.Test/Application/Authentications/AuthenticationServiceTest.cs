@@ -7,16 +7,15 @@ using Moq;
 namespace EpicRoadTrip.Test.Application.Authentications;
 
 [TestClass]
-public class AuthenticationServiceTest
+public class AuthenticationServiceTest(AuthenticationService authenticationService)
 {
-    private AuthenticationService _authenticationService;
     private readonly Mock<IConfiguration> _configurationMock = new();
     private readonly Mock<IAuthenticationRepository> _authenticationRepositoryMock = new();
 
     [TestInitialize]
     public void Setup()
     {
-        _authenticationService = new AuthenticationService(_configurationMock.Object, _authenticationRepositoryMock.Object);
+        authenticationService = new AuthenticationService(_configurationMock.Object, _authenticationRepositoryMock.Object);
     }
 
     [TestMethod]
@@ -26,7 +25,7 @@ public class AuthenticationServiceTest
         const string email = "test@example.com";
 
         // Act
-        var result = await _authenticationService.IsEmailAlreadyUse(email, CancellationToken.None);
+        var result = await authenticationService.IsEmailAlreadyUse(email, CancellationToken.None);
         
         // Assert
         Assert.IsFalse(result);
@@ -40,7 +39,7 @@ public class AuthenticationServiceTest
         const string password = "password";
 
         // Act
-        var result = await _authenticationService.AreCredentialscorrects(email, password, CancellationToken.None);
+        var result = await authenticationService.AreCredentialscorrects(email, password, CancellationToken.None);
 
         // Assert
         Assert.IsFalse(result);
@@ -57,7 +56,7 @@ public class AuthenticationServiceTest
             .Returns(encodingKey);
 
         // Act
-        var result = _authenticationService.Encrypt(content);
+        var result = authenticationService.Encrypt(content);
 
         // Assert
         Assert.IsTrue(result.IsSuccess);
@@ -74,7 +73,7 @@ public class AuthenticationServiceTest
             .Returns(encodingKey);
 
         // Act
-        var result = _authenticationService.Encrypt(content);
+        var result = authenticationService.Encrypt(content);
 
         // Assert
         Assert.IsFalse(result.IsSuccess);
@@ -91,7 +90,7 @@ public class AuthenticationServiceTest
             .Returns(encodingKey);
 
         // Act
-        var result = _authenticationService.Encrypt(content);
+        var result = authenticationService.Encrypt(content);
 
         // Assert
         Assert.IsFalse(result.IsSuccess);
@@ -108,7 +107,7 @@ public class AuthenticationServiceTest
             .Returns(salt);
 
         // Act
-        var result = _authenticationService.HashWithSalt(content);
+        var result = authenticationService.HashWithSalt(content);
 
         // Assert
         Assert.IsTrue(result.IsSuccess);
@@ -125,7 +124,7 @@ public class AuthenticationServiceTest
             .Returns(salt);
 
         // Act
-        var result = _authenticationService.HashWithSalt(content);
+        var result = authenticationService.HashWithSalt(content);
 
         // Assert
         Assert.IsFalse(result.IsSuccess);
@@ -154,10 +153,10 @@ public class AuthenticationServiceTest
         const string password = "password";
         const int age = 25;
         const bool gender = true;
-        var user = User.Create(firstName, lastName, email, password, age, gender);
+        var user = User.Create(1, firstName, lastName, email, password, age, gender);
 
         // Act
-        var result = _authenticationService.GenerateToken(user.Value);
+        var result = authenticationService.GenerateToken(user.Value);
 
         // Assert
         Assert.IsTrue(result.IsSuccess);
@@ -186,10 +185,10 @@ public class AuthenticationServiceTest
         const string password = "password";
         const int age = 25;
         const bool gender = true;
-        var user = User.Create(firstName, lastName, email, password, age, gender);
+        var user = User.Create(1, firstName, lastName, email, password, age, gender);
 
         // Act
-        var result = _authenticationService.GenerateToken(user.Value);
+        var result = authenticationService.GenerateToken(user.Value);
 
         // Assert
         Assert.IsFalse(result.IsSuccess);
@@ -218,10 +217,10 @@ public class AuthenticationServiceTest
         const string password = "password";
         const int age = 25;
         const bool gender = true;
-        var user = User.Create(firstName, lastName, email, password, age, gender);
+        var user = User.Create(1, firstName, lastName, email, password, age, gender);
 
         // Act
-        var result = _authenticationService.GenerateToken(user.Value);
+        var result = authenticationService.GenerateToken(user.Value);
 
         // Assert
         Assert.IsFalse(result.IsSuccess);

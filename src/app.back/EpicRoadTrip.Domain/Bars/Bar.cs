@@ -6,9 +6,10 @@ namespace EpicRoadTrip.Domain.Bars;
 
 public sealed class Bar : Institution
 {
-    public int Id { get; init; }
+    public int Id { get; }
 
     private Bar(
+        int id,
         string name,
         double? price,
         string? phoneNumber,
@@ -17,9 +18,11 @@ public sealed class Bar : Institution
         int cityId) 
         : base(name, price, phoneNumber, email, address, cityId)
     {
+        Id = id;
     }
 
     public static Result<Bar> Create(
+        int id,
         string name,
         double? price,
         string? phoneNumber,
@@ -29,7 +32,7 @@ public sealed class Bar : Institution
     {
         try
         {
-            var bar = new Bar(name, price, phoneNumber, email, address, cityId);
+            var bar = new Bar(id, name, price, phoneNumber, email, address, cityId);
 
             return Result<Bar>.Success(bar);
         }

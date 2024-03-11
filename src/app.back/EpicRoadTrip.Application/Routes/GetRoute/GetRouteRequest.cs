@@ -1,4 +1,4 @@
-﻿namespace EpicRoadTrip.Application.Routes.GetRoute;
+namespace EpicRoadTrip.Application.Routes.GetRouteBetweenPoints;
 
 public record GetRouteRequest
 {

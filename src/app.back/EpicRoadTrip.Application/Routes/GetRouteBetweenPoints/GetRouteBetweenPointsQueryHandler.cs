@@ -1,4 +1,4 @@
-﻿using EpicRoadTrip.Application.Routes.GetRoute;
+using EpicRoadTrip.Application.Routes.GetRoute;
 using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.Routes;
 using Mapster;

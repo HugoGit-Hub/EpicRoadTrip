@@ -51,4 +51,10 @@ public class BarTest
         // Act
         Bar.Create(Id, Name, Price, PhoneNumber, Email, invalidAddress, CityId);
     }
+
+    [TestMethod]
+    public void TestCommitForSonarCloud()
+    {
+        var message = "will delete this function later";
+    }
 }

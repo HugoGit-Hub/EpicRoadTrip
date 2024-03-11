@@ -17,13 +17,14 @@ export default function Login() {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-pink-500 to-purple-500">
-            <div className="bg-white p-8 rounded-lg shadow-lg w-1/2">
+            <div className="bg-white p-8 rounded-lg shadow-lg w-full sm:w-3/4 md:w-2/4">
                 <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-2xl font-bold">Epic Road Trip</h2>
+                    <h2 className="text-2xl font-bold">Epic Road Trip / Connexion</h2>
                     <a href="/">
                         <img src={"../../public/epic_road_trip.svg"} className="w-[50px] h-[50px] mr-2" alt="Logo" />
                     </a>
                 </div>
+                <div className="w-3/4 h-1 bg-gradient-to-r from-pink-500 to-purple-500 mb-2"></div>
                 <form>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
@@ -72,7 +73,7 @@ export default function Login() {
                     </div>
                 </form>
             </div>
-            <div className="absolute bottom-0 right-0 text-white mr-8 mb-8 font-bold">
+            <div className="absolute bottom-0 right-0 text-white mr-8 mb-8 font-bold md:block hidden">
                 © Epic Road Trip
             </div>
         </div>

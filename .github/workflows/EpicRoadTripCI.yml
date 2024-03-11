@@ -58,9 +58,12 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"EpicRoadTrip" /o:"EpicRoadTrip" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
-          dotnet .\src\app.back\ restore
-          dotnet .\src\app.back\ build --no-restore
-          dotnet .\src\app.back\ test --no-build --verbosity normal
-          dotnet-coverage collect "dotnet test .\src\app.back\EpicRoadTrip.Test\EpicRoadTrip.Test.csproj --no-build" -f xml -o "coverage.xml"
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          ls
+          ls .\src
+          ls .\src\app.back
+#          .\.sonar\scanner\dotnet-sonarscanner begin /k:"EpicRoadTrip" /o:"EpicRoadTrip" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+#          dotnet .\src\app.back\ restore
+#          dotnet .\src\app.back\ build --no-restore
+#          dotnet .\src\app.back\ test --no-build --verbosity normal
+#          dotnet-coverage collect "dotnet test .\src\app.back\EpicRoadTrip.Test\EpicRoadTrip.Test.csproj --no-build" -f xml -o "coverage.xml"
+#          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"

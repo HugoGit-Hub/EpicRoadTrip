@@ -51,6 +51,16 @@ public static class Container
             throw new AppsettingsJwtSectionIsNullException();
         }
 
+        services.AddCors(options =>
+        {
+            options.AddPolicy(name: "frontEndBypass",
+                              builder =>
+                              {
+                                  builder.WithOrigins("http://127.0.0.1:5173", "https://127.0.0.1:5173",
+                                                    "http://localhost:5173", "https://localhost:5173");
+                              });
+        });
+
         services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>

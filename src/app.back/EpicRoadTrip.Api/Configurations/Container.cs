@@ -108,6 +108,8 @@ public static class Container
 
         app.UseHttpsRedirection();
 
+        app.UseCors("frontEndBypass");
+
         app.UseAuthentication();
 
         app.UseAuthorization();

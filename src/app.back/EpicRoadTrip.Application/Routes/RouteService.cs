@@ -2,6 +2,7 @@
 using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.Routes;
 using EpicRoadTrip.Domain.Transportations;
+using Mapster;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,8 +25,8 @@ public class RouteService(
 
                 default:
                     throw new Exception("Transportation type not recognized");
-                    break;
             }
         }
+        throw new Exception("Not fully implemented");
     }
 }

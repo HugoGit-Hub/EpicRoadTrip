@@ -1,4 +1,4 @@
-﻿using EpicRoadTrip.Application.Users;
+using EpicRoadTrip.Application.Users;
 using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.Users;
 using EpicRoadTrip.Infrastructure.Externals.Train;

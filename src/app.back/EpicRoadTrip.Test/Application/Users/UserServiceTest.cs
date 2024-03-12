@@ -1,5 +1,4 @@
-﻿using EpicRoadTrip.Application.Transports;
-using EpicRoadTrip.Application.Users;
+﻿using EpicRoadTrip.Application.Users;
 using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.Users;
 using Moq;

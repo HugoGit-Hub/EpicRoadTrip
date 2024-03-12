@@ -37,7 +37,8 @@ public sealed class Route
         TimeSpan duration,
         int cityOneId,
         int cityTwoId,
-        int roadtripId)
+        int roadtripId,
+        string geoJson)
     {
         if (distance < 0)
         {
@@ -54,12 +55,18 @@ public sealed class Route
             throw new RouteInvalidCitiesException();
         }
 
+        if (string.IsNullOrWhiteSpace(geoJson))
+        {
+            throw new RouteInvalidGeoJsonException();
+        }
+
         Id = id;
         Distance = distance;
         Duration = duration;
         CityOneId = cityOneId;
         CityTwoId = cityTwoId;
         RoadtripId = roadtripId;
+        GeoJson = geoJson;
     }
 
     public static Result<Route> Create(
@@ -68,11 +75,12 @@ public sealed class Route
         TimeSpan duration,
         int cityOneId,
         int cityTwoId,
-        int roadtripId)
+        int roadtripId,
+        string geoJson)
     {
         try
         {
-            var route = new Route(id, distance, duration, cityOneId, cityTwoId, roadtripId);
+            var route = new Route(id, distance, duration, cityOneId, cityTwoId, roadtripId, geoJson);
 
             return Result<Route>.Success(route);
         }

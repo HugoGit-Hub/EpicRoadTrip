@@ -1,8 +1,6 @@
-﻿using EpicRoadTrip.Application.Roadtrips.GetRoadtrip;
-using EpicRoadTrip.Application.Routes.GetRoute;
+﻿using EpicRoadTrip.Application.Routes.GetRoute;
 using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.Routes;
-using EpicRoadTrip.Domain.Transportations;
 using Mapster;
 using MediatR;
 
@@ -20,19 +18,10 @@ public class GetRouteBetweenPointsQueryHandler(
             && query.request.CityTwoCoord.Item1 != default 
             && query.request.CityTwoCoord.Item2 != default)
         {
-            var result = new List<GetRouteResponse>();
-            foreach (var transportId in query.request.TransportationAllowedId)
+            var result = new List<GetRouteResponse>
             {
-                switch(transportId)
-                {
-                    case (int)TransportationType.Train:
-                        result.Add(routeService.GetRouteBetweenPointsByTrain(query.request.CityOneCoord, query.request.CityTwoCoord, cancellationToken).Adapt<GetRouteResponse>());
-                        break;
-
-                    default: 
-                        break;
-                }
-            }
+                routeService.GetRouteBetweenPoints(query.request.CityOneCoord, query.request.CityTwoCoord, query.request.TransportationAllowedId, cancellationToken).Adapt<GetRouteResponse>()
+            };
             return Result<IEnumerable<GetRouteResponse>>.Success(result);
         }
         else

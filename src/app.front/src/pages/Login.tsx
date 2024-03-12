@@ -1,8 +1,15 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import { login } from '../services/api';
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const navigate = useNavigate();
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const isValidEmail = (email: string) => {
         // Expression régulière pour valider le format de l'email
@@ -10,9 +17,27 @@ export default function Login() {
         return emailPattern.test(email);
     };
 
-    const handleLogin = () => {
-        console.log("Email:", email);
-        console.log("Mot de passe:", password);
+    const handleLogin = async () => {
+        setIsLoading(true);
+
+        try {
+            await toast.promise(
+                login(email, password),
+                {
+                    loading: 'Connexion...',
+                    success: () => {
+                        navigate('/');
+                        return <b>Connexion réussie !</b>;
+                    },
+                    error: (error) => {
+                        console.error("Erreur lors de la connexion :", error.message);
+                        return <b>{"Erreur lors de la connexion : " + error.message}</b>;
+                    },
+                }
+            );
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -56,14 +81,47 @@ export default function Login() {
                         />
                     </div>
                     <div className="flex items-center justify-between">
-                        <button
-                            className={`py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2 ${!email || !password || !isValidEmail(email) ? 'bg-gray-400 cursor-not-allowed' : 'bg-pink-500 hover:bg-pink-700 text-white'}`}
-                            type="button"
-                            onClick={handleLogin}
-                            disabled={!email || !password || !isValidEmail(email)}
-                        >
-                            Connexion
-                        </button>
+                        <div className="flex">
+                            <button
+                                className={`py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2 flex items-center justify-center ${!email || !password || !isValidEmail(email) ? 'bg-gray-400 cursor-not-allowed' : 'bg-pink-500 hover:bg-pink-700 text-white'}`}
+                                type="button"
+                                onClick={handleLogin}
+                                disabled={!email || !password || !isValidEmail(email)}
+                            >
+                                <span>Connexion</span>
+                            </button>
+                            {isLoading && (
+                                <svg
+                                    version="1.1"
+                                    id="L9"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                                    x="0px"
+                                    y="0px"
+                                    width="30px"
+                                    height="30px"
+                                    viewBox="0 0 100 100"
+                                    enableBackground="new 0 0 0 0"
+                                    xmlSpace="preserve"
+                                    style={{ marginLeft: '5px', marginTop: '5px' }}
+                                >
+                                    <path
+                                        fill="#000"
+                                        d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50"
+                                    >
+                                        <animateTransform
+                                            attributeName="transform"
+                                            attributeType="XML"
+                                            type="rotate"
+                                            dur="1s"
+                                            from="0 50 50"
+                                            to="360 50 50"
+                                            repeatCount="indefinite"
+                                        />
+                                    </path>
+                                </svg>
+                            )}
+                        </div>
                         <div className="flex items-center justify-between mb-4">
                             <div className="block text-gray-700 text-sm font-bold mr-2 md:block hidden">Pas inscrit ?</div>
                             <a className="inline-block align-baseline font-bold text-sm text-pink-500 hover:text-pink-800" href="/register">

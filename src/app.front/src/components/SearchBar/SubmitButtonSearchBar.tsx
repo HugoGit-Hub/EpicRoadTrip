@@ -20,7 +20,7 @@ function SubmitButtonSearchBar({
     >
       <img width={25} src={SearchIcon} />
       <span
-        className={`text-white transition-all font-bold overflow-hidden ${
+        className={`text-white transition-all font-bold overflow-hidden text-[1rem] ${
           active ? "ml-[10px] w-fit" : "w-0"
         }`}
       >

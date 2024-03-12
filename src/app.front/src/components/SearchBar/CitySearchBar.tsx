@@ -3,6 +3,7 @@ import closeIcon from "../../icons/close.svg";
 import AutocompletionBox from "./Box";
 import { City, getCitiesByWordSearch } from "../../services/cities";
 import { getFlagUrlByCountryCode } from "../../services/country";
+import { createPortal } from "react-dom";
 
 interface CitySearchBarProps {
   label: string;
@@ -29,7 +30,7 @@ function CitySearchBar({
   return (
     <>
       <div
-        className={`rounded-full h-[66px] px-[32px] flex flex-col items-left justify-center w-[300px] ${
+        className={`rounded-full h-[66px] px-[32px] text-[0.75rem] flex flex-col items-left justify-center w-fit ${
           !active ? "hover:bg-zinc-100 cursor-pointer" : "bg-white shadow-md"
         }  relative`}
         onClick={(event) => {
@@ -65,7 +66,7 @@ function CitySearchBar({
             onFocus={() => {
               onClick();
             }}
-            className="border-0 focus:border-0 bg-transparent outline-none "
+            className="border-0 focus:border-0 bg-transparent outline-none text-[0.875rem]"
           />
         </div>
         {value.length > 0 && active && (
@@ -83,7 +84,7 @@ function CitySearchBar({
         )}
       </div>
       {active && value.length > 2 && !city && (
-        <AutocompletionBox>
+        createPortal(<AutocompletionBox>
           {propositions.map((city) => {
             return (
               <div
@@ -113,7 +114,7 @@ function CitySearchBar({
           {propositions.length === 0 && (
             <p className="text-gray-400">Aucun résultat</p>
           )}
-        </AutocompletionBox>
+        </AutocompletionBox>, document.getElementById('searchBar') || document.body)
       )}
     </>
   );

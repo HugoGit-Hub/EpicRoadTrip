@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import AutocompletionBox from "./Box";
 import closeIcon from "../../icons/close.svg";
+import { createPortal } from "react-dom";
 
 interface BudgetSearchBarProps {
   active?: boolean;
@@ -37,8 +38,8 @@ function BudgetSearchBar({
           }
         }}
       >
-        <p className="font-bold">{label}</p>
-        <p className={`${!value ? "text-gray-400" : ""}`}>
+        <p className="font-bold text-[0.75rem]">{label}</p>
+        <p className={`text-[0.875rem] ${!value ? "text-gray-400" : ""}`}>
           {Boolean(value) ? `${value} €` : placeholder}
         </p>
         {Boolean(value) && active && (
@@ -54,12 +55,12 @@ function BudgetSearchBar({
         )}
       </div>
       {active && (
-        <AutocompletionBox>
+        createPortal(<AutocompletionBox>
           <p className="font-bold text-[22px] mb-[16px]">Votre budget</p>
 
           <div className="relative mb-6">
             <input
-              className="bg-gradient-to-r from-rose-500 to-fuchsia-700 w-full h-3 rounded-lg appearance-none cursor-pointer range-lg"
+              className="bg-gradient-to-r from-rose-500 to-fuchsia-700 w-full h-3 rounded-lg appearance-none cursor-pointer range-sm"
               type="range"
               min={min}
               max={max}
@@ -81,7 +82,7 @@ function BudgetSearchBar({
               Max (1500 €)
             </span>
           </div>
-        </AutocompletionBox>
+        </AutocompletionBox>, document.getElementById('searchBar'))
       )}
     </>
   );

@@ -8,6 +8,8 @@ public sealed class Transportation
 {
     public int Id { get; }
 
+    public double Cost { get; }
+    
     public double Score { get; }
 
     public string Company { get; }
@@ -18,11 +20,17 @@ public sealed class Transportation
     
     private Transportation(
         int id,
+        double cost,
         double score,
         string company,
         string address,
         TransportationType transportationType)
     {
+        if (cost <= 0)
+        {
+            throw new TransportationInvalidCostException();
+        }
+
         if (score is < 0.0 or > 5.0)
         {
             throw new TransportationInvalidScoreException();
@@ -39,6 +47,7 @@ public sealed class Transportation
         }
 
         Id = id;
+        Cost = cost;
         Score = score;
         Company = company;
         Address = address;
@@ -47,6 +56,7 @@ public sealed class Transportation
 
     public static Result<Transportation> Create(
         int id,
+        double cost,
         double score, 
         string company, 
         string address, 
@@ -54,7 +64,7 @@ public sealed class Transportation
     {
         try
         {
-            var transportation = new Transportation(id, score, company, address, transportationType);
+            var transportation = new Transportation(id, cost, score, company, address, transportationType);
 
             return Result<Transportation>.Success(transportation);
         }

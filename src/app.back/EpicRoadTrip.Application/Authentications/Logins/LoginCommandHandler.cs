@@ -1,14 +1,14 @@
 ﻿using EpicRoadTrip.Domain.Authentications;
 using EpicRoadTrip.Domain.ErrorHandling;
-using EpicRoadTrip.Domain.Users;
 using MediatR;
 using System.Text.Json;
+using EpicRoadTrip.Application.Users;
 
 namespace EpicRoadTrip.Application.Authentications.Logins;
 
 public class LoginCommandHandler(
     IAuthenticationService authenticationService,
-    IUserService userService) 
+    IUserRepository userRepository) 
     : IRequestHandler<LoginCommand, Result<string>>
 {
     public async Task<Result<string>> Handle(LoginCommand command, CancellationToken cancellationToken)
@@ -32,7 +32,7 @@ public class LoginCommandHandler(
             return Result<string>.Failure(AuthenticationErrors.InvalidEmailOrPasswordError);
         }
 
-        var user = await userService.GetByEmail(request.Email, cancellationToken);
+        var user = await userRepository.GetByEmailIncludRoadtrips(request.Email, cancellationToken);
         if (user.IsFailure)
         {
             return Result<string>.Failure(user.Error);

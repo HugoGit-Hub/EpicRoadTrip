@@ -1,7 +1,6 @@
 ﻿using EpicRoadTrip.Application.Repositories;
 using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Infrastructure.Context;
-using Microsoft.EntityFrameworkCore;
 
 namespace EpicRoadTrip.Infrastructure.Repositories;
 

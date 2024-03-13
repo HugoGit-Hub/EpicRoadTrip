@@ -23,6 +23,7 @@ public class EpicRoadTripContext(DbContextOptions<EpicRoadTripContext> options) 
     public DbSet<Hotel> Hotels { get; set; } = null!;
 
     public DbSet<Restaurant> Restaurants { get; set; } = null!;
+    public DbSet<Institution> Institutions { get; set; } = null!;
 
     public DbSet<Roadtrip> Roadtrips { get; set; } = null!;
 
@@ -41,6 +42,7 @@ public class EpicRoadTripContext(DbContextOptions<EpicRoadTripContext> options) 
         new EventConfiguration().Configure(modelBuilder.Entity<Event>());
         new HotelConfiguration().Configure(modelBuilder.Entity<Hotel>());
         new RestaurantConfiguration().Configure(modelBuilder.Entity<Restaurant>());
+        new InstitutionConfiguration().Configure(modelBuilder.Entity<Institution>());
         new RoadtripConfiguration().Configure(modelBuilder.Entity<Roadtrip>());
         new RouteConfiguration().Configure(modelBuilder.Entity<Route>());
         new RouteTransportationConfiguration().Configure(modelBuilder.Entity<RouteTransportation>());

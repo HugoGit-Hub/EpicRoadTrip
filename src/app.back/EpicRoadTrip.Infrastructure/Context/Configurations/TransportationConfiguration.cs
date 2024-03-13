@@ -19,5 +19,6 @@ internal class TransportationConfiguration : IEntityTypeConfiguration<Transporta
         builder.Property(e => e.Company);
         builder.Property(e => e.Address);
         builder.Property(e => e.TransportationType);
+        builder.Property(e => e.RouteId);
     }
 }

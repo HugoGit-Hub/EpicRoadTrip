@@ -19,7 +19,9 @@ public sealed class Transportation
 
     public TransportationType TransportationType { get; }
 
-    public ICollection<Route> Routes { get; } = [];
+    public int RouteId { get; }
+
+    public Route Route { get; } = null!;
     
     private Transportation(
         int id,
@@ -27,7 +29,8 @@ public sealed class Transportation
         double score,
         string company,
         string address,
-        TransportationType transportationType)
+        TransportationType transportationType,
+        int routeId)
     {
         if (cost <= 0)
         {
@@ -55,6 +58,7 @@ public sealed class Transportation
         Company = company;
         Address = address;
         TransportationType = transportationType;
+        RouteId = routeId;
     }
 
     public static Result<Transportation> Create(
@@ -63,11 +67,12 @@ public sealed class Transportation
         double score, 
         string company, 
         string address, 
-        TransportationType transportationType)
+        TransportationType transportationType,
+        int routeId)
     {
         try
         {
-            var transportation = new Transportation(id, cost, score, company, address, transportationType);
+            var transportation = new Transportation(id, cost, score, company, address, transportationType, routeId);
 
             return Result<Transportation>.Success(transportation);
         }

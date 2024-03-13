@@ -8,7 +8,7 @@ namespace EpicRoadTrip.Infrastructure.Users;
 
 public class UserRepository(EpicRoadTripContext context) : IUserRepository
 {
-    public async Task<Result<User>> GetByEmail(string email, CancellationToken cancellationToken)
+    public async Task<Result<User>> GetByEmailIncludRoadtrips(string email, CancellationToken cancellationToken)
     {
         var user = await context.Users
             .AsNoTracking()

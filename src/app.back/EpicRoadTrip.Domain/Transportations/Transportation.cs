@@ -1,5 +1,6 @@
 ﻿using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.ErrorHandling.Generics;
+using EpicRoadTrip.Domain.Routes;
 using EpicRoadTrip.Domain.Transportations.Exceptions;
 
 namespace EpicRoadTrip.Domain.Transportations;
@@ -17,6 +18,8 @@ public sealed class Transportation
     public string Address { get; }
 
     public TransportationType TransportationType { get; }
+
+    public ICollection<Route> Routes { get; } = [];
     
     private Transportation(
         int id,

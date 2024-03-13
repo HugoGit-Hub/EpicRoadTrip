@@ -3,6 +3,7 @@ using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.ErrorHandling.Generics;
 using EpicRoadTrip.Domain.Roadtrips;
 using EpicRoadTrip.Domain.Routes.Exceptions;
+using EpicRoadTrip.Domain.Transportations;
 
 namespace EpicRoadTrip.Domain.Routes;
 
@@ -25,6 +26,8 @@ public sealed class Route
     public City CityTwo { get; } = null!;
 
     public Roadtrip Roadtrip { get; } = null!;
+
+    public ICollection<Transportation> Transportations { get; } = [];
     
     private Route(
         int id,

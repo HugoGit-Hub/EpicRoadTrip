@@ -9,13 +9,13 @@ namespace EpicRoadTrip.Application.Routes.GetAllRoute;
 public class GetAllRouteQueryHandler(IRepository<Route> repository)
     : IRequestHandler<GetAllRouteQuery, Result<IEnumerable<GetAllRouteResponse>>>
 {
-    public async Task<Result<IEnumerable<GetAllRouteResponse>>> Handle(GetAllRouteQuery query, CancellationToken cancellationToken)
+    public Task<Result<IEnumerable<GetAllRouteResponse>>> Handle(GetAllRouteQuery query, CancellationToken cancellationToken)
     {
         var getAll = repository.GetAll();
         var getAllRouteResponse = getAll.Value.Adapt<IEnumerable<GetAllRouteResponse>>();
         
-        return getAll.IsFailure
+        return Task.FromResult(getAll.IsFailure
             ? Result<IEnumerable<GetAllRouteResponse>>.Failure(getAll.Error)
-            : Result<IEnumerable<GetAllRouteResponse>>.Success(getAllRouteResponse);
+            : Result<IEnumerable<GetAllRouteResponse>>.Success(getAllRouteResponse));
     }
 }

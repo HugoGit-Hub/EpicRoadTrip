@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -22,17 +21,6 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cities", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RouteTransportations",
-                columns: table => new
-                {
-                    RouteId = table.Column<int>(type: "int", nullable: false),
-                    TransportationId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
                 });
 
             migrationBuilder.CreateTable(
@@ -146,6 +134,30 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "RouteTransportation",
+                columns: table => new
+                {
+                    RoutesId = table.Column<int>(type: "int", nullable: false),
+                    TransportationsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RouteTransportation", x => new { x.RoutesId, x.TransportationsId });
+                    table.ForeignKey(
+                        name: "FK_RouteTransportation_Routes_RoutesId",
+                        column: x => x.RoutesId,
+                        principalTable: "Routes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RouteTransportation_Transportations_TransportationsId",
+                        column: x => x.TransportationsId,
+                        principalTable: "Transportations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Institution_CityId",
                 table: "Institution",
@@ -165,6 +177,11 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                 name: "IX_Routes_RoadtripId",
                 table: "Routes",
                 column: "RoadtripId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RouteTransportation_TransportationsId",
+                table: "RouteTransportation",
+                column: "TransportationsId");
         }
 
         /// <inheritdoc />
@@ -174,10 +191,10 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                 name: "Institution");
 
             migrationBuilder.DropTable(
-                name: "Routes");
+                name: "RouteTransportation");
 
             migrationBuilder.DropTable(
-                name: "RouteTransportations");
+                name: "Routes");
 
             migrationBuilder.DropTable(
                 name: "Transportations");

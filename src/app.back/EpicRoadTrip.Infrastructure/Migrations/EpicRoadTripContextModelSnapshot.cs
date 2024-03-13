@@ -104,17 +104,6 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                     b.ToTable("Roadtrip", (string)null);
                 });
 
-            modelBuilder.Entity("EpicRoadTrip.Domain.RouteTransportations.RouteTransportation", b =>
-                {
-                    b.Property<int>("RouteId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TransportationId")
-                        .HasColumnType("int");
-
-                    b.ToTable("RouteTransportations");
-                });
-
             modelBuilder.Entity("EpicRoadTrip.Domain.Routes.Route", b =>
                 {
                     b.Property<int>("Id")
@@ -215,6 +204,21 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("RouteTransportation", b =>
+                {
+                    b.Property<int>("RoutesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TransportationsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RoutesId", "TransportationsId");
+
+                    b.HasIndex("TransportationsId");
+
+                    b.ToTable("RouteTransportation");
+                });
+
             modelBuilder.Entity("EpicRoadTrip.Domain.Institutions.Institution", b =>
                 {
                     b.HasOne("EpicRoadTrip.Domain.Cities.City", null)
@@ -242,6 +246,21 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                     b.HasOne("EpicRoadTrip.Domain.Roadtrips.Roadtrip", null)
                         .WithMany("Routes")
                         .HasForeignKey("RoadtripId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RouteTransportation", b =>
+                {
+                    b.HasOne("EpicRoadTrip.Domain.Routes.Route", null)
+                        .WithMany()
+                        .HasForeignKey("RoutesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EpicRoadTrip.Domain.Transportations.Transportation", null)
+                        .WithMany()
+                        .HasForeignKey("TransportationsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

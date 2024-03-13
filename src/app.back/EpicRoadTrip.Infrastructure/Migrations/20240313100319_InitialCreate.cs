@@ -24,23 +24,6 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Transportations",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Cost = table.Column<double>(type: "float", nullable: false),
-                    Score = table.Column<double>(type: "float", nullable: false),
-                    Company = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TransportationType = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Transportations", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -135,25 +118,25 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RouteTransportation",
+                name: "Transportations",
                 columns: table => new
                 {
-                    RoutesId = table.Column<int>(type: "int", nullable: false),
-                    TransportationsId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Cost = table.Column<double>(type: "float", nullable: false),
+                    Score = table.Column<double>(type: "float", nullable: false),
+                    Company = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TransportationType = table.Column<int>(type: "int", nullable: false),
+                    RouteId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RouteTransportation", x => new { x.RoutesId, x.TransportationsId });
+                    table.PrimaryKey("PK_Transportations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RouteTransportation_Routes_RoutesId",
-                        column: x => x.RoutesId,
+                        name: "FK_Transportations_Routes_RouteId",
+                        column: x => x.RouteId,
                         principalTable: "Routes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RouteTransportation_Transportations_TransportationsId",
-                        column: x => x.TransportationsId,
-                        principalTable: "Transportations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -179,9 +162,9 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                 column: "RoadtripId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RouteTransportation_TransportationsId",
-                table: "RouteTransportation",
-                column: "TransportationsId");
+                name: "IX_Transportations_RouteId",
+                table: "Transportations",
+                column: "RouteId");
         }
 
         /// <inheritdoc />
@@ -191,13 +174,10 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                 name: "Institution");
 
             migrationBuilder.DropTable(
-                name: "RouteTransportation");
+                name: "Transportations");
 
             migrationBuilder.DropTable(
                 name: "Routes");
-
-            migrationBuilder.DropTable(
-                name: "Transportations");
 
             migrationBuilder.DropTable(
                 name: "Cities");

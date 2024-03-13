@@ -1,10 +1,7 @@
-﻿using EpicRoadTrip.Domain.Bars;
-using EpicRoadTrip.Domain.Cities.Exceptions;
+﻿using EpicRoadTrip.Domain.Cities.Exceptions;
 using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.ErrorHandling.Generics;
-using EpicRoadTrip.Domain.Events;
-using EpicRoadTrip.Domain.Hotels;
-using EpicRoadTrip.Domain.Restaurants;
+using EpicRoadTrip.Domain.Institutions;
 using EpicRoadTrip.Domain.Routes;
 
 namespace EpicRoadTrip.Domain.Cities;
@@ -17,13 +14,7 @@ public sealed class City
  
     public ICollection<Route> Routes { get; } = [];
 
-    public ICollection<Hotel> Hotels { get; } = [];
-
-    public ICollection<Bar> Bars { get; } = [];
-
-    public ICollection<Restaurant> Restaurants { get; } = [];
-    
-    public ICollection<Event> Events { get; } = [];
+    public ICollection<Institution> Institution { get; } = [];
 
     private City(int id, string name)
     {

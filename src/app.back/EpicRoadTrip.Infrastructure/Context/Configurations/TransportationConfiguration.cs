@@ -14,6 +14,7 @@ internal class TransportationConfiguration : IEntityTypeConfiguration<Transporta
     private static void ConfigureTransportationTable(EntityTypeBuilder<Transportation> builder)
     {
         builder.HasKey(e => e.Id);
+        builder.Property(e => e.Cost);
         builder.Property(e => e.Score);
         builder.Property(e => e.Company);
         builder.Property(e => e.Address);

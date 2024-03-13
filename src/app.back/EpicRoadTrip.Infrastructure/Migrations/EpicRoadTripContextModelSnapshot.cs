@@ -22,41 +22,6 @@ namespace EpicRoadTrip.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("EpicRoadTrip.Domain.Bars.Bar", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("Price")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.ToTable("Bar", (string)null);
-                });
-
             modelBuilder.Entity("EpicRoadTrip.Domain.Cities.City", b =>
                 {
                     b.Property<int>("Id")
@@ -74,7 +39,7 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                     b.ToTable("Cities");
                 });
 
-            modelBuilder.Entity("EpicRoadTrip.Domain.Events.Event", b =>
+            modelBuilder.Entity("EpicRoadTrip.Domain.Institutions.Institution", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -102,81 +67,14 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                     b.Property<double?>("Price")
                         .HasColumnType("float");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.ToTable("Event", (string)null);
-                });
-
-            modelBuilder.Entity("EpicRoadTrip.Domain.Hotels.Hotel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("Type")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("Price")
-                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CityId");
 
-                    b.ToTable("Hotel", (string)null);
-                });
-
-            modelBuilder.Entity("EpicRoadTrip.Domain.Restaurants.Restaurant", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("Price")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.ToTable("Restaurant", (string)null);
+                    b.ToTable("Institution", (string)null);
                 });
 
             modelBuilder.Entity("EpicRoadTrip.Domain.Roadtrips.Roadtrip", b =>
@@ -317,37 +215,10 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("EpicRoadTrip.Domain.Bars.Bar", b =>
+            modelBuilder.Entity("EpicRoadTrip.Domain.Institutions.Institution", b =>
                 {
                     b.HasOne("EpicRoadTrip.Domain.Cities.City", null)
-                        .WithMany("Bars")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("EpicRoadTrip.Domain.Events.Event", b =>
-                {
-                    b.HasOne("EpicRoadTrip.Domain.Cities.City", null)
-                        .WithMany("Events")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("EpicRoadTrip.Domain.Hotels.Hotel", b =>
-                {
-                    b.HasOne("EpicRoadTrip.Domain.Cities.City", null)
-                        .WithMany("Hotels")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("EpicRoadTrip.Domain.Restaurants.Restaurant", b =>
-                {
-                    b.HasOne("EpicRoadTrip.Domain.Cities.City", null)
-                        .WithMany("Restaurants")
+                        .WithMany("Institution")
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -377,13 +248,7 @@ namespace EpicRoadTrip.Infrastructure.Migrations
 
             modelBuilder.Entity("EpicRoadTrip.Domain.Cities.City", b =>
                 {
-                    b.Navigation("Bars");
-
-                    b.Navigation("Events");
-
-                    b.Navigation("Hotels");
-
-                    b.Navigation("Restaurants");
+                    b.Navigation("Institution");
 
                     b.Navigation("Routes");
                 });

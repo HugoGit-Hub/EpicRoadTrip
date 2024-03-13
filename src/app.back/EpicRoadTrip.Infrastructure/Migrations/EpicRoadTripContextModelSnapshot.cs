@@ -106,9 +106,6 @@ namespace EpicRoadTrip.Infrastructure.Migrations
 
             modelBuilder.Entity("EpicRoadTrip.Domain.RouteTransportations.RouteTransportation", b =>
                 {
-                    b.Property<double>("Cost")
-                        .HasColumnType("float");
-
                     b.Property<int>("RouteId")
                         .HasColumnType("int");
 
@@ -168,6 +165,9 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                     b.Property<string>("Company")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Cost")
+                        .HasColumnType("float");
 
                     b.Property<double>("Score")
                         .HasColumnType("float");

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EpicRoadTrip.Infrastructure.Migrations
 {
     [DbContext(typeof(EpicRoadTripContext))]
-    [Migration("20240313071353_InitialCreate")]
+    [Migration("20240313073403_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -109,9 +109,6 @@ namespace EpicRoadTrip.Infrastructure.Migrations
 
             modelBuilder.Entity("EpicRoadTrip.Domain.RouteTransportations.RouteTransportation", b =>
                 {
-                    b.Property<double>("Cost")
-                        .HasColumnType("float");
-
                     b.Property<int>("RouteId")
                         .HasColumnType("int");
 
@@ -171,6 +168,9 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                     b.Property<string>("Company")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Cost")
+                        .HasColumnType("float");
 
                     b.Property<double>("Score")
                         .HasColumnType("float");

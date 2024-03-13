@@ -1,4 +1,5 @@
 ﻿using EpicRoadTrip.Application.Authentications.Logins;
+using EpicRoadTrip.Application.Users;
 using EpicRoadTrip.Domain.Authentications;
 using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.Users;
@@ -14,7 +15,7 @@ public class LoginCommandHandlerTest()
     {
         // Arrange
         var authenticationService = new Mock<IAuthenticationService>();
-        var userService = new Mock<IUserService>();
+        var userService = new Mock<IUserRepository>();
         var request = new LoginRequest
         {
             Email = "test@gmail.com",
@@ -43,7 +44,7 @@ public class LoginCommandHandlerTest()
             .Returns(Task.FromResult(true));
 
         userService
-            .Setup(x => x.GetByEmail(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetByEmailIncludRoadtrips(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .Returns(Task.FromResult(Result<User>.Success(user.Value)));
 
         authenticationService
@@ -62,7 +63,7 @@ public class LoginCommandHandlerTest()
     {
         // Arrange
         var authenticationService = new Mock<IAuthenticationService>();
-        var userService = new Mock<IUserService>();
+        var userService = new Mock<IUserRepository>();
         var request = new LoginRequest
         {
             Email = "test@gmail.com",
@@ -91,7 +92,7 @@ public class LoginCommandHandlerTest()
             .Returns(Task.FromResult(true));
 
         userService
-            .Setup(x => x.GetByEmail(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetByEmailIncludRoadtrips(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .Returns(Task.FromResult(Result<User>.Success(user.Value)));
 
         authenticationService
@@ -110,7 +111,7 @@ public class LoginCommandHandlerTest()
     {
         // Arrange
         var authenticationService = new Mock<IAuthenticationService>();
-        var userService = new Mock<IUserService>();
+        var userService = new Mock<IUserRepository>();
         var request = new LoginRequest
         {
             Email = "test@gmail.com",
@@ -131,7 +132,7 @@ public class LoginCommandHandlerTest()
             .Returns(Task.FromResult(true));
 
         userService
-            .Setup(x => x.GetByEmail(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetByEmailIncludRoadtrips(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .Returns(Task.FromResult(Result<User>.Failure(It.IsAny<Error>())));
 
         // Act
@@ -146,7 +147,7 @@ public class LoginCommandHandlerTest()
     {
         // Arrange
         var authenticationService = new Mock<IAuthenticationService>();
-        var userService = new Mock<IUserService>();
+        var userService = new Mock<IUserRepository>();
         var request = new LoginRequest
         {
             Email = "test@gmail.com",
@@ -178,7 +179,7 @@ public class LoginCommandHandlerTest()
     {
         // Arrange
         var authenticationService = new Mock<IAuthenticationService>();
-        var userService = new Mock<IUserService>();
+        var userService = new Mock<IUserRepository>();
         var request = new LoginRequest
         {
             Email = "test@gmail.com",
@@ -206,7 +207,7 @@ public class LoginCommandHandlerTest()
     {
         // Arrange
         var authenticationService = new Mock<IAuthenticationService>();
-        var userService = new Mock<IUserService>();
+        var userService = new Mock<IUserRepository>();
         var request = new LoginRequest
         {
             Email = "test@gmail.com",

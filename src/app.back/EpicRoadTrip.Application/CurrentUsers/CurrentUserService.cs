@@ -3,12 +3,13 @@ using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.Users;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using EpicRoadTrip.Application.Users;
 
 namespace EpicRoadTrip.Application.CurrentUsers;
 
 public class CurrentUserService(
     IHttpContextAccessor httpContextAccessor,
-    IUserService userService) 
+    IUserRepository userRepository) 
     : ICurrentUserService
 {
     private ClaimsPrincipal CurrentUser => httpContextAccessor.HttpContext.User;
@@ -21,7 +22,7 @@ public class CurrentUserService(
             return Result<User>.Failure(email.Error);
         }
 
-        var currentUser = await userService.GetByEmail(email.Value, cancellationToken);
+        var currentUser = await userRepository.GetByEmailIncludRoadtrips(email.Value, cancellationToken);
         if (currentUser.IsFailure)
         {
             return Result<User>.Failure(currentUser.Error);

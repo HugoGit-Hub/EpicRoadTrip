@@ -28,7 +28,6 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                 name: "RouteTransportations",
                 columns: table => new
                 {
-                    Cost = table.Column<double>(type: "float", nullable: false),
                     RouteId = table.Column<int>(type: "int", nullable: false),
                     TransportationId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -42,6 +41,7 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Cost = table.Column<double>(type: "float", nullable: false),
                     Score = table.Column<double>(type: "float", nullable: false),
                     Company = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),

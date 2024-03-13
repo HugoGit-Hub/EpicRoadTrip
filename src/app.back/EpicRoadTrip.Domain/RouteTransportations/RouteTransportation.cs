@@ -1,15 +1,12 @@
 ﻿using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.ErrorHandling.Generics;
 using EpicRoadTrip.Domain.Routes;
-using EpicRoadTrip.Domain.RouteTransportations.Exceptions;
 using EpicRoadTrip.Domain.Transportations;
 
 namespace EpicRoadTrip.Domain.RouteTransportations;
 
 public sealed class RouteTransportation
 {
-    public double Cost { get; }
-
     public int RouteId { get; }
 
     public int TransportationId { get; }
@@ -18,23 +15,17 @@ public sealed class RouteTransportation
 
     public Transportation Transportation { get; } = null!;
 
-    private RouteTransportation(double cost, int routeId, int transportationId)
+    private RouteTransportation(int routeId, int transportationId)
     {
-        if (cost <= 0)
-        {
-            throw new RouteTransportationInvalidCostException();
-        }
-
-        Cost = cost;
         RouteId = routeId;
         TransportationId = transportationId;
     }
 
-    public static Result<RouteTransportation> Create(double cost, int routeId, int transportationId)
+    public static Result<RouteTransportation> Create(int routeId, int transportationId)
     {
         try
         {
-            var routeTransportation = new RouteTransportation(cost, routeId, transportationId);
+            var routeTransportation = new RouteTransportation(routeId, transportationId);
 
             return Result<RouteTransportation>.Success(routeTransportation);
         }

@@ -14,7 +14,6 @@ internal class RouteTransportationConfiguration : IEntityTypeConfiguration<Route
     private static void ConfigureRouteTransportationTable(EntityTypeBuilder<RouteTransportation> builder)
     {
         builder.HasNoKey();
-        builder.Property(e => e.Cost);
         builder.Property(e => e.RouteId);
         builder.Property(e => e.TransportationId);
     }

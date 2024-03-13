@@ -6,6 +6,7 @@ namespace EpicRoadTrip.Test.Domain.Transportations;
 public class TransportationTest
 {
     private const int Id = 1;
+    private const double Cost = 100.0;
     private const double Score = 4.5;
     private const string Company = "Company";
     private const string Address = "Address";
@@ -15,7 +16,7 @@ public class TransportationTest
     public void CreateTransportation_WithValidParameters_ShouldReturnTransportation()
     {
         // Act
-        var transportation = Transportation.Create(Id, Score, Company, Address, Type);
+        var transportation = Transportation.Create(Id, Cost, Score, Company, Address, Type);
 
         // Assert
         Assert.IsNotNull(transportation);
@@ -26,12 +27,25 @@ public class TransportationTest
     }
 
     [TestMethod]
+    public void CreateRouteTransportation_WithInvalidCost_ShoudlThrowRouteTransportationInvalidCostException()
+    {
+        // Arrange
+        const double invalidCost = -1.0;
+
+        // Act
+        var result = Transportation.Create(Id, invalidCost, Score, Company, Address, Type);
+
+        // Assert
+        Assert.IsTrue(result.IsFailure);
+    }
+
+    [TestMethod]
     [DataRow(5.1)]
     [DataRow(-2)]
     public void CreateTransportation_WithInvalidScore_ShouldThrowTransportationInvalidScoreException(double invalidScore)
     {
         // Act
-        var result = Transportation.Create(Id, invalidScore, Company, Address, Type);
+        var result = Transportation.Create(Id, Cost, invalidScore, Company, Address, Type);
 
         // Assert
         Assert.IsTrue(result.IsFailure);
@@ -44,7 +58,7 @@ public class TransportationTest
         var invalidCompany = string.Empty;
 
         // Act
-        var result = Transportation.Create(Id, Score, invalidCompany, Address, Type);
+        var result = Transportation.Create(Id, Cost, Score, invalidCompany, Address, Type);
 
 
         // Assert
@@ -58,7 +72,7 @@ public class TransportationTest
         var invalidAddress = string.Empty;
 
         // Act
-        var result = Transportation.Create(Id, Score, Company, invalidAddress, Type);
+        var result = Transportation.Create(Id, Cost, Score, Company, invalidAddress, Type);
 
         // Assert
         Assert.IsTrue(result.IsFailure);

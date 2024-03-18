@@ -15,9 +15,13 @@ public sealed class Roadtrip
     public DateTime StartDate { get; }
 
     public DateTime? EndDate { get; }
+
     public TimeSpan Duration { get; }
+
     public int NbTransfers { get; }
+
     public IEnumerable<string>? Tags { get; }
+
     public string? Co2Emission { get; }
 
     public int UserId { get; }

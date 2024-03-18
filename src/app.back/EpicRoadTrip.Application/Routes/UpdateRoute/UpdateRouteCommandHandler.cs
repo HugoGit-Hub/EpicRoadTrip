@@ -19,7 +19,8 @@ public class UpdateRouteCommandHandler(IRepository<Route> repository)
             timeSpan,
             request.CityOneId,
             request.CityTwoId,
-            request.RoadtripId);
+            request.RoadtripId,
+            "geoJson");
         if (route.IsFailure)
         {
             return Result<UpdateRouteResponse>.Failure(route.Error);

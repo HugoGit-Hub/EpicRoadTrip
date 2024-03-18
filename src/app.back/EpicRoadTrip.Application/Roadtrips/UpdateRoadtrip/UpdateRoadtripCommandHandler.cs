@@ -21,7 +21,16 @@ public class UpdateRoadtripCommandHandler(
         }
 
         var request = command.Request;
-        var roadtrip = Roadtrip.Create(request.Id, request.Budget, request.StartDate, request.EndDate, user.Value.Id);
+        var roadtrip = Roadtrip.Create(
+            request.Id,
+            request.Budget,
+            request.StartDate,
+            request.EndDate,
+            user.Value.Id,
+            request.Duration,
+            request.NbTransfers,
+            request.Tags,
+            request.Co2Emission);
         if (roadtrip.IsFailure)
         {
             return Result<UpdateRoadtripResponse>.Failure(roadtrip.Error);

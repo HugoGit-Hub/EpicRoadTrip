@@ -1,8 +1,6 @@
-﻿using Azure;
-using EpicRoadTrip.Application.Routes;
+﻿using EpicRoadTrip.Application.Routes;
 using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.Routes;
-using EpicRoadTrip.Infrastructure.Context;
 using EpicRoadTrip.Infrastructure.Externals.Train;
 
 namespace EpicRoadTrip.Infrastructure.Routes;

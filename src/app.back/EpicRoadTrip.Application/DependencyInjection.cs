@@ -26,7 +26,6 @@ public static class DependencyInjection
     {
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
-        services.AddScoped<IUserService, UserService>();
         services.AddScoped<IRouteService, RouteService>();
         services.AddScoped<IRoadtripService, RoadtripService>();
     }

@@ -1,5 +1,4 @@
-﻿using EpicRoadTrip.Domain.Cities;
-using EpicRoadTrip.Domain.ErrorHandling;
+﻿using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.ErrorHandling.Generics;
 using EpicRoadTrip.Domain.Roadtrips;
 using EpicRoadTrip.Domain.Routes.Exceptions;
@@ -15,30 +14,27 @@ public sealed class Route
 
     public TimeSpan Duration { get; }
 
-    public int CityOneId { get; }
+    public string CityOneName { get; }
 
-    public int CityTwoId { get; }
+    public string CityTwoName { get; }
 
     public int RoadtripId { get; }
 
     public string GeoJson { get; }
 
-    public City CityOne { get; } = null!;
-
-    public City CityTwo { get; } = null!;
-
     public Roadtrip Roadtrip { get; } = null!;
 
     public ICollection<Transportation> Transportations { get; } = [];
-    
+
     private Route(
         int id,
         double distance,
         TimeSpan duration,
-        int cityOneId,
-        int cityTwoId,
+        string cityOneName,
+        string cityTwoName,
         int roadtripId,
-        string geoJson)
+        string geoJson
+        )
     {
         if (distance < 0)
         {
@@ -50,7 +46,7 @@ public sealed class Route
             throw new RouteInvalidDurationException();
         }
 
-        if (cityOneId == cityTwoId)
+        if (cityOneName == cityTwoName)
         {
             throw new RouteInvalidCitiesException();
         }
@@ -63,8 +59,8 @@ public sealed class Route
         Id = id;
         Distance = distance;
         Duration = duration;
-        CityOneId = cityOneId;
-        CityTwoId = cityTwoId;
+        CityOneName = cityOneName;
+        CityTwoName = cityTwoName;
         RoadtripId = roadtripId;
         GeoJson = geoJson;
     }
@@ -73,15 +69,14 @@ public sealed class Route
         int id,
         double distance,
         TimeSpan duration,
-        int cityOneId,
-        int cityTwoId,
+        string cityOneName,
+        string cityTwoName,
         int roadtripId,
         string geoJson)
     {
         try
         {
-            var route = new Route(id, distance, duration, cityOneId, cityTwoId, roadtripId, geoJson);
-
+            var route = new Route(id, distance, duration, cityOneName, cityTwoName, roadtripId, geoJson);
             return Result<Route>.Success(route);
         }
         catch (Exception e)

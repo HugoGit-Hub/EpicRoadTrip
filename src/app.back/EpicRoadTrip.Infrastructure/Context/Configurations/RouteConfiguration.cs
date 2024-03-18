@@ -16,8 +16,9 @@ internal class RouteConfiguration : IEntityTypeConfiguration<Route>
         builder.HasKey(e => e.Id);
         builder.Property(e => e.Distance);
         builder.Property(e => e.Duration);
-        builder.Property(e => e.CityOneId);
-        builder.Property(e => e.CityTwoId);
+        builder.Property(e => e.CityOneName);
+        builder.Property(e => e.CityTwoName);
         builder.Property(e => e.RoadtripId);
+        builder.Property(e => e.GeoJson);
     }
 }

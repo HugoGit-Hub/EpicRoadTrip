@@ -2,9 +2,9 @@ namespace EpicRoadTrip.Application.Routes.GetRoute;
 
 public record GetRouteRequest
 {
-    public Tuple<float, float> CityOneCoord { get; } = null!;
+    public required Tuple<float, float> CityOneCoord { get; init; }
 
-    public Tuple<float, float> CityTwoCoord { get; } = null!;
+    public required Tuple<float, float> CityTwoCoord { get; init; }
 
-    public IEnumerable<int> TransportationAllowedId { get; } = null!;
+    public required List<int> TransportationAllowedId { get; init; }
 }

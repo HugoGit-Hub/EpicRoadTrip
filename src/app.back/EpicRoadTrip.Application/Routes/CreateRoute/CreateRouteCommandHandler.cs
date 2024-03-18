@@ -17,8 +17,8 @@ public class CreateRouteCommandHandler(IRepository<Route> repository)
             0,
             request.Distance,
             timeSpan,
-            request.CityOneId,
-            request.CityTwoId,
+            request.CityOneName,
+            request.CityTwoName,
             request.RoadtripId,
             request.GeoJson);
         if (route.IsFailure)

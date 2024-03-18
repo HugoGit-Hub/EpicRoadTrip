@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EpicRoadTrip.Infrastructure.Migrations
 {
     [DbContext(typeof(EpicRoadTripContext))]
-    [Migration("20240313100319_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240318160057_RouteAndRoadtripExternalUpdate")]
+    partial class RouteAndRoadtripExternalUpdate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,23 +24,6 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("EpicRoadTrip.Domain.Cities.City", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Cities");
-                });
 
             modelBuilder.Entity("EpicRoadTrip.Domain.Institutions.Institution", b =>
                 {
@@ -53,9 +36,6 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -70,12 +50,15 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                     b.Property<double?>("Price")
                         .HasColumnType("float");
 
+                    b.Property<int>("RoadTripId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CityId");
+                    b.HasIndex("RoadTripId");
 
                     b.ToTable("Institution", (string)null);
                 });
@@ -91,11 +74,23 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                     b.Property<double>("Budget")
                         .HasColumnType("float");
 
+                    b.Property<string>("Co2Emission")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<TimeSpan>("Duration")
+                        .HasColumnType("time");
+
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("NbTransfers")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Tags")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -115,14 +110,13 @@ namespace EpicRoadTrip.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CityId")
-                        .HasColumnType("int");
+                    b.Property<string>("CityOneName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CityOneId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CityTwoId")
-                        .HasColumnType("int");
+                    b.Property<string>("CityTwoName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Distance")
                         .HasColumnType("float");
@@ -130,12 +124,14 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("time");
 
+                    b.Property<string>("GeoJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("RoadtripId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CityId");
 
                     b.HasIndex("RoadtripId");
 
@@ -214,9 +210,9 @@ namespace EpicRoadTrip.Infrastructure.Migrations
 
             modelBuilder.Entity("EpicRoadTrip.Domain.Institutions.Institution", b =>
                 {
-                    b.HasOne("EpicRoadTrip.Domain.Cities.City", null)
-                        .WithMany("Institution")
-                        .HasForeignKey("CityId")
+                    b.HasOne("EpicRoadTrip.Domain.Roadtrips.Roadtrip", null)
+                        .WithMany("Institutions")
+                        .HasForeignKey("RoadTripId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -232,10 +228,6 @@ namespace EpicRoadTrip.Infrastructure.Migrations
 
             modelBuilder.Entity("EpicRoadTrip.Domain.Routes.Route", b =>
                 {
-                    b.HasOne("EpicRoadTrip.Domain.Cities.City", null)
-                        .WithMany("Routes")
-                        .HasForeignKey("CityId");
-
                     b.HasOne("EpicRoadTrip.Domain.Roadtrips.Roadtrip", null)
                         .WithMany("Routes")
                         .HasForeignKey("RoadtripId")
@@ -252,15 +244,10 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("EpicRoadTrip.Domain.Cities.City", b =>
-                {
-                    b.Navigation("Institution");
-
-                    b.Navigation("Routes");
-                });
-
             modelBuilder.Entity("EpicRoadTrip.Domain.Roadtrips.Roadtrip", b =>
                 {
+                    b.Navigation("Institutions");
+
                     b.Navigation("Routes");
                 });
 

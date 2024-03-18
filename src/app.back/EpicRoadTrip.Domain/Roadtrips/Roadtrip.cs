@@ -1,5 +1,6 @@
 ﻿using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.ErrorHandling.Generics;
+using EpicRoadTrip.Domain.Institutions;
 using EpicRoadTrip.Domain.Roadtrips.Exceptions;
 using EpicRoadTrip.Domain.Routes;
 using EpicRoadTrip.Domain.Users;
@@ -29,6 +30,7 @@ public sealed class Roadtrip
     public User User { get; } = null!;
 
     public ICollection<Route> Routes { get; } = [];
+    public ICollection<Institution> Institutions { get; } = [];
 
     private Roadtrip(
         int id,

@@ -7,8 +7,8 @@ public class RouteTest
 {
     private const int Id = 1;
     private const double Distance = 100.5;
-    private const int CityOneId = 1;
-    private const int CityTwoId = 2;
+    private const string CityOneName = "Tralala";
+    private const string CityTwoName = "Tralalalala";
     private const int RoadtripId = 1;
     private const string GeoJson = "";
 
@@ -18,13 +18,13 @@ public class RouteTest
     public void CreateRoute_WithValidData_ShouldCreateRoute()
     {
         // Act
-        var route = Route.Create(Id, Distance, Duration, CityOneId, CityTwoId, RoadtripId, GeoJson);
+        var route = Route.Create(Id, Distance, Duration, CityOneName, CityTwoName, RoadtripId, GeoJson);
 
         // Assert
         Assert.AreEqual(Distance, route.Value.Distance);
         Assert.AreEqual(Duration, route.Value.Duration);
-        Assert.AreEqual(CityOneId, route.Value.CityOneId);
-        Assert.AreEqual(CityTwoId, route.Value.CityTwoId);
+        Assert.AreEqual(CityOneName, route.Value.CityOneName);
+        Assert.AreEqual(CityTwoName, route.Value.CityTwoName);
         Assert.AreEqual(RoadtripId, route.Value.RoadtripId);
     }
 
@@ -35,7 +35,7 @@ public class RouteTest
         const double distance = -1;
 
         // Act
-        var result = Route.Create(Id, distance, Duration, CityOneId, CityTwoId, RoadtripId, GeoJson);
+        var result = Route.Create(Id, distance, Duration, CityOneName, CityTwoName, RoadtripId, GeoJson);
 
         // Assert
         Assert.IsTrue(result.IsFailure);
@@ -48,7 +48,7 @@ public class RouteTest
         var duration = TimeSpan.FromHours(-1);
 
         // Act
-        var result = Route.Create(Id, Distance, duration, CityOneId, CityTwoId, RoadtripId, GeoJson);
+        var result = Route.Create(Id, Distance, duration, CityOneName, CityTwoName, RoadtripId, GeoJson);
     
         // Assert
         Assert.IsTrue(result.IsFailure);
@@ -58,10 +58,10 @@ public class RouteTest
     public void CreateRoute_WithSameCityIds_ShouldThrowException()
     {
         // Arrange
-        const int cityTwoId = 1;
+        const string CityTwoName = "Tralala";
 
         // Act
-        var result = Route.Create(Id, Distance, Duration, CityOneId, cityTwoId, RoadtripId, GeoJson);
+        var result = Route.Create(Id, Distance, Duration, CityOneName, CityTwoName, RoadtripId, GeoJson);
     
         // Assert
         Assert.IsTrue(result.IsFailure);

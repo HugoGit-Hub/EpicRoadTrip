@@ -1,8 +1,6 @@
 ﻿using EpicRoadTrip.Domain.ErrorHandling;
-using EpicRoadTrip.Infrastructure.Externals.Configuration;
-using System.Net.Http.Headers;
 
-namespace EpicRoadTrip.Infrastructure.Externals;
+namespace EpicRoadTrip.Domain.Externals;
 
 public interface IExternalClient
 {

@@ -2,8 +2,13 @@
 using EpicRoadTrip.Application.Repositories;
 using EpicRoadTrip.Application.Routes;
 using EpicRoadTrip.Application.Users;
+using EpicRoadTrip.Domain.Externals;
+using EpicRoadTrip.Domain.Routes;
 using EpicRoadTrip.Infrastructure.Authentications;
 using EpicRoadTrip.Infrastructure.Context;
+using EpicRoadTrip.Infrastructure.Externals;
+using EpicRoadTrip.Infrastructure.Externals.Configuration;
+using EpicRoadTrip.Infrastructure.Externals.Train;
 using EpicRoadTrip.Infrastructure.Options;
 using EpicRoadTrip.Infrastructure.Repositories;
 using EpicRoadTrip.Infrastructure.Routes;
@@ -33,6 +38,8 @@ public static class DependencyInjection
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped(typeof(IAuthenticationRepository), typeof(AuthenticationRepository));
         services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
+        services.AddScoped(typeof(IExternalClient), typeof(TrainClient));
         services.AddScoped(typeof(IExternalRouteService), typeof(ExternalRouteService));
+        services.AddHttpClient<TrainClient>(); 
     }
 }

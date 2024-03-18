@@ -21,6 +21,6 @@ internal class InstitutionConfiguration : IEntityTypeConfiguration<Institution>
         builder.Property(institution => institution.Email);
         builder.Property(institution => institution.Address);
         builder.Property(institution => institution.Type);
-        builder.Property(institution => institution.CityId);
+        builder.Property(institution => institution.RoadTripId);
     }
 }

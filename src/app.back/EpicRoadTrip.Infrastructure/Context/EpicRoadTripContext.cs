@@ -1,5 +1,4 @@
-﻿using EpicRoadTrip.Domain.Cities;
-using EpicRoadTrip.Domain.Institutions;
+﻿using EpicRoadTrip.Domain.Institutions;
 using EpicRoadTrip.Domain.Roadtrips;
 using EpicRoadTrip.Domain.Routes;
 using EpicRoadTrip.Domain.Transportations;
@@ -11,8 +10,6 @@ namespace EpicRoadTrip.Infrastructure.Context;
 
 public class EpicRoadTripContext(DbContextOptions<EpicRoadTripContext> options) : DbContext(options)
 {
-    public DbSet<City> Cities { get; set; } = null!;
-
     public DbSet<Institution> Institutions { get; set; } = null!;
 
     public DbSet<Roadtrip> Roadtrips { get; set; } = null!;
@@ -25,7 +22,6 @@ public class EpicRoadTripContext(DbContextOptions<EpicRoadTripContext> options) 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        new CityConfiguration().Configure(modelBuilder.Entity<City>());
         new InstitutionConfiguration().Configure(modelBuilder.Entity<Institution>());
         new RoadtripConfiguration().Configure(modelBuilder.Entity<Roadtrip>());
         new RouteConfiguration().Configure(modelBuilder.Entity<Route>());

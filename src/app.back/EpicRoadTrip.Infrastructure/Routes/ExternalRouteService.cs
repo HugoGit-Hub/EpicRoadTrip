@@ -2,12 +2,13 @@
 using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.Routes;
 using EpicRoadTrip.Infrastructure.Externals.Train;
+using static System.Collections.Specialized.BitVector32;
 
 namespace EpicRoadTrip.Infrastructure.Routes;
 
 public class ExternalRouteService(TrainClient trainClient) : IExternalRouteService
 {
-    public async Task<Result<Route>> FindTrainRoute(Tuple<float, float> cityOneCoord, Tuple<float, float> cityTwoCoord, CancellationToken cancellationToken)
+    public async Task<Result<IEnumerable<Route>>> FindTrainRoute(Tuple<float, float> cityOneCoord, Tuple<float, float> cityTwoCoord, CancellationToken cancellationToken)
     {
         var formattedParams = new Dictionary<string, string>
         {
@@ -15,11 +16,44 @@ public class ExternalRouteService(TrainClient trainClient) : IExternalRouteServi
             { "to", cityTwoCoord.Item1.ToString().Replace(',', '.') + "%3B" + cityTwoCoord.Item2.ToString().Replace(',', '.') }
         };
 
-        Result<dynamic> test = await trainClient.GetData<dynamic>("journeys", formattedParams);
-        dynamic o = test.Value;
-        var t = o.journeys;
-        var t1 = o.journeys;
-        var t2 = o.journeys;
-        throw new NotImplementedException();
+        Result<dynamic> dResult = await trainClient.GetData<dynamic>("journeys", formattedParams);
+
+        if (dResult.IsSuccess)
+        {
+            dynamic dJson = dResult.Value;
+            var routesResult = new List<Route>();
+
+            foreach (var currentJourney in dJson.journeys)
+            {
+                foreach (var currentSection in currentJourney.sections)
+                {
+                    if(currentSection.geojson != null)
+                    {
+                        var geoJson = currentSection.geojson.ToString();
+                        var duration = new TimeSpan(currentSection.duration.Value * 10000000);
+                        Result<Route> correspondingRoute = Route.Create(
+                            0,
+                            0,
+                            duration,
+                            currentSection.from.name.Value,
+                            currentSection.to.name.Value,
+                            -1,
+                            geoJson
+                            );
+
+                        if (correspondingRoute.IsSuccess)
+                        {
+                            routesResult.Add(correspondingRoute.Value);
+                        }
+                    }
+                }
+            }
+
+            return Result<IEnumerable<Route>>.Success(routesResult);
+        }
+        else
+        {
+            return Result<IEnumerable<Route>>.Failure(new Error("", ""));
+        }
     }
 }

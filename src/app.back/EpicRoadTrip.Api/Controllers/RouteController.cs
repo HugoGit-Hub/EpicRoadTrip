@@ -2,6 +2,7 @@ using EpicRoadTrip.Application.Routes.CreateRoute;
 using EpicRoadTrip.Application.Routes.DeleteRoute;
 using EpicRoadTrip.Application.Routes.GetAllRoute;
 using EpicRoadTrip.Application.Routes.GetRoute;
+using EpicRoadTrip.Application.Routes.GetRouteBetweenPoints;
 using EpicRoadTrip.Application.Routes.UpdateRoute;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -44,6 +45,18 @@ public class RouteController(ISender sender) : Controller
     public async Task<ActionResult<IEnumerable<GetAllRouteResponse>>> GetAll(CancellationToken cancellationToken)
     {
         var result = await sender.Send(new GetAllRouteQuery(), cancellationToken);
+        if (result.IsFailure)
+        {
+            return BadRequest(result.Error);
+        }
+
+        return Ok(result.Value);
+    }
+
+    [HttpPost(nameof(GetRouteBetweenPoints))]
+    public async Task<ActionResult<IEnumerable<GetRouteResponse>>> GetRouteBetweenPoints(GetRouteRequest request, CancellationToken cancellationToken)
+    {
+        var result = await sender.Send(new GetRouteBetweenPointsQuery(request), cancellationToken);
         if (result.IsFailure)
         {
             return BadRequest(result.Error);

@@ -6,9 +6,9 @@ public record CreateRouteRequest
 
     public long Duration { get; init; }
 
-    public int CityOneId { get; init; }
+    public required string CityOneName { get; init; }
 
-    public int CityTwoId { get; init; }
+    public required string CityTwoName { get; init; }
 
     public int RoadtripId { get; init; }
 

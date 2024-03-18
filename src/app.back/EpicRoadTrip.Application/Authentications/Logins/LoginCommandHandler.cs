@@ -44,7 +44,7 @@ public class LoginCommandHandler(
             return Result<LoginResponse>.Failure(token.Error);
         }
 
-        var response = user.Adapt<LoginResponse>();
+        var response = user.Value.Adapt<LoginResponse>();
         response = response with { Token = token.Value };
 
         return Result<LoginResponse>.Success(response);

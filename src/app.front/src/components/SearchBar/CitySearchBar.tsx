@@ -25,7 +25,7 @@ function CitySearchBar({
   const inputRef = useRef<HTMLInputElement>(null);
   const clearButton = useRef<HTMLDivElement>(null);
   const [propositions, setPropositions] = useState<City[]>([]);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(city?.name || "");
 
   return (
     <>
@@ -101,9 +101,9 @@ function CitySearchBar({
                   alt=""
                   className="rounded"
                 />
-                <div>
-                  <p className="font-bold">{city.name}</p>
-                  <p className="text-gray-400">
+                <div className="flex flex-col justify-center">
+                  <p className="font-bold text-[0.875rem]">{city.name}</p>
+                  <p className="text-gray-400 text-[0.75rem]">
                     {city.adminName1}
                     {city.adminName1 && ","} {city.countryName}
                   </p>

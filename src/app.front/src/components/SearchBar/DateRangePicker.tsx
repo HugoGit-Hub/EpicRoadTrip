@@ -4,24 +4,8 @@ import { createPortal } from "react-dom";
 import Box from "./Box";
 import { Calendar } from "../ui/calendar";
 import { Matcher } from "react-day-picker";
+import { formatDate } from "../../lib/utils";
 
-function formate(date: Date | undefined) {
-  // Obtenir le jour, le mois et l'année
-  if (date) {
-    let jour = date.getDate();
-    let mois = date.getMonth() + 1; // Les mois commencent à 0, donc on ajoute 1
-    let annee = date.getFullYear() % 100; // Obtenez les deux derniers chiffres de l'année
-
-    // Ajouter un zéro devant le jour et le mois si nécessaire
-    jour = jour < 10 ? "0" + jour : jour;
-    mois = mois < 10 ? "0" + mois : mois;
-    annee = annee < 10 ? "0" + annee : annee;
-
-    // Concaténer pour obtenir le format "dd/mm/aa"
-    return `${jour}/${mois}/${annee}`;
-  }
-  return "";
-}
 interface DateRangePickerProps {
   active?: boolean;
   label: string;
@@ -62,7 +46,7 @@ function DateRangePicker({
           }`}
         >
           {Boolean(value[0] && value[1])
-            ? `${formate(value[0])} - ${formate(value[1])} `
+            ? `${formatDate(value[0])} - ${formatDate(value[1])} `
             : placeholder}
         </p>
         {Boolean(value) && active && (

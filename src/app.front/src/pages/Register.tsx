@@ -1,4 +1,7 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { register, registerDataType } from "../services/api";
 
 export default function Register() {
     const [email, setEmail] = useState("");
@@ -8,6 +11,9 @@ export default function Register() {
     const [name, setName] = useState("");
     const [gender, setGender] = useState("");
     const [age, setAge] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+
+    const navigate = useNavigate();
 
     const isValidEmail = (email: string) => {
         // Expression régulière pour valider le format de l'email
@@ -15,14 +21,35 @@ export default function Register() {
         return emailPattern.test(email);
     };
 
-    const handleRegister = () => {
-        console.log("Email:", email);
-        console.log("Mot de passe:", password);
-        console.log("Mot de passe:", confirm_password);
-        console.log("Nom:", name);
-        console.log("Prénom:", surname);
-        console.log("Sexe:", gender);
-        console.log("Âge:", age);
+    const handleRegister = async () => {
+        const data : registerDataType = {
+            "email": email,
+            "password": password,
+            "firstName": name,
+            "lastName": surname,
+            "age": Number(age),
+            "gender": Boolean(gender)
+        }
+        setIsLoading(true);
+
+        try {
+            await toast.promise(
+                register(data),
+                {
+                    loading: 'Création du compte...',
+                    success: () => {
+                        navigate('/');
+                        return <b>Création réussie !</b>;
+                    },
+                    error: (error) => {
+                        console.error("Erreur lors de la création du compte :", error.message);
+                        return <b>{"Erreur lors de la création du compte : " + error.message}</b>;
+                    },
+                }
+            );
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const passwordMatch = () => {
@@ -199,7 +226,7 @@ export default function Register() {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center">
                             <button
                                 className={`py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2 ${isButtonDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-pink-500 hover:bg-pink-700 text-white'}`}
                                 type="button"
@@ -208,6 +235,37 @@ export default function Register() {
                             >
                                 Enregistrer
                             </button>
+                            {isLoading && (
+                                <svg
+                                    version="1.1"
+                                    id="L9"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                                    x="0px"
+                                    y="0px"
+                                    width="30px"
+                                    height="30px"
+                                    viewBox="0 0 100 100"
+                                    enableBackground="new 0 0 0 0"
+                                    xmlSpace="preserve"
+                                    style={{ marginLeft: '5px', marginTop: '5px' }}
+                                >
+                                    <path
+                                        fill="#000"
+                                        d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50"
+                                    >
+                                        <animateTransform
+                                            attributeName="transform"
+                                            attributeType="XML"
+                                            type="rotate"
+                                            dur="1s"
+                                            from="0 50 50"
+                                            to="360 50 50"
+                                            repeatCount="indefinite"
+                                        />
+                                    </path>
+                                </svg>
+                            )}
                         </div>
                     </form>
                 </div>

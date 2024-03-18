@@ -4,12 +4,12 @@ import SubmitButtonSearchBar from "./SubmitButtonSearchBar";
 import CitySearchBar from "./CitySearchBar";
 import BudgetSearchBar from "./BudgetSearchBar";
 import DateRangePicker from "./DateRangePicker";
-import MultipleSelect from "./MultipleSelect";
 import bikeIcon from "../../icons/bike.svg"
 import walkIcon from "../../icons/walk.svg"
 import busIcon from "../../icons/bus.svg"
 import carIcon from "../../icons/car.svg"
 import asteriskIcon from "../../icons/asterisk.svg"
+import MultipleSelect from "./MultipleSelect";
 
 
 export interface IFilters {
@@ -24,10 +24,11 @@ interface SearchBarProps {
   filters: IFilters;
   onChange: (data: IFilters) => void;
   onSubmit: () => void;
+  active?: boolean
 }
 
 function SearchBar(
-  { filters, onSubmit, onChange }: SearchBarProps,
+  { filters, active, onSubmit, onChange }: SearchBarProps,
   ref: ForwardedRef<HTMLDivElement>
 ) {
   const [activeField, setActiveField] = useState("");
@@ -47,7 +48,7 @@ function SearchBar(
             label="Départ"
             city={filters.depart}
             placeholder="Votre départ"
-            active={activeField === "depart"}
+            active={activeField === "depart" && active }
             onClick={() => {
               setActiveField("depart");
             }}
@@ -59,7 +60,7 @@ function SearchBar(
             label="Destination"
             city={filters.destination}
             placeholder="Votre destination"
-            active={activeField === "destination"}
+            active={activeField === "destination" && active}
             onClick={() => {
               setActiveField("destination");
             }}
@@ -71,15 +72,15 @@ function SearchBar(
             label="Transports"
             placeholder="Vos transports"
             value={filters.transports}
-            active={activeField === "transports"}
+            active={activeField === "transports" && active}
             options={[
               { icon: asteriskIcon, value: "All", label: "Tous", desactiveAll: true},
-              { icon: busIcon, value: "Bus", label: "Bus" },
+              { icon: busIcon, value: "subway", label: "Train" },
               { icon: walkIcon, value: "Marche", label: "Marche" },
               { icon: bikeIcon, value: "Velo", label: "Vélo" },
               { icon: carIcon, value: "Voiture", label: "Voiture" },
             ]}
-            onChange={(transports) => {
+            onChange={(transports: string[]) => {
               onChange({...filters, transports})
             }}
             onClick={() => {
@@ -87,7 +88,7 @@ function SearchBar(
             }}
           />
           <DateRangePicker
-            active={activeField === "periode"}
+            active={activeField === "periode" && active}
             label="Période"
             value={filters.periode}
             placeholder="Votre période"
@@ -102,7 +103,7 @@ function SearchBar(
             label="Budget"
             placeholder="Votre budget"
             value={filters.budget}
-            active={activeField === "budget"}
+            active={activeField === "budget" && active}
             onChange={(budget) => {
               onChange({ ...filters, budget });
             }}
@@ -125,7 +126,7 @@ function SearchBar(
                 alert("Il manque un ou plusieurs filtre");
               }
             }}
-            active={activeField != ""}
+            active={activeField != "" && active}
           />
         </div>
       </div>

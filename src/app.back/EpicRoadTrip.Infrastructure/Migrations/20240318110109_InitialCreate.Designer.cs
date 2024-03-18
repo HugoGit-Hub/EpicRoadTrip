@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EpicRoadTrip.Infrastructure.Migrations
 {
     [DbContext(typeof(EpicRoadTripContext))]
-    [Migration("20240313100319_InitialCreate")]
+    [Migration("20240318110109_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -196,7 +196,7 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Gender")
+                    b.Property<bool?>("Gender")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")

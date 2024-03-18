@@ -3,4 +3,4 @@ using MediatR;
 
 namespace EpicRoadTrip.Application.Authentications.Logins;
 
-public record LoginCommand(LoginRequest Request) : IRequest<Result<string>>;
+public record LoginCommand(LoginRequest Request) : IRequest<Result<LoginResponse>>;

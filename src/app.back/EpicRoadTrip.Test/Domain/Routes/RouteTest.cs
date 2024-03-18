@@ -10,6 +10,7 @@ public class RouteTest
     private const int CityOneId = 1;
     private const int CityTwoId = 2;
     private const int RoadtripId = 1;
+    private const string GeoJson = "";
 
     private static readonly TimeSpan Duration = TimeSpan.FromHours(1);
 
@@ -17,7 +18,7 @@ public class RouteTest
     public void CreateRoute_WithValidData_ShouldCreateRoute()
     {
         // Act
-        var route = Route.Create(Id, Distance, Duration, CityOneId, CityTwoId, RoadtripId);
+        var route = Route.Create(Id, Distance, Duration, CityOneId, CityTwoId, RoadtripId, GeoJson);
 
         // Assert
         Assert.AreEqual(Distance, route.Value.Distance);
@@ -34,7 +35,7 @@ public class RouteTest
         const double distance = -1;
 
         // Act
-        var result = Route.Create(Id, distance, Duration, CityOneId, CityTwoId, RoadtripId);
+        var result = Route.Create(Id, distance, Duration, CityOneId, CityTwoId, RoadtripId, GeoJson);
 
         // Assert
         Assert.IsTrue(result.IsFailure);
@@ -47,7 +48,7 @@ public class RouteTest
         var duration = TimeSpan.FromHours(-1);
 
         // Act
-        var result = Route.Create(Id, Distance, duration, CityOneId, CityTwoId, RoadtripId);
+        var result = Route.Create(Id, Distance, duration, CityOneId, CityTwoId, RoadtripId, GeoJson);
     
         // Assert
         Assert.IsTrue(result.IsFailure);
@@ -60,7 +61,7 @@ public class RouteTest
         const int cityTwoId = 1;
 
         // Act
-        var result = Route.Create(Id, Distance, Duration, CityOneId, cityTwoId, RoadtripId);
+        var result = Route.Create(Id, Distance, Duration, CityOneId, cityTwoId, RoadtripId, GeoJson);
     
         // Assert
         Assert.IsTrue(result.IsFailure);

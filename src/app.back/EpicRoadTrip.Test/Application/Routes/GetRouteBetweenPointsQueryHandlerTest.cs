@@ -1,4 +1,10 @@
-﻿using System;
+﻿using EpicRoadTrip.Application.Users;
+using EpicRoadTrip.Domain.ErrorHandling;
+using EpicRoadTrip.Domain.Users;
+using EpicRoadTrip.Infrastructure.Externals.Train;
+using EpicRoadTrip.Infrastructure.Routes;
+using Moq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,5 +15,13 @@ namespace EpicRoadTrip.Test.Application.Routes;
 [TestClass]
 public class GetRouteBetweenPointsQueryHandlerTest
 {
-
+    [TestMethod]
+    public async Task TestApiCall()
+    {
+        var coord1 = new Tuple<float, float>(3.88646f, 43.60824f);
+        var coord2 = new Tuple<float, float>(7.25807f, 43.69961f);
+        var ct = new CancellationToken();
+        TrainClient trainC = new TrainClient();
+        await new ExternalRouteService(trainC).FindTrainRoute(coord1, coord2, ct);
+    }
 }

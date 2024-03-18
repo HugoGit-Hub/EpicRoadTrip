@@ -33,6 +33,6 @@ public static class DependencyInjection
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped(typeof(IAuthenticationRepository), typeof(AuthenticationRepository));
         services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
-        services.AddScoped(typeof(IRouteRepository), typeof(RouteRepository));
+        services.AddScoped(typeof(IExternalRouteService), typeof(ExternalRouteService));
     }
 }

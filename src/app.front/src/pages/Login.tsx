@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../services/api';
+import { authResponse, login } from '../services/api';
+import { setStorageFromResponse } from '../services/storage';
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -25,7 +26,9 @@ export default function Login() {
                 login(email, password),
                 {
                     loading: 'Connexion...',
-                    success: () => {
+                    success: (response) => {
+                        const castResponse = response as authResponse;
+                        setStorageFromResponse(castResponse);
                         navigate('/');
                         return <b>Connexion réussie !</b>;
                     },

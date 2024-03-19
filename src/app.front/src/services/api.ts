@@ -5,8 +5,14 @@ export interface UserLogin {
     password: string;
 }
 
-export interface tokenResponse {
-    Token: string;
+export interface authResponse {
+    "id": number,
+    "firstName": string,
+    "lastName": string,
+    "email": string,
+    "age": number,
+    "gender": boolean,
+    "token": string
 }
 
 export interface registerDataType {
@@ -24,7 +30,7 @@ const FIXED_SALT = "$2a$10$CwTycUXWue0Thq9StjUM0u";
 export const login = async (
     email: string,
     password: string
-): Promise<tokenResponse> => {
+): Promise<authResponse> => {
     try {
         const hashedPassword = await hashPassword(password);
         password = hashedPassword;
@@ -42,14 +48,14 @@ export const login = async (
         body: JSON.stringify(data),
     });
     if (response.ok) {
-        return response.json() as Promise<tokenResponse>;
+        return response.json() as Promise<authResponse>;
     }
     throw new Error(response.status + " " + response.statusText);
 };
 
 export const register = async (
     data: registerDataType
-): Promise<tokenResponse> => {
+): Promise<authResponse> => {
     try {
         const hashedPassword = await hashPassword(data.password);
         data.password = hashedPassword;
@@ -66,7 +72,7 @@ export const register = async (
         body: JSON.stringify(data),
     });
     if (response.ok) {
-        return response.json() as Promise<tokenResponse>;
+        return response.json() as Promise<authResponse>;
     }
     throw new Error(response.status + " " + response.statusText);
 };

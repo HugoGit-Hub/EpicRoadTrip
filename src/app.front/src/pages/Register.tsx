@@ -1,7 +1,8 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { register, registerDataType } from "../services/api";
+import { authResponse, register, registerDataType } from "../services/api";
+import { setStorageFromResponse } from "../services/storage";
 
 export default function Register() {
     const [email, setEmail] = useState("");
@@ -48,7 +49,9 @@ export default function Register() {
                 register(data),
                 {
                     loading: 'Création du compte...',
-                    success: () => {
+                    success: (response) => {
+                        const castResponse = response as authResponse;
+                        setStorageFromResponse(castResponse);
                         navigate('/');
                         return <b>Création réussie !</b>;
                     },

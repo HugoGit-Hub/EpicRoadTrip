@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import RoadTripCard from '../components/RoadTripCard';
 import { Button } from "../components/ui/button";
 import {
     Dialog,
@@ -25,6 +26,23 @@ export default function Profile() {
     const [isModifying, setIsModifying] = useState(false);
 
     const navigate = useNavigate();
+
+    const mockcardData = [
+        {title : "title", description: "desc"},
+        {title : "title1", description: "desc1"},
+        {title : "title2", description: "desc2"},
+        {title : "title3", description: "desc3"},
+        {title : "title3", description: "desc3"},
+        {title : "title3", description: "desc3"},
+        {title : "title3", description: "desc3"},
+        {title : "title3", description: "desc3"},
+        {title : "title3", description: "desc3"},
+        {title : "title3", description: "desc3"},
+        {title : "title3", description: "desc3"},
+        {title : "title3", description: "desc3"},
+        {title : "title3", description: "desc3"},
+
+    ]
 
     const isValidEmail = (email: string) => {
         // Expression régulière pour valider le format de l'email
@@ -79,8 +97,11 @@ export default function Profile() {
                         </div>
                         <div className="w-3/4 h-1 bg-gradient-to-r from-pink-500 to-purple-500 mb-2"></div>
                         <h4 className="font-bold mb-2">Mes Roadtrips</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                            {mockcardData.map((data) => <RoadTripCard title={data.title} description={data.description} />)}
+                        </div>
                     </div>
-                    <div className="mr-4 bg-white p-8 rounded-lg shadow-lg w-full md:w-5/12 md:order-1 mt-4 md:mt-0">
+                    <div className="mr-4 bg-white p-8 rounded-lg shadow-lg w-full md:w-5/12 md:order-1 mt-4 md:mt-0 h-fit">
                         <div className="flex items-center justify-between mb-4">
                             <h2 className="text-2xl font-bold">Mes informations</h2>
                         </div>

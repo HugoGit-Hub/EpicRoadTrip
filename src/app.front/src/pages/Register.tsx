@@ -9,7 +9,7 @@ export default function Register() {
     const [confirm_password, setConfirmPassword] = useState("");
     const [surname, setSurname] = useState("");
     const [name, setName] = useState("");
-    const [gender, setGender] = useState("");
+    const [gender, setGender] = useState<boolean | null>(null);
     const [age, setAge] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
@@ -21,14 +21,25 @@ export default function Register() {
         return emailPattern.test(email);
     };
 
+    const handleGenderChange = (value: any) => {
+        if (value == 'homme') {
+            setGender(true);
+        } else if (value == 'femme') {
+            setGender(false);
+
+        } else {
+            setGender(null);
+        }
+    }
+
     const handleRegister = async () => {
-        const data : registerDataType = {
+        const data: registerDataType = {
             "email": email,
             "password": password,
             "firstName": name,
             "lastName": surname,
             "age": Number(age),
-            "gender": Boolean(gender)
+            "gender": gender
         }
         setIsLoading(true);
 
@@ -56,7 +67,7 @@ export default function Register() {
         return confirm_password === password;
     }
 
-    const isButtonDisabled = !email || !password || !isValidEmail(email) || !passwordMatch() || !surname || !name || !gender || !age;
+    const isButtonDisabled = !email || !password || !isValidEmail(email) || !passwordMatch() || !surname || !name || !age;
 
     return (
         <div className="relative">
@@ -171,7 +182,8 @@ export default function Register() {
                                                 className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-gray-900 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-gradient-to-r before:from-pink-500 before:to-purple-500 before:opacity-0 before:transition-opacity checked:border-gray-900 checked:before:bg-gray-900 hover:before:opacity-10"
                                                 id="homme"
                                                 value="homme"
-                                                onChange={(e) => setGender(e.target.value)}
+                                                checked={gender == true}
+                                                onChange={(e) => handleGenderChange(e.target.value)}
                                             />
                                             <span className="absolute text-gray-900 transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 16 16" fill="#a955f5">
@@ -191,7 +203,8 @@ export default function Register() {
                                                 className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-gray-900 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-gradient-to-r before:from-pink-500 before:to-purple-500 before:opacity-0 before:transition-opacity checked:border-gray-900 checked:before:bg-gray-900 hover:before:opacity-10"
                                                 id="femme"
                                                 value="femme"
-                                                onChange={(e) => setGender(e.target.value)}
+                                                checked={gender == false}
+                                                onChange={(e) => handleGenderChange(e.target.value)}
                                             />
                                             <span className="absolute text-gray-900 transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 16 16" fill="#a955f5">
@@ -211,7 +224,8 @@ export default function Register() {
                                                 className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-gray-900 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-gradient-to-r before:from-pink-500 before:to-purple-500 before:opacity-0 before:transition-opacity checked:border-gray-900 checked:before:bg-gray-900 hover:before:opacity-10"
                                                 id="autre"
                                                 value="autre"
-                                                onChange={(e) => setGender(e.target.value)}
+                                                checked={gender == null}
+                                                onChange={(e) => handleGenderChange(e.target.value)}
                                             />
                                             <span className="absolute text-gray-900 transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 16 16" fill="#a955f5">

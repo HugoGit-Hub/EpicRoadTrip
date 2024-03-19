@@ -19,6 +19,10 @@ public class RouteService(IExternalRouteService extarExternalRouteService) : IRo
                     result.AddRange(extarExternalRouteService.FindTrainRoute(cityOneCoord, cityTwoCoord, cancellationToken).Result.Value);
                     break;
 
+                case (int)TransportationType.Car:
+                    result.AddRange(extarExternalRouteService.FindCarRoute(cityOneCoord, cityTwoCoord, cancellationToken).Result.Value);
+                    break;
+
                 default:
                     throw new Exception("Transportation type not recognized");
             }

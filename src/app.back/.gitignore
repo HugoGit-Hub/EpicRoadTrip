@@ -4,4 +4,5 @@
 /data/*
 /log/*
 /secrets/*
+/.idea/*
 /EpicRoadTrip.sln.DotSettings.user

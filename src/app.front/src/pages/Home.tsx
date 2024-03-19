@@ -2,7 +2,7 @@ import { Map, Marker } from "pigeon-maps";
 import { useState } from "react";
 import SearchBar, { IFilters } from "../components/SearchBar/SearchBar";
 import Card from "../components/Card";
-import RoadTripCard from "../components/RoadTripCard";
+import RoadTripCard from "../components/ResumeRoadTripCard";
 
 function Home() {
   const [coord, setCoord] = useState<[number, number]>([43.6, 3.894]);

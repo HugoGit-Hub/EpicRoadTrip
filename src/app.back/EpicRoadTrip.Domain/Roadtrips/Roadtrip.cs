@@ -1,5 +1,6 @@
 ﻿using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.ErrorHandling.Generics;
+using EpicRoadTrip.Domain.Institutions;
 using EpicRoadTrip.Domain.Roadtrips.Exceptions;
 using EpicRoadTrip.Domain.Routes;
 using EpicRoadTrip.Domain.Users;
@@ -16,18 +17,32 @@ public sealed class Roadtrip
 
     public DateTime? EndDate { get; }
 
+    public TimeSpan Duration { get; }
+
+    public int NbTransfers { get; }
+
+    public IEnumerable<string>? Tags { get; }
+
+    public string? Co2Emission { get; }
+
     public int UserId { get; }
 
     public User User { get; } = null!;
 
     public ICollection<Route> Routes { get; } = [];
+    public ICollection<Institution> Institutions { get; } = [];
 
     private Roadtrip(
         int id,
         double budget,
         DateTime startDate,
         DateTime? endDate,
-        int userId)
+        int userId,
+        TimeSpan duration,
+        int nbTransfers,
+        IEnumerable<string>? tags, 
+        string? co2Emission
+        )
     {
         if (budget <= 0)
         {
@@ -44,6 +59,10 @@ public sealed class Roadtrip
         EndDate = endDate;
         UserId = userId;
         Budget = budget;
+        Duration = duration;
+        NbTransfers = nbTransfers;
+        Tags = tags;
+        Co2Emission = co2Emission;
     }
 
     public static Result<Roadtrip> Create(
@@ -51,11 +70,15 @@ public sealed class Roadtrip
         double budget,
         DateTime startDate,
         DateTime? endDate,
-        int userId)
+        int userId,
+        TimeSpan duration,
+        int nbTransfers,
+        IEnumerable<string>? tags,
+        string? co2Emission)
     {
         try
         {
-            var roadtrip = new Roadtrip(id, budget, startDate, endDate, userId);
+            var roadtrip = new Roadtrip(id, budget, startDate, endDate, userId, duration, nbTransfers, tags, co2Emission);
 
             return Result<Roadtrip>.Success(roadtrip);
         }

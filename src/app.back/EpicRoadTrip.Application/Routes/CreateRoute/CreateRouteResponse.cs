@@ -13,4 +13,6 @@ public record CreateRouteResponse
     public int CityTwoId { get; init; }
 
     public int RoadtripId { get; init; }
+
+    public required string GeoJson { get; init; }
 }

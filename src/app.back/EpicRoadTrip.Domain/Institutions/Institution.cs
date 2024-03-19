@@ -1,7 +1,7 @@
-﻿using EpicRoadTrip.Domain.Cities;
-using EpicRoadTrip.Domain.ErrorHandling;
+﻿using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.ErrorHandling.Generics;
 using EpicRoadTrip.Domain.Institutions.Exceptions;
+using EpicRoadTrip.Domain.Roadtrips;
 
 namespace EpicRoadTrip.Domain.Institutions;
 
@@ -21,9 +21,8 @@ public class Institution
 
     public InstitutionType Type { get; }
 
-    public int CityId { get; }
-
-    public City City { get; } = null!;
+    public int RoadTripId { get; }
+    public Roadtrip RoadTrip { get; } = null!;
 
     private Institution(
         int id,
@@ -33,7 +32,7 @@ public class Institution
         string? email,
         string address,
         InstitutionType type,
-        int cityId)
+        int roadTripId)
     {
         if (string.IsNullOrWhiteSpace(name))
         {
@@ -52,7 +51,7 @@ public class Institution
         Email = email;
         Address = address;
         Type = type;
-        CityId = cityId;
+        RoadTripId = roadTripId;
     }
 
     public static Result<Institution> Create(
@@ -63,11 +62,11 @@ public class Institution
         string? email,
         string address,
         InstitutionType type,
-        int cityId)
+        int roadTripId)
     {
         try
         {
-            var institution = new Institution(id, name, price, phoneNumber, email, address, type, cityId);
+            var institution = new Institution(id, name, price, phoneNumber, email, address, type, roadTripId);
 
             return Result<Institution>.Success(institution);
         }

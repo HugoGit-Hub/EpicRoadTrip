@@ -26,7 +26,11 @@ public class CreateRoadtripCommandHandler(
             request.Budget,
             request.StartDate,
             request.EndDate,
-            user.Value.Id);
+            user.Value.Id,
+            request.Duration,
+            request.NbTransfers,
+            request.Tags,
+            request.Co2Emission);
         if (roadtrip.IsFailure)
         {
             return Result<CreateRoadtripResponse>.Failure(roadtrip.Error);

@@ -19,5 +19,9 @@ internal class RoadtripConfiguration : IEntityTypeConfiguration<Roadtrip>
         builder.Property(b => b.StartDate);
         builder.Property(b => b.EndDate);
         builder.Property(b => b.UserId);
+        builder.Property(b => b.Co2Emission);
+        builder.Property(b => b.NbTransfers);
+        builder.Property(b => b.Duration);
+        builder.Property(b => b.Tags);
     }
 }

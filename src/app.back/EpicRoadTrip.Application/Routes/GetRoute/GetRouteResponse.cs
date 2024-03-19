@@ -1,4 +1,6 @@
-﻿namespace EpicRoadTrip.Application.Routes.GetRoute;
+using EpicRoadTrip.Domain.Transportations;
+
+namespace EpicRoadTrip.Application.Routes.GetRoute;
 
 public record GetRouteResponse
 {
@@ -8,9 +10,15 @@ public record GetRouteResponse
 
     public TimeSpan Duration { get; init; }
 
-    public int CityOneId { get; init; }
+    public required string CityOneName { get; init; }
 
-    public int CityTwoId { get; init; }
+    public required string CityTwoName { get; init; }
+
+    public Guid? RouteGroup { get; init; }
+
+    public TransportationType TransportType { get; init; }
 
     public int RoadtripId { get; init; }
+
+    public required string GeoJson { get; init; }
 }

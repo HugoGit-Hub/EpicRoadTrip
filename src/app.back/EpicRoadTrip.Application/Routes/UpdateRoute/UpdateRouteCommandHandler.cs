@@ -17,9 +17,13 @@ public class UpdateRouteCommandHandler(IRepository<Route> repository)
             request.Id,
             request.Distance,
             timeSpan,
-            request.CityOneId,
-            request.CityTwoId,
-            request.RoadtripId);
+            request.CityOneName,
+            request.CityTwoName,
+            request.RoadtripId,
+            request.GeoJson,
+            request.RouteGroup,
+            request.TransportType
+            );
         if (route.IsFailure)
         {
             return Result<UpdateRouteResponse>.Failure(route.Error);

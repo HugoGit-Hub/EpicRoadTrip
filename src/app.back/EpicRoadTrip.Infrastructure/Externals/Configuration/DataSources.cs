@@ -8,4 +8,6 @@ public static class DataSources
     public static string CAR_BASE_PATH = "/calcul/geoportail/itineraire/rest/1.0.0/";
     public static string PEDESTRIAN_API_URL = "https://wxs.ign.fr";
     public static string PEDESTRIAN_BASE_PATH = "/calcul/geoportail/itineraire/rest/1.0.0/";
+    public static string BAR_API_URL = "https://discover.search.hereapi.com";
+    public static string BAR_BASE_PATH = "/v1/";
 }

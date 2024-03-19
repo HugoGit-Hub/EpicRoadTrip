@@ -2,15 +2,18 @@
 using EpicRoadTrip.Application.Repositories;
 using EpicRoadTrip.Application.Routes;
 using EpicRoadTrip.Application.Users;
+using EpicRoadTrip.Domain.External;
 using EpicRoadTrip.Domain.Externals;
 using EpicRoadTrip.Domain.Routes;
 using EpicRoadTrip.Infrastructure.Authentications;
 using EpicRoadTrip.Infrastructure.Context;
 using EpicRoadTrip.Infrastructure.Externals;
+using EpicRoadTrip.Infrastructure.Externals.Bar;
 using EpicRoadTrip.Infrastructure.Externals.Car;
 using EpicRoadTrip.Infrastructure.Externals.Configuration;
 using EpicRoadTrip.Infrastructure.Externals.Pedestrian;
 using EpicRoadTrip.Infrastructure.Externals.Train;
+using EpicRoadTrip.Infrastructure.Institutions;
 using EpicRoadTrip.Infrastructure.Options;
 using EpicRoadTrip.Infrastructure.Repositories;
 using EpicRoadTrip.Infrastructure.Routes;
@@ -43,9 +46,12 @@ public static class DependencyInjection
         services.AddScoped(typeof(IExternalClient), typeof(TrainClient));
         services.AddScoped(typeof(IExternalClient), typeof(CarClient));
         services.AddScoped(typeof(IExternalClient), typeof(PedestrianClient));
+        services.AddScoped(typeof(IExternalClient), typeof(BarClient));
         services.AddScoped(typeof(IExternalRouteService), typeof(ExternalRouteService));
+        services.AddScoped(typeof(IExternalInstitutionService), typeof(ExternalInstitutionService));
         services.AddHttpClient<TrainClient>(); 
         services.AddHttpClient<CarClient>();
         services.AddHttpClient<PedestrianClient>();
+        services.AddHttpClient<BarClient>();
     }
 }

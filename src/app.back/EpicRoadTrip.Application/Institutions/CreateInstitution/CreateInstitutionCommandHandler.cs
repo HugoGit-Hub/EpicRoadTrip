@@ -20,7 +20,9 @@ public class CreateInstitutionCommandHandler(IRepository<Institution> repository
             resquest.Email,
             resquest.Address,
             resquest.Type,
-            resquest.CityId);
+            resquest.RoadTripId,
+            resquest.WebSite,
+            resquest.Coord);
         if (institution.IsFailure)
         {
             return Result<CreateInstitutionResponse>.Failure(institution.Error);

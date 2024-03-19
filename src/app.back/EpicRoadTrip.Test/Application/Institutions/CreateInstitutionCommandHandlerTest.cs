@@ -53,7 +53,9 @@ public class CreateInstitutionCommandHandlerTest
             Email = "test@gmail.com",
             Address = "Address",
             Type = InstitutionType.Hotel,
-            CityId = 1
+            RoadTripId = 1,
+            Website = "",
+            Coord = new Tuple<float, float>(1.1f, 1.1f)
         };
         var command = new CreateInstitutionCommand(request.Adapt<CreateInstitutionRequest>());
         var institution = Institution.Create(
@@ -64,7 +66,9 @@ public class CreateInstitutionCommandHandlerTest
             request.Email, 
             request.Address, 
             request.Type, 
-            request.CityId);
+            request.RoadTripId,
+            request.Website,
+            request.Coord);
         mockRepository
             .Setup(r => r.Create(It.IsAny<Institution>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result<Institution>.Success(institution.Value));

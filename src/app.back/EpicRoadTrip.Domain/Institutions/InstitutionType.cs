@@ -2,8 +2,8 @@
 
 public enum InstitutionType
 {
-    Bar,
-    Event,
-    Hotel,
-    Restaurant
+    Bar = 0,
+    Event = 1,
+    Hotel = 2,
+    Restaurant = 3
 }

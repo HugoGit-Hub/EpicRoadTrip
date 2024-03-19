@@ -27,6 +27,19 @@ public class InstitutionController(ISender sender) : Controller
     }
 
     [Authorize]
+    [HttpPost(nameof(GetInstitutionAround))]
+    public async Task<ActionResult<CreateInstitutionResponse>> GetInstitutionAround(CreateInstitutionRequest request, CancellationToken cancellationTokn)
+    {
+        var result = await sender.Send(new CreateInstitutionCommand(request), cancellationTokn);
+        if (result.IsFailure)
+        {
+            return BadRequest(result.Error);
+        }
+
+        return Ok(result.Value);
+    }
+
+    [Authorize]
     [HttpGet(nameof(Get))]
     public async Task<ActionResult<GetInstitutionResponse>> Get(int id, CancellationToken cancellationToken)
     {

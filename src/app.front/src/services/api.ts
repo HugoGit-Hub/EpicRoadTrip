@@ -15,7 +15,7 @@ export interface registerDataType {
     firstName: string;
     lastName: string;
     age: number;
-    gender: boolean;
+    gender: boolean | null;
 }
 
 const BASE_URL = "http://localhost:5000/";

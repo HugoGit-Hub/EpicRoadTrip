@@ -1,16 +1,33 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace EpicRoadTrip.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class RouteAndRoadtripExternalUpdate : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Transportations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Cost = table.Column<double>(type: "float", nullable: false),
+                    Score = table.Column<double>(type: "float", nullable: false),
+                    Company = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TransportationType = table.Column<int>(type: "int", nullable: false),
+                    RouteId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transportations", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -90,8 +107,10 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                     Duration = table.Column<TimeSpan>(type: "time", nullable: false),
                     CityOneName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CityTwoName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RouteGroup = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     RoadtripId = table.Column<int>(type: "int", nullable: false),
-                    GeoJson = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    GeoJson = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TransportType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -100,30 +119,6 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                         name: "FK_Routes_Roadtrip_RoadtripId",
                         column: x => x.RoadtripId,
                         principalTable: "Roadtrip",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Transportations",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Cost = table.Column<double>(type: "float", nullable: false),
-                    Score = table.Column<double>(type: "float", nullable: false),
-                    Company = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TransportationType = table.Column<int>(type: "int", nullable: false),
-                    RouteId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Transportations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Transportations_Routes_RouteId",
-                        column: x => x.RouteId,
-                        principalTable: "Routes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -142,11 +137,6 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                 name: "IX_Routes_RoadtripId",
                 table: "Routes",
                 column: "RoadtripId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Transportations_RouteId",
-                table: "Transportations",
-                column: "RouteId");
         }
 
         /// <inheritdoc />
@@ -156,10 +146,10 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                 name: "Institution");
 
             migrationBuilder.DropTable(
-                name: "Transportations");
+                name: "Routes");
 
             migrationBuilder.DropTable(
-                name: "Routes");
+                name: "Transportations");
 
             migrationBuilder.DropTable(
                 name: "Roadtrip");

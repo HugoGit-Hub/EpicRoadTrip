@@ -12,13 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EpicRoadTrip.Infrastructure.Migrations
 {
     [DbContext(typeof(EpicRoadTripContext))]
-<<<<<<<< HEAD:src/app.back/EpicRoadTrip.Infrastructure/Migrations/20240318160057_RouteAndRoadtripExternalUpdate.Designer.cs
-    [Migration("20240318160057_RouteAndRoadtripExternalUpdate")]
-    partial class RouteAndRoadtripExternalUpdate
-========
-    [Migration("20240318110109_InitialCreate")]
+    [Migration("20240319131229_InitialCreate")]
     partial class InitialCreate
->>>>>>>> eb9d77e7371dd803ccd8bcfb4f2bfee1e5372a4b:src/app.back/EpicRoadTrip.Infrastructure/Migrations/20240318110109_InitialCreate.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -136,6 +131,12 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                     b.Property<int>("RoadtripId")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("RouteGroup")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("TransportType")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("RoadtripId");
@@ -172,8 +173,6 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RouteId");
 
                     b.ToTable("Transportations");
                 });
@@ -240,25 +239,11 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("EpicRoadTrip.Domain.Transportations.Transportation", b =>
-                {
-                    b.HasOne("EpicRoadTrip.Domain.Routes.Route", null)
-                        .WithMany("Transportations")
-                        .HasForeignKey("RouteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("EpicRoadTrip.Domain.Roadtrips.Roadtrip", b =>
                 {
                     b.Navigation("Institutions");
 
                     b.Navigation("Routes");
-                });
-
-            modelBuilder.Entity("EpicRoadTrip.Domain.Routes.Route", b =>
-                {
-                    b.Navigation("Transportations");
                 });
 
             modelBuilder.Entity("EpicRoadTrip.Domain.Users.User", b =>

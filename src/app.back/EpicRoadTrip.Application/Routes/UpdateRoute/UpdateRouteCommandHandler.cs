@@ -20,7 +20,10 @@ public class UpdateRouteCommandHandler(IRepository<Route> repository)
             request.CityOneName,
             request.CityTwoName,
             request.RoadtripId,
-            "geoJson");
+            request.GeoJson,
+            request.RouteGroup,
+            request.TransportType
+            );
         if (route.IsFailure)
         {
             return Result<UpdateRouteResponse>.Failure(route.Error);

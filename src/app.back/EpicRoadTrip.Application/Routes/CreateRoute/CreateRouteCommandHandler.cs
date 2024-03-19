@@ -20,7 +20,10 @@ public class CreateRouteCommandHandler(IRepository<Route> repository)
             request.CityOneName,
             request.CityTwoName,
             request.RoadtripId,
-            request.GeoJson);
+            request.GeoJson, 
+            request.RouteGroup,
+            request.TransportType
+            );
         if (route.IsFailure)
         {
             return Result<CreateRouteResponse>.Failure(route.Error);

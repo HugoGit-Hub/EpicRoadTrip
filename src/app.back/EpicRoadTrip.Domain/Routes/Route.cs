@@ -17,6 +17,7 @@ public sealed class Route
     public string CityOneName { get; }
 
     public string CityTwoName { get; }
+    public Guid? RouteGroup { get; }
 
     public int RoadtripId { get; }
 
@@ -24,7 +25,7 @@ public sealed class Route
 
     public Roadtrip Roadtrip { get; } = null!;
 
-    public ICollection<Transportation> Transportations { get; } = [];
+    public TransportationType TransportType { get; }
 
     private Route(
         int id,
@@ -33,7 +34,9 @@ public sealed class Route
         string cityOneName,
         string cityTwoName,
         int roadtripId,
-        string geoJson
+        string geoJson,
+        Guid? routeGroup,
+        TransportationType transportType
         )
     {
         if (distance < 0)
@@ -63,6 +66,8 @@ public sealed class Route
         CityTwoName = cityTwoName;
         RoadtripId = roadtripId;
         GeoJson = geoJson;
+        RouteGroup = routeGroup;
+        TransportType = transportType;
     }
 
     public static Result<Route> Create(
@@ -72,11 +77,13 @@ public sealed class Route
         string cityOneName,
         string cityTwoName,
         int roadtripId,
-        string geoJson)
+        string geoJson,
+        Guid? routeGroup,
+        TransportationType transportType)
     {
         try
         {
-            var route = new Route(id, distance, duration, cityOneName, cityTwoName, roadtripId, geoJson);
+            var route = new Route(id, distance, duration, cityOneName, cityTwoName, roadtripId, geoJson, routeGroup, transportType);
             return Result<Route>.Success(route);
         }
         catch (Exception e)

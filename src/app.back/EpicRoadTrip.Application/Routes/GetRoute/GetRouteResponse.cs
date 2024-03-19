@@ -2,17 +2,17 @@ namespace EpicRoadTrip.Application.Routes.GetRoute;
 
 public record GetRouteResponse
 {
-    public int Id { get; }
+    public int Id { get; init; }
 
-    public double Distance { get; }
+    public double Distance { get; init; }
 
-    public TimeSpan Duration { get; }
+    public TimeSpan Duration { get; init; }
 
-    public int CityOneId { get; }
+    public required string CityOneName { get; init; }
 
-    public int CityTwoId { get; }
+    public required string CityTwoName { get; init; }
 
-    public int RoadtripId { get; }
+    public int RoadtripId { get; init; }
 
-    public string GeoJson { get; } = null!;
+    public required string GeoJson { get; init; }
 }

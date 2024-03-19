@@ -1,6 +1,7 @@
 ﻿using EpicRoadTrip.Application.Routes;
 using EpicRoadTrip.Domain.ErrorHandling;
 using EpicRoadTrip.Domain.Routes;
+using EpicRoadTrip.Domain.Transportations;
 using EpicRoadTrip.Infrastructure.Externals.Train;
 using static System.Collections.Specialized.BitVector32;
 
@@ -25,12 +26,19 @@ public class ExternalRouteService(TrainClient trainClient) : IExternalRouteServi
 
             foreach (var currentJourney in dJson.journeys)
             {
+                var routeGroup = Guid.NewGuid();
+
                 foreach (var currentSection in currentJourney.sections)
                 {
                     if(currentSection.geojson != null)
                     {
                         var geoJson = currentSection.geojson.ToString();
                         var duration = new TimeSpan(currentSection.duration.Value * 10000000);
+                        var transportType = TransportationType.Train;
+                        if (currentSection.mode)
+                        {
+                            transportType = TransportationType.Walk;
+                        }
                         Result<Route> correspondingRoute = Route.Create(
                             0,
                             0,
@@ -38,7 +46,9 @@ public class ExternalRouteService(TrainClient trainClient) : IExternalRouteServi
                             currentSection.from.name.Value,
                             currentSection.to.name.Value,
                             -1,
-                            geoJson
+                            geoJson,
+                            routeGroup,
+                            transportType
                             );
 
                         if (correspondingRoute.IsSuccess)

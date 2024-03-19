@@ -20,5 +20,7 @@ internal class RouteConfiguration : IEntityTypeConfiguration<Route>
         builder.Property(e => e.CityTwoName);
         builder.Property(e => e.RoadtripId);
         builder.Property(e => e.GeoJson);
+        builder.Property(e => e.RouteGroup);
+        builder.Property(e => e.TransportType);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using EpicRoadTrip.Domain.Routes;
+using EpicRoadTrip.Domain.Transportations;
 
 namespace EpicRoadTrip.Test.Domain.Routes;
 
@@ -11,6 +12,8 @@ public class RouteTest
     private const string CityTwoName = "Tralalalala";
     private const int RoadtripId = 1;
     private const string GeoJson = "";
+    private Guid GuidGen = Guid.NewGuid();
+    private const TransportationType Ttype = TransportationType.Train;
 
     private static readonly TimeSpan Duration = TimeSpan.FromHours(1);
 
@@ -18,7 +21,7 @@ public class RouteTest
     public void CreateRoute_WithValidData_ShouldCreateRoute()
     {
         // Act
-        var route = Route.Create(Id, Distance, Duration, CityOneName, CityTwoName, RoadtripId, GeoJson);
+        var route = Route.Create(Id, Distance, Duration, CityOneName, CityTwoName, RoadtripId, GeoJson, GuidGen, Ttype);
 
         // Assert
         Assert.AreEqual(Distance, route.Value.Distance);
@@ -35,7 +38,7 @@ public class RouteTest
         const double distance = -1;
 
         // Act
-        var result = Route.Create(Id, distance, Duration, CityOneName, CityTwoName, RoadtripId, GeoJson);
+        var result = Route.Create(Id, distance, Duration, CityOneName, CityTwoName, RoadtripId, GeoJson, GuidGen, Ttype);
 
         // Assert
         Assert.IsTrue(result.IsFailure);
@@ -48,7 +51,7 @@ public class RouteTest
         var duration = TimeSpan.FromHours(-1);
 
         // Act
-        var result = Route.Create(Id, Distance, duration, CityOneName, CityTwoName, RoadtripId, GeoJson);
+        var result = Route.Create(Id, Distance, duration, CityOneName, CityTwoName, RoadtripId, GeoJson, GuidGen, Ttype);
     
         // Assert
         Assert.IsTrue(result.IsFailure);
@@ -61,7 +64,7 @@ public class RouteTest
         const string CityTwoName = "Tralala";
 
         // Act
-        var result = Route.Create(Id, Distance, Duration, CityOneName, CityTwoName, RoadtripId, GeoJson);
+        var result = Route.Create(Id, Distance, Duration, CityOneName, CityTwoName, RoadtripId, GeoJson, GuidGen, Ttype);
     
         // Assert
         Assert.IsTrue(result.IsFailure);

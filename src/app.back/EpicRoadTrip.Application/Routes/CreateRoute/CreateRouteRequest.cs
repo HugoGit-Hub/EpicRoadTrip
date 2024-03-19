@@ -1,4 +1,6 @@
-﻿namespace EpicRoadTrip.Application.Routes.CreateRoute;
+﻿using EpicRoadTrip.Domain.Transportations;
+
+namespace EpicRoadTrip.Application.Routes.CreateRoute;
 
 public record CreateRouteRequest
 {
@@ -9,6 +11,10 @@ public record CreateRouteRequest
     public required string CityOneName { get; init; }
 
     public required string CityTwoName { get; init; }
+
+    public Guid? RouteGroup { get; init; }
+
+    public TransportationType TransportType { get; init; }
 
     public int RoadtripId { get; init; }
 

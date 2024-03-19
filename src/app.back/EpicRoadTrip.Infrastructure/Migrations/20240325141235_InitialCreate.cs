@@ -109,7 +109,7 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                     CityTwoName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RouteGroup = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     RoadtripId = table.Column<int>(type: "int", nullable: false),
-                    GeoJson = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GeoJson_Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TransportType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -119,6 +119,27 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                         name: "FK_Routes_Roadtrip_RoadtripId",
                         column: x => x.RoadtripId,
                         principalTable: "Roadtrip",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Coordinate",
+                columns: table => new
+                {
+                    GeoJsonRouteId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Latitude = table.Column<double>(type: "float", nullable: false),
+                    Longitude = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Coordinate", x => new { x.GeoJsonRouteId, x.Id });
+                    table.ForeignKey(
+                        name: "FK_Coordinate_Routes_GeoJsonRouteId",
+                        column: x => x.GeoJsonRouteId,
+                        principalTable: "Routes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -143,13 +164,16 @@ namespace EpicRoadTrip.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Coordinate");
+
+            migrationBuilder.DropTable(
                 name: "Institution");
 
             migrationBuilder.DropTable(
-                name: "Routes");
+                name: "Transportations");
 
             migrationBuilder.DropTable(
-                name: "Transportations");
+                name: "Routes");
 
             migrationBuilder.DropTable(
                 name: "Roadtrip");

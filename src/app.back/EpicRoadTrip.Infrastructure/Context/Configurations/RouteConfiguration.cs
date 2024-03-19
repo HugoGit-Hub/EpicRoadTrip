@@ -19,7 +19,19 @@ internal class RouteConfiguration : IEntityTypeConfiguration<Route>
         builder.Property(e => e.CityOneName);
         builder.Property(e => e.CityTwoName);
         builder.Property(e => e.RoadtripId);
-        builder.Property(e => e.GeoJson);
+        builder.OwnsOne(
+            e => e.GeoJson,
+            geoJson =>
+            {
+                geoJson.Property(e => e.Type);
+                geoJson.OwnsMany(
+                    e => e.Coordinates,
+                    coordinate =>
+                    {
+                        coordinate.Property(e => e.Latitude);
+                        coordinate.Property(e => e.Longitude);
+                    });
+            });
         builder.Property(e => e.RouteGroup);
         builder.Property(e => e.TransportType);
     }

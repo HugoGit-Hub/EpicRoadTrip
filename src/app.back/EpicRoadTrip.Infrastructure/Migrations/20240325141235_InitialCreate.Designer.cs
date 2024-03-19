@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EpicRoadTrip.Infrastructure.Migrations
 {
     [DbContext(typeof(EpicRoadTripContext))]
-    [Migration("20240319131229_InitialCreate")]
+    [Migration("20240325141235_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -124,10 +124,6 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("time");
 
-                    b.Property<string>("GeoJson")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("RoadtripId")
                         .HasColumnType("int");
 
@@ -236,6 +232,53 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                         .WithMany("Routes")
                         .HasForeignKey("RoadtripId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("EpicRoadTrip.Domain.Routes.GeoJson", "GeoJson", b1 =>
+                        {
+                            b1.Property<int>("RouteId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Type")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("RouteId");
+
+                            b1.ToTable("Routes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("RouteId");
+
+                            b1.OwnsMany("EpicRoadTrip.Domain.Routes.Coordinate", "Coordinates", b2 =>
+                                {
+                                    b2.Property<int>("GeoJsonRouteId")
+                                        .HasColumnType("int");
+
+                                    b2.Property<int>("Id")
+                                        .ValueGeneratedOnAdd()
+                                        .HasColumnType("int");
+
+                                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b2.Property<int>("Id"));
+
+                                    b2.Property<double>("Latitude")
+                                        .HasColumnType("float");
+
+                                    b2.Property<double>("Longitude")
+                                        .HasColumnType("float");
+
+                                    b2.HasKey("GeoJsonRouteId", "Id");
+
+                                    b2.ToTable("Coordinate");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("GeoJsonRouteId");
+                                });
+
+                            b1.Navigation("Coordinates");
+                        });
+
+                    b.Navigation("GeoJson")
                         .IsRequired();
                 });
 

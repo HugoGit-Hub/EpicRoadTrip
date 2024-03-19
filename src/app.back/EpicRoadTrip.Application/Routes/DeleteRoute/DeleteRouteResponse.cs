@@ -1,4 +1,6 @@
-﻿namespace EpicRoadTrip.Application.Routes.DeleteRoute;
+﻿using EpicRoadTrip.Domain.Routes;
+
+namespace EpicRoadTrip.Application.Routes.DeleteRoute;
 
 public record DeleteRouteResponse
 {
@@ -13,4 +15,6 @@ public record DeleteRouteResponse
     public int CityTwoId { get; init; }
 
     public int RoadtripId { get; init; }
+
+    public required GeoJson GeoJson { get; init; }
 }

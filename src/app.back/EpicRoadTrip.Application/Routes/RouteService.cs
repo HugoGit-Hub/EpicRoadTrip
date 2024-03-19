@@ -1,28 +1,67 @@
-﻿using EpicRoadTrip.Application.Routes.GetRoute;
+﻿using EpicRoadTrip.Application.Routes.GetRouteBetweenPoints.Bikes;
 using EpicRoadTrip.Domain.ErrorHandling;
+using EpicRoadTrip.Domain.External;
+using EpicRoadTrip.Domain.HttpRequests;
 using EpicRoadTrip.Domain.Routes;
 using EpicRoadTrip.Domain.Transportations;
-using Mapster;
+using Route = EpicRoadTrip.Domain.Routes.Route;
 
 namespace EpicRoadTrip.Application.Routes;
 
-public class RouteService(IExternalRouteService extarExternalRouteService) : IRouteService
+public class RouteService(
+    IExternalRouteService externalRouteService,
+    IHttpRequestService<IEnumerable<Route>, BikeParameters> httpRequestService) 
+    : IRouteService
 {
-    public Result<IEnumerable<Route>> GetRouteBetweenPoints(Tuple<float, float> cityOneCoord, Tuple<float, float> cityTwoCoord, IEnumerable<int> transportationAllowedIds, CancellationToken cancellationToken)
+    public async Task<Result<IEnumerable<Route>>> GetRouteBetweenPoints(
+        Tuple<double, double> cityOneCoord,
+        Tuple<double, double> cityTwoCoord,
+        IEnumerable<TransportationType> transportationAllowedIds, CancellationToken cancellationToken)
     {
-        var result = new List<Route>();
+        var routes = new List<Route>();
         foreach (var transportId in transportationAllowedIds)
         {
             switch (transportId)
             {
-                case (int)TransportationType.Train:
-                    result.AddRange(extarExternalRouteService.FindTrainRoute(cityOneCoord, cityTwoCoord, cancellationToken).Result.Value);
+                case TransportationType.Train:
+                    routes.AddRange(externalRouteService.FindTrainRoute(cityOneCoord, cityTwoCoord, cancellationToken).Result.Value);
                     break;
+                case TransportationType.Walk:
+                case TransportationType.Bike:
+                    var result = await GetBikeRoutes(cityOneCoord, cityTwoCoord, cancellationToken);
+                    if (result.IsFailure)
+                    {
+                        return Result<IEnumerable<Route>>.Failure(new Error("Error", "Error"));
+                    }
 
+                    routes.AddRange(result.Value);
+                    break;
+                case TransportationType.Airplane:
+                case TransportationType.Bus:
+                case TransportationType.Car:
                 default:
                     throw new Exception("Transportation type not recognized");
             }
         }
-        return Result<IEnumerable<Route>>.Success(result);
+
+        return Result<IEnumerable<Route>>.Success(routes);
+    }
+
+    private async Task<Result<IEnumerable<Route>>> GetBikeRoutes(
+        Tuple<double, double> cityOneCoord,
+        Tuple<double, double> cityTwoCoord,
+        CancellationToken cancellationToken)
+    {
+        var bikeParameters = new BikeParameters
+        {
+            StartLocations = new Loc(cityOneCoord.Item1, cityOneCoord.Item2),
+            EndLocations = new Loc(cityTwoCoord.Item1, cityTwoCoord.Item2)
+        };
+
+        var response = await httpRequestService.PostData(bikeParameters, cancellationToken);
+        
+        return response.IsFailure 
+            ? Result<IEnumerable<Route>>.Failure(new Error("Error", "Error")) 
+            : Result<IEnumerable<Route>>.Success(response.Value);
     }
 }

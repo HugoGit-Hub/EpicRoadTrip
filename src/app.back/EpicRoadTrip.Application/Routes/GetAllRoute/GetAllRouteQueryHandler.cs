@@ -1,8 +1,8 @@
 ﻿using EpicRoadTrip.Application.Repositories;
 using EpicRoadTrip.Domain.ErrorHandling;
-using EpicRoadTrip.Domain.Routes;
 using Mapster;
 using MediatR;
+using Route = EpicRoadTrip.Domain.Routes.Route;
 
 namespace EpicRoadTrip.Application.Routes.GetAllRoute;
 

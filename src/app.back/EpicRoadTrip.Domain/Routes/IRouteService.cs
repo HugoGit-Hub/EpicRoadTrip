@@ -1,9 +1,13 @@
 ﻿using EpicRoadTrip.Domain.ErrorHandling;
-using EpicRoadTrip.Domain.Users;
+using EpicRoadTrip.Domain.Transportations;
 
 namespace EpicRoadTrip.Domain.Routes;
 
 public interface IRouteService
 {
-    public Result<IEnumerable<Route>> GetRouteBetweenPoints(Tuple<float, float> cityOneCoord, Tuple<float, float> cityTwoCoord, IEnumerable<int> transportationAllowedIds, CancellationToken cancellationToken);
+    public Task<Result<IEnumerable<Route>>> GetRouteBetweenPoints(
+        Tuple<double, double> cityOneCoord,
+        Tuple<double, double> cityTwoCoord,
+        IEnumerable<TransportationType> transportationAllowedIds,
+        CancellationToken cancellationToken);
 }

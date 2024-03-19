@@ -1,4 +1,5 @@
-﻿using EpicRoadTrip.Domain.Transportations;
+﻿using EpicRoadTrip.Domain.Routes;
+using EpicRoadTrip.Domain.Transportations;
 
 namespace EpicRoadTrip.Application.Routes.UpdateRoute;
 
@@ -14,7 +15,7 @@ public record UpdateRouteRequest
 
     public required string CityTwoName { get; init; }
 
-    public required string GeoJson { get; init; }
+    public required GeoJson GeoJson { get; init; }
 
     public Guid? RouteGroup { get; init; }
 

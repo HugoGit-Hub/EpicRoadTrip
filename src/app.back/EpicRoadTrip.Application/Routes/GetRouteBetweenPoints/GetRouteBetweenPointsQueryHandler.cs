@@ -6,32 +6,25 @@ using MediatR;
 
 namespace EpicRoadTrip.Application.Routes.GetRouteBetweenPoints;
 
-public class GetRouteBetweenPointsQueryHandler(
-    IRouteService routeService)
+public class GetRouteBetweenPointsQueryHandler(IRouteService routeService)
     : IRequestHandler<GetRouteBetweenPointsQuery, Result<IEnumerable<GetRouteResponse>>>
 {
-    public Task<Result<IEnumerable<GetRouteResponse>>> Handle(GetRouteBetweenPointsQuery query, CancellationToken cancellationToken)
+    public async Task<Result<IEnumerable<GetRouteResponse>>> Handle(GetRouteBetweenPointsQuery query, CancellationToken cancellationToken)
     {
-        if ( query.request.TransportationAllowedId.Any()
-            && query.request.CityOneCoord.Item1 != default
-            && query.request.CityOneCoord.Item2 != default
-            && query.request.CityTwoCoord.Item1 != default 
-            && query.request.CityTwoCoord.Item2 != default)
+        if (query.Request.TransportationAllowedId.Count == 0
+            || query.Request.CityOneCoord.Item1 == 0.0f
+            || query.Request.CityOneCoord.Item2 == 0.0f
+            || query.Request.CityTwoCoord.Item1 == 0.0f
+            || query.Request.CityTwoCoord.Item2 == 0.0f)
         {
-            var result = new List<GetRouteResponse>();
-
-            var routes = routeService.GetRouteBetweenPoints(query.request.CityOneCoord, query.request.CityTwoCoord, query.request.TransportationAllowedId, cancellationToken);
-
-            foreach (var route in routes.Value)
-            {
-                result.Add(route.Adapt<GetRouteResponse>());
-            }
-
-            return Task.FromResult(Result<IEnumerable<GetRouteResponse>>.Success(result));
+            return Result<IEnumerable<GetRouteResponse>>.Failure(new Error("999", "Undefined message error"));
         }
-        else
-        {
-            return Task.FromResult(Result<IEnumerable<GetRouteResponse>>.Failure(new Error("999", "Undefined message error")));
-        }
+        
+        var routes = await routeService.GetRouteBetweenPoints(query.Request.CityOneCoord, query.Request.CityTwoCoord, query.Request.TransportationAllowedId, cancellationToken);
+        var result = routes.Value
+            .Select(route => route.Adapt<GetRouteResponse>())
+            .ToList();
+
+        return Result<IEnumerable<GetRouteResponse>>.Success(result);
     }
 }

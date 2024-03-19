@@ -1,4 +1,6 @@
-﻿namespace EpicRoadTrip.Application.Routes.CreateRoute;
+﻿using EpicRoadTrip.Domain.Routes;
+
+namespace EpicRoadTrip.Application.Routes.CreateRoute;
 
 public record CreateRouteResponse
 {
@@ -14,5 +16,5 @@ public record CreateRouteResponse
 
     public int RoadtripId { get; init; }
 
-    public required string GeoJson { get; init; }
+    public required GeoJson GeoJson { get; init; }
 }

@@ -9,18 +9,17 @@ using System.Security.Claims;
 namespace EpicRoadTrip.Test.Application.CurrentUsers;
 
 [TestClass]
-public class CurrentUserServiceTest
+public class CurrentUserServiceTest(CurrentUserService currentUserService)
 {
-    private Mock<IHttpContextAccessor> mockHttpContextAccessor;
-    private Mock<IUserRepository> mockUserRepository;
-    private CurrentUserService currentUserService;
+    private Mock<IHttpContextAccessor> _mockHttpContextAccessor = new();
+    private Mock<IUserRepository> _mockUserRepository = new();
 
     [TestInitialize]
     public void TestInitialize()
     {
-        mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
-        mockUserRepository = new Mock<IUserRepository>();
-        currentUserService = new CurrentUserService(mockHttpContextAccessor.Object, mockUserRepository.Object);
+        _mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
+        _mockUserRepository = new Mock<IUserRepository>();
+        currentUserService = new CurrentUserService(_mockHttpContextAccessor.Object, _mockUserRepository.Object);
     }
 
     [TestMethod]
@@ -31,7 +30,7 @@ public class CurrentUserServiceTest
         {
             new(ClaimTypes.Email, "test@example.com")
         };
-        mockHttpContextAccessor
+        _mockHttpContextAccessor
             .Setup(x => x.HttpContext!.User.Claims)
             .Returns(claims);
 
@@ -43,7 +42,7 @@ public class CurrentUserServiceTest
             "string",
             25,
             true);
-        mockUserRepository
+        _mockUserRepository
             .Setup(x => x.GetByEmailIncludRoadtrips(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result<User>.Success(user.Value));
 
@@ -60,7 +59,7 @@ public class CurrentUserServiceTest
     public async Task GetCurrentUser_ReturnsFailure_WhenEmailClaimIsNotFound()
     {
         // Arrange
-        mockHttpContextAccessor
+        _mockHttpContextAccessor
             .Setup(x => x.HttpContext!.User.Claims)
             .Returns([]);
 
@@ -80,10 +79,10 @@ public class CurrentUserServiceTest
         {
             new(ClaimTypes.Email, "test@example.com")
         };
-        mockHttpContextAccessor
+        _mockHttpContextAccessor
             .Setup(x => x.HttpContext!.User.Claims)
             .Returns(claims);
-        mockUserRepository
+        _mockUserRepository
             .Setup(x => x.GetByEmailIncludRoadtrips(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result<User>.Failure(UserErrors.UserNotFoundByEmailError));
 

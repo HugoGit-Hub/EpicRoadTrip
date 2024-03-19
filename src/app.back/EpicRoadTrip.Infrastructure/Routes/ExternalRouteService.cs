@@ -1,15 +1,14 @@
-﻿using EpicRoadTrip.Application.Routes;
-using EpicRoadTrip.Domain.ErrorHandling;
+﻿using EpicRoadTrip.Domain.ErrorHandling;
+using EpicRoadTrip.Domain.External;
 using EpicRoadTrip.Domain.Routes;
 using EpicRoadTrip.Domain.Transportations;
-using EpicRoadTrip.Infrastructure.Externals.Train;
-using static System.Collections.Specialized.BitVector32;
 
 namespace EpicRoadTrip.Infrastructure.Routes;
 
-public class ExternalRouteService(TrainClient trainClient) : IExternalRouteService
+public class ExternalRouteService(IExternalClientGet trainClientGet) : IExternalRouteService
 {
-    public async Task<Result<IEnumerable<Route>>> FindTrainRoute(Tuple<float, float> cityOneCoord, Tuple<float, float> cityTwoCoord, CancellationToken cancellationToken)
+    public async Task<Result<IEnumerable<Route>>> FindTrainRoute(Tuple<double, double> cityOneCoord,
+        Tuple<double, double> cityTwoCoord, CancellationToken cancellationToken)
     {
         var formattedParams = new Dictionary<string, string>
         {
@@ -17,7 +16,7 @@ public class ExternalRouteService(TrainClient trainClient) : IExternalRouteServi
             { "to", cityTwoCoord.Item1.ToString().Replace(',', '.') + "%3B" + cityTwoCoord.Item2.ToString().Replace(',', '.') }
         };
 
-        Result<dynamic> dResult = await trainClient.GetData<dynamic>("journeys", formattedParams);
+        Result<dynamic> dResult = await trainClientGet.GetData<dynamic>("journeys", formattedParams);
 
         if (dResult.IsSuccess)
         {

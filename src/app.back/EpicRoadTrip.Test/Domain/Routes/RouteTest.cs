@@ -1,4 +1,5 @@
-﻿using EpicRoadTrip.Domain.Routes;
+﻿using EpicRoadTrip.Domain.ErrorHandling;
+using EpicRoadTrip.Domain.Routes;
 using EpicRoadTrip.Domain.Transportations;
 
 namespace EpicRoadTrip.Test.Domain.Routes;
@@ -11,9 +12,12 @@ public class RouteTest
     private const string CityOneName = "Tralala";
     private const string CityTwoName = "Tralalalala";
     private const int RoadtripId = 1;
-    private const string GeoJson = "geo";
     private const TransportationType Ttype = TransportationType.Train;
     private readonly Guid _guidGen = Guid.NewGuid();
+
+    private static readonly Result<Coordinate> Coord = Coordinate.Create(1, 1);
+    private static readonly List<Coordinate> Coordinates = [Coord.Value, Coord.Value];
+    private static readonly Result<GeoJson> GeoJson = EpicRoadTrip.Domain.Routes.GeoJson.Create("LineString", Coordinates);
 
     private static readonly TimeSpan Duration = TimeSpan.FromHours(1);
 
@@ -21,7 +25,7 @@ public class RouteTest
     public void CreateRoute_WithValidData_ShouldCreateRoute()
     {
         // Act
-        var route = Route.Create(Id, Distance, Duration, CityOneName, CityTwoName, RoadtripId, GeoJson, _guidGen, Ttype);
+        var route = Route.Create(Id, Distance, Duration, CityOneName, CityTwoName, RoadtripId, GeoJson.Value, _guidGen, Ttype);
 
         // Assert
         Assert.AreEqual(Distance, route.Value.Distance);
@@ -38,7 +42,7 @@ public class RouteTest
         const double distance = -1;
 
         // Act
-        var result = Route.Create(Id, distance, Duration, CityOneName, CityTwoName, RoadtripId, GeoJson, _guidGen, Ttype);
+        var result = Route.Create(Id, distance, Duration, CityOneName, CityTwoName, RoadtripId, GeoJson.Value, _guidGen, Ttype);
 
         // Assert
         Assert.IsTrue(result.IsFailure);
@@ -51,7 +55,7 @@ public class RouteTest
         var duration = TimeSpan.FromHours(-1);
 
         // Act
-        var result = Route.Create(Id, Distance, duration, CityOneName, CityTwoName, RoadtripId, GeoJson, _guidGen, Ttype);
+        var result = Route.Create(Id, Distance, duration, CityOneName, CityTwoName, RoadtripId, GeoJson.Value, _guidGen, Ttype);
     
         // Assert
         Assert.IsTrue(result.IsFailure);
@@ -64,7 +68,7 @@ public class RouteTest
         const string CityTwoName = "Tralala";
 
         // Act
-        var result = Route.Create(Id, Distance, Duration, CityOneName, CityTwoName, RoadtripId, GeoJson, _guidGen, Ttype);
+        var result = Route.Create(Id, Distance, Duration, CityOneName, CityTwoName, RoadtripId, GeoJson.Value, _guidGen, Ttype);
     
         // Assert
         Assert.IsTrue(result.IsFailure);

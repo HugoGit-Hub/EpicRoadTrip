@@ -17,15 +17,21 @@ public sealed class Route
     public string CityOneName { get; }
 
     public string CityTwoName { get; }
+
     public Guid? RouteGroup { get; }
 
     public int RoadtripId { get; }
 
-    public string GeoJson { get; }
+    public GeoJson GeoJson { get; }
 
     public Roadtrip Roadtrip { get; } = null!;
 
     public TransportationType TransportType { get; }
+
+    #pragma warning disable CS8618
+    public Route()
+    {
+    }
 
     private Route(
         int id,
@@ -34,7 +40,7 @@ public sealed class Route
         string cityOneName,
         string cityTwoName,
         int roadtripId,
-        string geoJson,
+        GeoJson geoJson,
         Guid? routeGroup,
         TransportationType transportType
         )
@@ -52,11 +58,6 @@ public sealed class Route
         if (cityOneName == cityTwoName)
         {
             throw new RouteInvalidCitiesException();
-        }
-
-        if (string.IsNullOrWhiteSpace(geoJson))
-        {
-            throw new RouteInvalidGeoJsonException();
         }
 
         Id = id;
@@ -77,7 +78,7 @@ public sealed class Route
         string cityOneName,
         string cityTwoName,
         int roadtripId,
-        string geoJson,
+        GeoJson geoJson,
         Guid? routeGroup,
         TransportationType transportType)
     {

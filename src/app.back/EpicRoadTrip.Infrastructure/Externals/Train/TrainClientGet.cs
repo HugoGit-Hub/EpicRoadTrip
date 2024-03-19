@@ -1,24 +1,16 @@
 ﻿using EpicRoadTrip.Domain.ErrorHandling;
-using EpicRoadTrip.Domain.Externals;
+using EpicRoadTrip.Domain.External;
 using EpicRoadTrip.Infrastructure.Externals.Configuration;
-using Mapster;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EpicRoadTrip.Infrastructure.Externals.Train;
 
-public class TrainClient : IExternalClient
+public class TrainClientGet : IExternalClientGet
 {
     private readonly string _basePath = DataSources.TRAIN_BASE_PATH;
     private HttpClient Client;
 
-    public TrainClient(HttpClient client)
+    public TrainClientGet(HttpClient client)
     {
         Client = client;
         Client.BaseAddress = new Uri(DataSources.TRAIN_API_URL);

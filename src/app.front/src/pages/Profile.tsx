@@ -13,8 +13,14 @@ import {
     DialogTrigger,
 } from "../components/ui/dialog";
 import { registerDataType } from "../services/api";
+import { isLoggedIn } from "../services/storage";
 
 export default function Profile() {
+    useEffect(()=>{
+        if(!isLoggedIn()){
+            navigate("/login")
+        }
+    },[])
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirm_password, setConfirmPassword] = useState("");

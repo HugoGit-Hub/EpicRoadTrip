@@ -1,10 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { authResponse, login } from '../services/api';
-import { setStorageFromResponse } from '../services/storage';
+import { isLoggedIn, setStorageFromResponse } from '../services/storage';
 
 export default function Login() {
+    useEffect(()=>{
+        if(isLoggedIn()){
+            navigate("/profile")
+        }
+    },[])
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 

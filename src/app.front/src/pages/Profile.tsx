@@ -28,19 +28,19 @@ export default function Profile() {
     const navigate = useNavigate();
 
     const mockcardData = [
-        {title : "title", description: "desc"},
-        {title : "title1", description: "desc1"},
-        {title : "title2", description: "desc2"},
-        {title : "title3", description: "desc3"},
-        {title : "title3", description: "desc3"},
-        {title : "title3", description: "desc3"},
-        {title : "title3", description: "desc3"},
-        {title : "title3", description: "desc3"},
-        {title : "title3", description: "desc3"},
-        {title : "title3", description: "desc3"},
-        {title : "title3", description: "desc3"},
-        {title : "title3", description: "desc3"},
-        {title : "title3", description: "desc3"},
+        { title: "title", description: "desc" },
+        { title: "title1", description: "desc1" },
+        { title: "title2", description: "desc2" },
+        { title: "title3", description: "desc3" },
+        { title: "title3", description: "desc3" },
+        { title: "title3", description: "desc3" },
+        { title: "title3", description: "desc3" },
+        { title: "title3", description: "desc3" },
+        { title: "title3", description: "desc3" },
+        { title: "title3", description: "desc3" },
+        { title: "title3", description: "desc3" },
+        { title: "title3", description: "desc3" },
+        { title: "title3", description: "desc3" },
 
     ]
 
@@ -97,9 +97,13 @@ export default function Profile() {
                         </div>
                         <div className="w-3/4 h-1 bg-gradient-to-r from-pink-500 to-purple-500 mb-2"></div>
                         <h4 className="font-bold mb-2">Mes Roadtrips</h4>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                            {mockcardData.map((data) => <RoadTripCard title={data.title} description={data.description} />)}
-                        </div>
+                        {(mockcardData.length == 0 ?
+                            <div className="flex flex-col items-center justify-center h-full text-gray-500 text-sm font-bold">Vous n'avez aucun roadtrips enregistré !</div> :
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                                {mockcardData.map((data) => <RoadTripCard title={data.title} description={data.description} />)}
+                            </div>
+                        )}
+
                     </div>
                     <div className="mr-4 bg-white p-8 rounded-lg shadow-lg w-full md:w-5/12 md:order-1 mt-4 md:mt-0 h-fit">
                         <div className="flex items-center justify-between mb-4">

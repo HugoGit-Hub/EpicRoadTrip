@@ -19,7 +19,7 @@ public sealed class User
 
     public int Age { get; }
 
-    public bool Gender { get; }
+    public bool? Gender { get; }
 
     public ICollection<Roadtrip> Roadtrips { get; } = [];
     
@@ -30,7 +30,7 @@ public sealed class User
         string email,
         string password,
         int age,
-        bool gender)
+        bool? gender)
     {
         if (string.IsNullOrWhiteSpace(firstName)
             || string.IsNullOrWhiteSpace(lastName)
@@ -61,7 +61,7 @@ public sealed class User
         string email,
         string password,
         int age,
-        bool gender)
+        bool? gender)
     {
         try
         {

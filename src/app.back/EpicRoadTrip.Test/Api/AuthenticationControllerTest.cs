@@ -19,7 +19,7 @@ public class AuthenticationControllerTest
         var mockSender = new Mock<ISender>();
         mockSender
             .Setup(sender => sender.Send(It.IsAny<RegisterCommand>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Result<string>.Success(It.IsAny<string>()));
+            .ReturnsAsync(Result<RegisterResponse>.Success(It.IsAny<RegisterResponse>()));
 
         var controller = new AuthenticationController(mockSender.Object);
 
@@ -28,7 +28,7 @@ public class AuthenticationControllerTest
 
         // Assert
         Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));
-        Assert.AreEqual(It.IsAny<string>(), ((OkObjectResult)result.Result).Value);
+        Assert.AreEqual(It.IsAny<RegisterResponse>(), ((OkObjectResult)result.Result).Value);
     }
 
     [TestMethod]
@@ -37,7 +37,7 @@ public class AuthenticationControllerTest
         // Arrange
         var mockSender = new Mock<ISender>();
         mockSender.Setup(sender => sender.Send(It.IsAny<RegisterCommand>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Result<string>.Failure(It.IsAny<Error>()));
+            .ReturnsAsync(Result<RegisterResponse>.Failure(It.IsAny<Error>()));
         
         var controller = new AuthenticationController(mockSender.Object);
 
@@ -46,7 +46,7 @@ public class AuthenticationControllerTest
 
         // Assert
         Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
-        Assert.AreEqual(It.IsAny<string>(), ((BadRequestObjectResult)result.Result).Value);
+        Assert.AreEqual(It.IsAny<RegisterResponse>(), ((BadRequestObjectResult)result.Result).Value);
     }
 
     [TestMethod]
@@ -56,7 +56,7 @@ public class AuthenticationControllerTest
         var mockSender = new Mock<ISender>();
         mockSender
             .Setup(sender => sender.Send(It.IsAny<LoginCommand>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Result<string>.Success(It.IsAny<string>()));
+            .ReturnsAsync(Result<LoginResponse>.Success(It.IsAny<LoginResponse>()));
 
         var controller = new AuthenticationController(mockSender.Object);
 
@@ -65,7 +65,7 @@ public class AuthenticationControllerTest
 
         // Assert
         Assert.IsInstanceOfType(result.Result, typeof(OkObjectResult));
-        Assert.AreEqual(It.IsAny<string>(), ((OkObjectResult)result.Result).Value);
+        Assert.AreEqual(It.IsAny<LoginResponse>(), ((OkObjectResult)result.Result).Value);
     }
 
     [TestMethod]
@@ -75,7 +75,7 @@ public class AuthenticationControllerTest
         var mockSender = new Mock<ISender>();
         mockSender
             .Setup(sender => sender.Send(It.IsAny<LoginCommand>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Result<string>.Failure(AuthenticationErrors.InvalidEmailOrPasswordError));
+            .ReturnsAsync(Result<LoginResponse>.Failure(AuthenticationErrors.InvalidEmailOrPasswordError));
 
         var controller = new AuthenticationController(mockSender.Object);
 
@@ -94,7 +94,7 @@ public class AuthenticationControllerTest
         var mockSender = new Mock<ISender>();
         mockSender
             .Setup(sender => sender.Send(It.IsAny<LoginCommand>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Result<string>.Failure(It.IsAny<Error>()));
+            .ReturnsAsync(Result<LoginResponse>.Failure(It.IsAny<Error>()));
 
         var controller = new AuthenticationController(mockSender.Object);
 
@@ -103,6 +103,6 @@ public class AuthenticationControllerTest
 
         // Assert
         Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
-        Assert.AreEqual(It.IsAny<string>(), ((BadRequestObjectResult)result.Result).Value);
+        Assert.AreEqual(It.IsAny<LoginResponse>(), ((BadRequestObjectResult)result.Result).Value);
     }
 }

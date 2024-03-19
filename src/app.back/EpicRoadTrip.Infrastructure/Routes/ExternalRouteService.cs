@@ -35,7 +35,7 @@ public class ExternalRouteService(TrainClient trainClient) : IExternalRouteServi
                         var geoJson = currentSection.geojson.ToString();
                         var duration = new TimeSpan(currentSection.duration.Value * 10000000);
                         var transportType = TransportationType.Train;
-                        if (currentSection.mode)
+                        if (currentSection.mode != null)
                         {
                             transportType = TransportationType.Walk;
                         }

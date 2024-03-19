@@ -53,6 +53,7 @@ public class RouteController(ISender sender) : Controller
         return Ok(result.Value);
     }
 
+    [Authorize]
     [HttpPost(nameof(GetRouteBetweenPoints))]
     public async Task<ActionResult<IEnumerable<GetRouteResponse>>> GetRouteBetweenPoints(GetRouteRequest request, CancellationToken cancellationToken)
     {

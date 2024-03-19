@@ -6,4 +6,6 @@ public static class DataSources
     public static string TRAIN_BASE_PATH = "/v1/coverage/sncf/";
     public static string CAR_API_URL = "https://wxs.ign.fr";
     public static string CAR_BASE_PATH = "/calcul/geoportail/itineraire/rest/1.0.0/";
+    public static string PEDESTRIAN_API_URL = "https://wxs.ign.fr";
+    public static string PEDESTRIAN_BASE_PATH = "/calcul/geoportail/itineraire/rest/1.0.0/";
 }

@@ -23,6 +23,10 @@ public class RouteService(IExternalRouteService extarExternalRouteService) : IRo
                     result.AddRange(extarExternalRouteService.FindCarRoute(cityOneCoord, cityTwoCoord, cancellationToken).Result.Value);
                     break;
 
+                case (int)TransportationType.Walk:
+                    result.AddRange(extarExternalRouteService.FindPedestrianRoute(cityOneCoord, cityTwoCoord, cancellationToken).Result.Value);
+                    break;
+
                 default:
                     throw new Exception("Transportation type not recognized");
             }

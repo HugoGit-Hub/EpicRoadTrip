@@ -32,6 +32,14 @@ public class RegisterCommandHandlerTest
             Age = Age,
             Gender = Gender
         };
+        var user = User.Create(
+            0,
+            request.FirstName,
+            request.LastName,
+            request.Email,
+            Password,
+            request.Age,
+            request.Gender);
 
         var command = new RegisterCommand(request);
         mockAuthenticationService
@@ -48,7 +56,7 @@ public class RegisterCommandHandlerTest
 
         mockRepository
             .Setup(repository => repository.Create(It.IsAny<User>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Result<User>.Success(It.IsAny<User>()));
+            .ReturnsAsync(Result<User>.Success(user.Value));
 
         mockAuthenticationService
             .Setup(service => service.GenerateToken(It.IsAny<User>()))

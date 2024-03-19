@@ -1,80 +1,67 @@
 import { Map, Marker } from "pigeon-maps";
-import { useEffect, useState } from "react";
-import SearchBar from "../components/SearchBar/SearchBar";
+import { useState } from "react";
+import SearchBar, { IFilters } from "../components/SearchBar/SearchBar";
 import Card from "../components/Card";
+import RoadTripCard from "../components/ResumeRoadTripCard";
 
 function Home() {
-  const [coord, setCoord] = useState([50.879, 4.6997]);
-  const [filters, setFilters] = useState<any>(null);
+  const [coord, setCoord] = useState<[number, number]>([43.6, 3.894]);
+  const [filters, setFilters] = useState<IFilters>({
+    depart: undefined,
+    destination: undefined,
+    periode: [undefined, undefined],
+    budget: 0,
+    transports: [],
+  });
+  const [data, setData] = useState<any>(undefined);
+  const [activeSearchBar, setActiveSearchBar] = useState(true);
 
-  useEffect(() => {
-    const options = {
-      enableHighAccuracy: true,
-      timeout: 5000,
-      maximumAge: 0,
-    };
-
-    function success(pos) {
-      const crd = pos.coords;
-      setCoord([crd.latitude, crd.longitude]);
-      console.log("Your current position is:");
-      console.log(`Latitude : ${crd.latitude}`);
-      console.log(`Longitude: ${crd.longitude}`);
-      console.log(`More or less ${crd.accuracy} meters.`);
-    }
-
-    function error(err) {
-      console.warn(`ERROR(${err.code}): ${err.message}`);
-    }
-
-    navigator.geolocation.getCurrentPosition(success, error, options);
-  }, []);
   return (
     <>
       <div
-        className="w-full h-screen relative flex flex-col items-center"
+        className={`w-full h-screen relative flex flex-col ${
+          data ? "" : "items-center"
+        } `}
       >
-        <div className="flex flex-col items-center absolute z-50 p-[32px]">
-          <SearchBar
-            onSubmit={(data) => {
-              setFilters(data);
-            }}
-          />
-          {/* {right && (
-            bg-gray-500 bg-opacity-50 backdrop-blur-10
-            <div
-              className={`flex flex-col gap-[15px] w-full mt-[32px] overflow-y-auto`}
-              style={{
-                height: `calc(100vh - 108px - 32px - 32px)`,
+        {!data ? (
+          <div
+            className="flex flex-col items-center absolute z-50 mt-[32px]"
+            onClick={() => setActiveSearchBar(true)}
+          >
+            <SearchBar
+              filters={filters}
+              onChange={(filters) => {
+                setFilters(filters);
               }}
-            >
-              <Card title="Villes" />
+              onSubmit={() => {
+                setData({});
+              }}
+              active={activeSearchBar}
+            />
+          </div>
+        ) : (
+          <div
+            className={`flex flex-col gap-[15px] h-full absolute z-50 p-[15px] backdrop-blur-md goverflow-y-auto`}
+          >
+            <RoadTripCard
+              filters={filters}
+              onEdit={() => {
+                setData(undefined);
+              }}
+              onSave={() => {}}
+            />
 
-              <Card title="Restaurants" />
-              <Card title="Loisirs" />
-              <Card title="Lieu à visiter" />
-            </div>
-          )} */}
-        </div>
-
+            <Card title="Villes"></Card>
+            <Card title="Restaurants" />
+            <Card title="Loisirs" />
+            <Card title="Lieu à visiter" />
+          </div>
+        )}
         <Map
           defaultCenter={coord}
-          defaultZoom={11}
+          defaultZoom={16}
           onClick={() => {
-            setData({
-              depart: {
-                ...data.depart,
-                active: false,
-              },
-              destination: {
-                ...data.destination,
-                active: false,
-              },
-              budget: {
-                ...data.budget,
-                active: false,
-              },
-            });
+            setActiveSearchBar(false);
           }}
         >
           <Marker width={50} anchor={coord} />

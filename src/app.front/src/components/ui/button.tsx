@@ -21,6 +21,7 @@ const buttonVariants = cva(
         red:"bg-red-500 hover:bg-red-600 text-white",
         green:"bg-green-500 hover:bg-green-600 text-white",
         pink:"bg-pink-500 hover:bg-pink-600 text-white truncate w-full"
+        gradient: "bg-gradient-to-r from-rose-500 to-fuchsia-700  text-neutral-50 hover:from-rose-500/90 hover:to-fuchsia-700/90 "
       },
       size: {
         default: "h-10 px-4 py-2",

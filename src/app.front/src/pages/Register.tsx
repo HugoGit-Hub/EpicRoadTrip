@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { authResponse, register, registerDataType } from "../services/api";
+import { getIsochrone } from "../services/isochrone";
 import { isLoggedIn, setStorageFromResponse } from "../services/storage";
 
 export default function Register() {
@@ -9,6 +10,7 @@ export default function Register() {
         if(isLoggedIn()){
             navigate("/profile")
         }
+        getIsochrone(3.8767337,43.6112422);
     },[])
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

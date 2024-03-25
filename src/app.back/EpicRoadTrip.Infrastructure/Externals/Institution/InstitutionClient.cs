@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace EpicRoadTrip.Infrastructure.Externals.Bar;
 
-public class BarClient : IExternalClient
+public class InstitutionClient : IExternalClient
 {
     private readonly string _basePath = DataSources.BAR_BASE_PATH;
     private HttpClient Client;
 
-    public BarClient(HttpClient client)
+    public InstitutionClient(HttpClient client)
     {
         Client = client;
         Client.BaseAddress = new Uri(DataSources.BAR_API_URL);

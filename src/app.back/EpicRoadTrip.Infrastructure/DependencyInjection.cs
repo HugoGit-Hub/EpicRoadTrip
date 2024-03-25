@@ -11,6 +11,7 @@ using EpicRoadTrip.Infrastructure.Externals;
 using EpicRoadTrip.Infrastructure.Externals.Bar;
 using EpicRoadTrip.Infrastructure.Externals.Car;
 using EpicRoadTrip.Infrastructure.Externals.Configuration;
+using EpicRoadTrip.Infrastructure.Externals.Hotel;
 using EpicRoadTrip.Infrastructure.Externals.Pedestrian;
 using EpicRoadTrip.Infrastructure.Externals.Train;
 using EpicRoadTrip.Infrastructure.Institutions;
@@ -46,12 +47,13 @@ public static class DependencyInjection
         services.AddScoped(typeof(IExternalClient), typeof(TrainClient));
         services.AddScoped(typeof(IExternalClient), typeof(CarClient));
         services.AddScoped(typeof(IExternalClient), typeof(PedestrianClient));
-        services.AddScoped(typeof(IExternalClient), typeof(BarClient));
+        services.AddScoped(typeof(IExternalClient), typeof(InstitutionClient));
         services.AddScoped(typeof(IExternalRouteService), typeof(ExternalRouteService));
         services.AddScoped(typeof(IExternalInstitutionService), typeof(ExternalInstitutionService));
         services.AddHttpClient<TrainClient>(); 
         services.AddHttpClient<CarClient>();
         services.AddHttpClient<PedestrianClient>();
-        services.AddHttpClient<BarClient>();
+        services.AddHttpClient<InstitutionClient>();
+        services.AddHttpClient<HotelClient>();
     }
 }

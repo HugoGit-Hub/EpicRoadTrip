@@ -53,7 +53,8 @@ public class GetAllInstitutionQueryHandlerTest
             type,
             roadTripId,
             website,
-            coord); ;
+            coord.Item1,
+            coord.Item2, null); ;
         var institutions = new List<Institution> { institution.Value };
         mockRepository.Setup(r => r.GetAll())
             .Returns(Result<IEnumerable<Institution>>.Success(institutions));

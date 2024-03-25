@@ -72,7 +72,8 @@ public class UpdateInstitutionCommandHandlerTest
             request.Type, 
             request.RoadTripId,
             request.Website,
-            request.Coord);
+            request.Coord.Item1,
+            request.Coord.Item2, null);
         mockRepository.Setup(r => r.Update(It.IsAny<Institution>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result<Institution>.Success(institution.Value));
 

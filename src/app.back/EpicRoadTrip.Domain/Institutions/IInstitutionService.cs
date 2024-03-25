@@ -10,5 +10,5 @@ namespace EpicRoadTrip.Domain.Institutions;
 
 public interface IInstitutionService
 {
-    public Result<IEnumerable<Institution>> GetInstitutionAround(Tuple<float, float> placeCoord, int radius, IEnumerable<InstitutionType> institutionSearchedIds, CancellationToken cancellationToken);
+    public Result<IEnumerable<Institution>> GetInstitutionAround(float lat, float lng, int radius, DateOnly? checkin, DateOnly? checkout, IEnumerable<InstitutionType> institutionSearchedIds, CancellationToken cancellationToken);
 }

@@ -57,7 +57,8 @@ public class GetInstitutionQueryHandlerTest
             type,
             roadTripId,
             website,
-            coord);
+            coord.Item1,
+            coord.Item2, null);
 
         mockRepository.Setup(r => r.GetById(query.Id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result<Institution>.Success(institution.Value));

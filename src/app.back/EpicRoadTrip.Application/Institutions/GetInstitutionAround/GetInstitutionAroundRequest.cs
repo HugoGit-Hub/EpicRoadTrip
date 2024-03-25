@@ -9,7 +9,10 @@ namespace EpicRoadTrip.Application.Institutions.GetInstitutionAround;
 
 public record GetInstitutionAroundRequest
 {
-    public required Tuple<float, float> PlaceCoord { get; init; }
+    public required float Lat { get; init; }
+    public required float Lng { get; init; }
+    public DateOnly? Checkin { get; init; }
+    public DateOnly? Checkout { get; init; }
 
     public required int Radius { get; init; }
 

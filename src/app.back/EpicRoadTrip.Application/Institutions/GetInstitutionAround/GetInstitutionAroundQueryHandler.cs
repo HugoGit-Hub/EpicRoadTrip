@@ -18,28 +18,28 @@ namespace EpicRoadTrip.Application.Institutions.GetInstitutionAround;
 
 public class GetInstitutionAroundQueryHandler(
     IInstitutionService institutionService)
-    : IRequestHandler<GetInstitutionAroundQuery, Result<IEnumerable<GetInstitutionResponse>>>
+    : IRequestHandler<GetInstitutionAroundQuery, Result<IEnumerable<GetInstitutionAroundResponse>>>
 {
-    public Task<Result<IEnumerable<GetInstitutionResponse>>> Handle(GetInstitutionAroundQuery request, CancellationToken cancellationToken)
+    public Task<Result<IEnumerable<GetInstitutionAroundResponse>>> Handle(GetInstitutionAroundQuery request, CancellationToken cancellationToken)
     {
         if (request.query.InstitutionTypes.Any()
-            && request.query.PlaceCoord.Item1 != default
-            && request.query.PlaceCoord.Item2 != default
+            && request.query.Lat != default
+            && request.query.Lng != default
             && request.query.Radius > 0)
         {
-            var result = new List<GetInstitutionResponse>();
-            var institution = institutionService.GetInstitutionAround(request.query.PlaceCoord, request.query.Radius, request.query.InstitutionTypes, cancellationToken);
+            var result = new List<GetInstitutionAroundResponse>();
+            var institution = institutionService.GetInstitutionAround(request.query.Lat, request.query.Lng, request.query.Radius, request.query.Checkin, request.query.Checkout, request.query.InstitutionTypes, cancellationToken);
             
             foreach (var inst in institution.Value)
             {
-                result.Add(inst.Adapt<GetInstitutionResponse>());
+                result.Add(inst.Adapt<GetInstitutionAroundResponse>());
             }
 
-            return Task.FromResult(Result<IEnumerable<GetInstitutionResponse>>.Success(result));
+            return Task.FromResult(Result<IEnumerable<GetInstitutionAroundResponse>>.Success(result));
         }
         else
         {
-            return Task.FromResult(Result<IEnumerable<GetInstitutionResponse>>.Failure(new Error("999", "Undefined message error")));
+            return Task.FromResult(Result<IEnumerable<GetInstitutionAroundResponse>>.Failure(new Error("999", "Undefined message error")));
         }
     }
 }

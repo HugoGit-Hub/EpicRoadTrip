@@ -19,11 +19,15 @@ public class Institution
 
     public string Address { get; }
 
+    public string? PreviewUrl { get; }
+
     public InstitutionType Type { get; }
 
     public string? WebSite { get; }
 
-    public Tuple<float, float> Coord { get; }
+    public float Lat { get; }
+
+    public float Lng { get; }
 
 
     public int RoadTripId { get; }
@@ -39,7 +43,9 @@ public class Institution
         InstitutionType type,
         int roadTripId,
         string? webSite,
-        Tuple<float, float> coord
+        float lat,  
+        float lng,
+        string? previewUrl
         )
     {
         if (string.IsNullOrWhiteSpace(name))
@@ -51,6 +57,11 @@ public class Institution
         {
             throw new InstitutionInvalidAddressException();
         }
+
+        if (lat == default || lng == default)
+        {
+            throw new InstitutionInvalidCoordinationException();
+        }
         
         Id = id;
         Name = name;
@@ -61,7 +72,9 @@ public class Institution
         Type = type;
         RoadTripId = roadTripId;
         WebSite = webSite;
-        Coord = coord;
+        Lat = lat;
+        Lng = lng;
+        PreviewUrl = previewUrl;    
     }
 
     public static Result<Institution> Create(
@@ -74,11 +87,13 @@ public class Institution
         InstitutionType type,
         int roadTripId,
         string? webSite,
-        Tuple<float, float> coord)
+        float lat,
+        float lng,
+        string? previewUrl)
     {
         try
         {
-            var institution = new Institution(id, name, price, phoneNumber, email, address, type, roadTripId, webSite, coord);
+            var institution = new Institution(id, name, price, phoneNumber, email, address, type, roadTripId, webSite, lat, lng, previewUrl);
 
             return Result<Institution>.Success(institution);
         }

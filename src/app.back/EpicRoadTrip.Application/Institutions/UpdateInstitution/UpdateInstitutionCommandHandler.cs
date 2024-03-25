@@ -21,7 +21,9 @@ public class UpdateInstitutionCommandHandler(IRepository<Institution> repository
             request.Request.Type,
             request.Request.RoadTripId,
             request.Request.WebSite,
-            request.Request.Coord);
+            request.Request.Lat,
+            request.Request.Lng,
+            request.Request.PreviewUrl);
         if (institution.IsFailure)
         {
             return Result<UpdateInstitutionResponse>.Failure(institution.Error);

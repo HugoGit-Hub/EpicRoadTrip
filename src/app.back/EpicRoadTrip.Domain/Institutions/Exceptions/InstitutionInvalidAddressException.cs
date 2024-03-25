@@ -1,3 +1,3 @@
 ﻿namespace EpicRoadTrip.Domain.Institutions.Exceptions;
 
-public class InstitutionInvalidAddressException : Exception;
+public class InstitutionInvalidCoordinationException : Exception;

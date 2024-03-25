@@ -10,8 +10,8 @@ namespace EpicRoadTrip.Domain.External;
 
 public interface IExternalInstitutionService
 {
-    public Task<Result<IEnumerable<Institution>>> GetBarAround(Tuple<float, float> placeCoord, int radius, CancellationToken cancellationToken);
-    public Task<Result<IEnumerable<Institution>>> GetHotelAround(Tuple<float, float> placeCoord, int radius, CancellationToken cancellationToken);
-    public Task<Result<IEnumerable<Institution>>> GetRestaurantAround(Tuple<float, float> placeCoord, int radius, CancellationToken cancellationToken);
-    public Task<Result<IEnumerable<Institution>>> GetEventAround(Tuple<float, float> placeCoord, int radius, CancellationToken cancellationToken);
+    public Task<Result<IEnumerable<Institution>>> GetBarAround(float lat, float lng, int radius, CancellationToken cancellationToken);
+    public Task<Result<IEnumerable<Institution>>> GetHotelAround(float lat, float lng, int radius, DateOnly? checkin, DateOnly? checkout, CancellationToken cancellationToken);
+    public Task<Result<IEnumerable<Institution>>> GetRestaurantAround(float lat, float lng, int radius, CancellationToken cancellationToken);
+    public Task<Result<IEnumerable<Institution>>> GetEventAround(float lat, float lng, int radius, CancellationToken cancellationToken);
 }

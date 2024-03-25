@@ -22,7 +22,9 @@ public class CreateInstitutionCommandHandler(IRepository<Institution> repository
             resquest.Type,
             resquest.RoadTripId,
             resquest.WebSite,
-            resquest.Coord);
+            resquest.Lat,
+            resquest.Lng,
+            resquest.PreviewUrl);
         if (institution.IsFailure)
         {
             return Result<CreateInstitutionResponse>.Failure(institution.Error);

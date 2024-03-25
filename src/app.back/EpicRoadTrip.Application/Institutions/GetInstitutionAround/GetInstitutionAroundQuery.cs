@@ -9,4 +9,4 @@ using System.Threading.Tasks;
 
 namespace EpicRoadTrip.Application.Institutions.GetInstitutionAround;
 
-public record GetInstitutionAroundQuery(GetInstitutionAroundRequest query) : IRequest<Result<IEnumerable<GetInstitutionResponse>>>;
+public record GetInstitutionAroundQuery(GetInstitutionAroundRequest query) : IRequest<Result<IEnumerable<GetInstitutionAroundResponse>>>;

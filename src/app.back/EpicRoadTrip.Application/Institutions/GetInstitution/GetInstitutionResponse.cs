@@ -18,7 +18,8 @@ public record GetInstitutionResponse
 
     public required string Address { get; init; }
 
-    public required Tuple<float, float> Coord { get; init; }
+    public required float Lat { get; init; }
+    public required float Lng { get; init; }
 
     public InstitutionType Type { get; init; }
 

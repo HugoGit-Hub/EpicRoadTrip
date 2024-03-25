@@ -22,7 +22,7 @@ public class InstitutionTest
     public void Create_ShouldReturnInstitution_WithGoodParameters()
     {
         // Act
-        var result = Institution.Create(Id, Name, Price, PhoneNumber, Email, Address, Type, RoadTripId, Website, Coord);
+        var result = Institution.Create(Id, Name, Price, PhoneNumber, Email, Address, Type, RoadTripId, Website, Coord.Item1, Coord.Item2, null);
 
         // Assert
         Assert.IsTrue(result.IsSuccess);
@@ -35,7 +35,7 @@ public class InstitutionTest
         const string name = "";
 
         // Act
-        var result = Institution.Create(Id, name, Price, PhoneNumber, Email, Address, Type, RoadTripId, Website, Coord);
+        var result = Institution.Create(Id, name, Price, PhoneNumber, Email, Address, Type, RoadTripId, Website, Coord.Item1, Coord.Item2, null);
 
         // Assert
         Assert.IsTrue(result.IsFailure);
@@ -48,7 +48,7 @@ public class InstitutionTest
         const string address = "";
 
         // Act
-        var result = Institution.Create(Id, Name, Price, PhoneNumber, Email, address, Type, RoadTripId, Website, Coord);
+        var result = Institution.Create(Id, Name, Price, PhoneNumber, Email, address, Type, RoadTripId, Website, Coord.Item1, Coord.Item2, null);
 
         // Assert
         Assert.IsTrue(result.IsFailure);

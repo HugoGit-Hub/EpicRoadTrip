@@ -15,7 +15,7 @@ public class CreateInstitutionCommandHandlerTest
     {
         // Arrange
         var mockRepository = new Mock<IRepository<Institution>>();
-        var request = new
+        var request = newCreateInstitutionRequest
         {
             Name = "Name",
             Price = 10.10,
@@ -68,7 +68,9 @@ public class CreateInstitutionCommandHandlerTest
             request.Type, 
             request.RoadTripId,
             request.Website,
-            request.Coord);
+            request.Coord.Item1,
+            request.Coord.Item2,
+            null);
         mockRepository
             .Setup(r => r.Create(It.IsAny<Institution>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result<Institution>.Success(institution.Value));

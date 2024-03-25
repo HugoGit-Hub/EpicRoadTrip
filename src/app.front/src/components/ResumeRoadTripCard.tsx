@@ -8,7 +8,7 @@ import calendarIcon from "../icons/calendar.svg";
 import mapIcon from "../icons/map.svg";
 import busGradientIcon from "../icons/bus-gradient.svg";
 import { formatDate } from "../lib/utils";
-import { IFilters } from "./SearchBar/SearchBar";
+import { IFilters, transports } from "./SearchBar/SearchBar";
 
 interface IRoadTripCardProps {
   filters: IFilters;
@@ -53,7 +53,12 @@ function RoadTripCard({ filters, onEdit, onSave }: IRoadTripCardProps) {
       <TailwindRow label="Budget" value={`${filters.budget} €`}>
         <img src={moneyBagIcon} width={60} />
       </TailwindRow>
-      <TailwindRow label="Transports" value={filters.transports.join(", ")}>
+      <TailwindRow
+        label="Transports"
+        value={filters.transports
+          .map((transport) => transports.find(({value}) => value === transport)?.label)
+          .join(", ")}
+      >
         <img src={busGradientIcon} width={50} className="mx-[6px]" />
       </TailwindRow>
       <div className="flex flex-row gap-[15px] items-center mt-[32px] justify-end">

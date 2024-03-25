@@ -4,28 +4,34 @@ import SubmitButtonSearchBar from "./SubmitButtonSearchBar";
 import CitySearchBar from "./CitySearchBar";
 import BudgetSearchBar from "./BudgetSearchBar";
 import DateRangePicker from "./DateRangePicker";
-import bikeIcon from "../../icons/bike.svg"
-import walkIcon from "../../icons/walk.svg"
-import busIcon from "../../icons/bus.svg"
-import carIcon from "../../icons/car.svg"
-import asteriskIcon from "../../icons/asterisk.svg"
+import bikeIcon from "../../icons/bike.svg";
+import walkIcon from "../../icons/walk.svg";
+import subwayIcon from "../../icons/subway.svg";
+import carIcon from "../../icons/car.svg";
+import asteriskIcon from "../../icons/asterisk.svg";
 import MultipleSelect from "./MultipleSelect";
-
 
 export interface IFilters {
   depart: City | undefined;
   destination: City | undefined;
   budget: number;
   periode: [Date | undefined, Date | undefined];
-  transports: string[]
+  transports: (string | number)[];
 }
 
 interface SearchBarProps {
   filters: IFilters;
   onChange: (data: IFilters) => void;
   onSubmit: () => void;
-  active?: boolean
+  active?: boolean;
 }
+
+export const transports = [
+  { icon: subwayIcon, value: 5, label: "Train" },
+  { icon: walkIcon, value: 0, label: "A pieds" },
+  { icon: bikeIcon, value: 1, label: "Vélo" },
+  { icon: carIcon, value: 4, label: "Voiture" },
+];
 
 function SearchBar(
   { filters, active, onSubmit, onChange }: SearchBarProps,
@@ -48,7 +54,7 @@ function SearchBar(
             label="Départ"
             city={filters.depart}
             placeholder="Votre départ"
-            active={activeField === "depart" && active }
+            active={activeField === "depart" && active}
             onClick={() => {
               setActiveField("depart");
             }}
@@ -74,14 +80,16 @@ function SearchBar(
             value={filters.transports}
             active={activeField === "transports" && active}
             options={[
-              { icon: asteriskIcon, value: "All", label: "Tous", desactiveAll: true},
-              { icon: busIcon, value: "subway", label: "Train" },
-              { icon: walkIcon, value: "Marche", label: "Marche" },
-              { icon: bikeIcon, value: "Velo", label: "Vélo" },
-              { icon: carIcon, value: "Voiture", label: "Voiture" },
+              {
+                icon: asteriskIcon,
+                value: -1,
+                label: "Tous",
+                desactiveAll: true,
+              },
+              ...transports
             ]}
             onChange={(transports: string[]) => {
-              onChange({...filters, transports})
+              onChange({ ...filters, transports });
             }}
             onClick={() => {
               setActiveField("transports");

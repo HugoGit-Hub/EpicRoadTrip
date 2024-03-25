@@ -36,7 +36,7 @@ export default function Profile() {
             getAllRoadtrips().then((response) => {
                 const roadtrips = response as roadTripData[];
                 setRoadTripsCardData(roadtrips);
-            }).catch((error) =>{
+            }).catch((error) => {
                 console.error(error);
             })
         }
@@ -73,7 +73,7 @@ export default function Profile() {
         }
     }
 
-    const formatDate = (dateString : string) : string =>{
+    const formatDate = (dateString: string): string => {
         const dateObject = new Date(dateString);
 
         const day = dateObject.getDate().toString().padStart(2, '0');
@@ -158,7 +158,7 @@ export default function Profile() {
             if (!id) {
                 throw new Error("No ID found in storage");
             }
-    
+
             await toast.promise(
                 deleteAccount(id),
                 {
@@ -174,13 +174,13 @@ export default function Profile() {
                     },
                 }
             );
-        } catch (error :any) {
+        } catch (error: any) {
             console.error("Erreur lors de la récupération de l'ID :", error.message);
         } finally {
             setIsLoading(false);
         }
     };
-    
+
 
     const isButtonDisabled = !email || !isValidEmail(email) || !surname || !name || !age || !password || !passwordMatch();
 
@@ -200,7 +200,7 @@ export default function Profile() {
                         {(roadTripsCardData.length == 0 ?
                             <div className="flex flex-col items-center justify-center h-full text-gray-500 text-sm font-bold">Vous n'avez aucun roadtrips enregistré !</div> :
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                {roadTripsCardData.map((data) => <RoadTripCard title={data.title} budget={data.budget} dates={`${formatDate(data.startDate)} - ${formatDate(data.endDate)}`} id={data.id}/>)}
+                                {roadTripsCardData.map((data) => <RoadTripCard title={data.title} budget={data.budget} dates={`${formatDate(data.startDate)} - ${formatDate(data.endDate)}`} id={data.id} />)}
                             </div>
                         )}
 

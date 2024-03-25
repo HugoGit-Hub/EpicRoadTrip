@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 
@@ -19,11 +19,14 @@ const mapImages = [
 
 function getRandomInt(max : number) {
     return Math.floor(Math.random() * max);
-  }
+}
 
 function RoadTripCard({ title, budget, dates , id}: RoadTripCardProps) {
     const navigate = useNavigate();
-
+    const [image, setImage] = useState('')
+    useEffect(() => {
+        setImage(mapImages[getRandomInt(mapImages.length)])
+    }, [])
     function handleView(): void {
         navigate(`/?roadTripId=${id}`);
     }
@@ -31,7 +34,7 @@ function RoadTripCard({ title, budget, dates , id}: RoadTripCardProps) {
     return (
         <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 my-2 mr-1">
             <a href="#">
-                <img className="rounded-t-lg" src={mapImages[getRandomInt(mapImages.length)]} alt=""/>
+                <img className="rounded-t-lg" src={image} alt=""/>
             </a>
             <div className="p-5">
                 <a href="#">

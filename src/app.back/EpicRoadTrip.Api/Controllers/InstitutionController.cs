@@ -2,6 +2,7 @@
 using EpicRoadTrip.Application.Institutions.DeleteInstitution;
 using EpicRoadTrip.Application.Institutions.GetAllInstitution;
 using EpicRoadTrip.Application.Institutions.GetInstitution;
+using EpicRoadTrip.Application.Institutions.GetInstitutionAround;
 using EpicRoadTrip.Application.Institutions.UpdateInstitution;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -18,6 +19,19 @@ public class InstitutionController(ISender sender) : Controller
     public async Task<ActionResult<CreateInstitutionResponse>> Create(CreateInstitutionRequest request, CancellationToken cancellationTokn)
     {
         var result = await sender.Send(new CreateInstitutionCommand(request), cancellationTokn);
+        if (result.IsFailure)
+        {
+            return BadRequest(result.Error);
+        }
+
+        return Ok(result.Value);
+    }
+
+    [Authorize]
+    [HttpPost(nameof(GetInstitutionAround))]
+    public async Task<ActionResult<GetInstitutionAroundResponse>> GetInstitutionAround(GetInstitutionAroundRequest request, CancellationToken cancellationTokn)
+    {
+        var result = await sender.Send(new GetInstitutionAroundQuery(request), cancellationTokn);
         if (result.IsFailure)
         {
             return BadRequest(result.Error);

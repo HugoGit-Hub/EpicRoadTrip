@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace EpicRoadTrip.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -83,7 +84,11 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PreviewUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Type = table.Column<int>(type: "int", nullable: false),
+                    WebSite = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Lat = table.Column<float>(type: "real", nullable: false),
+                    Lng = table.Column<float>(type: "real", nullable: false),
                     RoadTripId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

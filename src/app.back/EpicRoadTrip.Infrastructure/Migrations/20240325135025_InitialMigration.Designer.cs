@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EpicRoadTrip.Infrastructure.Migrations
 {
     [DbContext(typeof(EpicRoadTripContext))]
-    [Migration("20240319131229_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240325135025_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,11 +40,20 @@ namespace EpicRoadTrip.Infrastructure.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<float>("Lat")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Lng")
+                        .HasColumnType("real");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PreviewUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double?>("Price")
@@ -55,6 +64,9 @@ namespace EpicRoadTrip.Infrastructure.Migrations
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
+
+                    b.Property<string>("WebSite")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

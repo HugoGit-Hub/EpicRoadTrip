@@ -38,8 +38,11 @@ public class GetAllInstitutionQueryHandlerTest
         const string email = "test@gmail.com";
         const string address = "Test address";
         const InstitutionType type = InstitutionType.Hotel;
-        const int cityId = 1;
-        var mockRepository = new Mock<IRepository<Institution>>();
+        const int roadTripId = 1;
+        const string website = "";
+        Tuple<float, float> coord = new Tuple<float, float>(1.1f, 1.1f);
+
+    var mockRepository = new Mock<IRepository<Institution>>();
         var institution = Institution.Create(
             id,
             name,
@@ -48,7 +51,10 @@ public class GetAllInstitutionQueryHandlerTest
             email,
             address,
             type,
-            cityId);
+            roadTripId,
+            website,
+            coord.Item1,
+            coord.Item2, null); ;
         var institutions = new List<Institution> { institution.Value };
         mockRepository.Setup(r => r.GetAll())
             .Returns(Result<IEnumerable<Institution>>.Success(institutions));

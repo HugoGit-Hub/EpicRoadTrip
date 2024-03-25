@@ -19,7 +19,16 @@ public class Institution
 
     public string Address { get; }
 
+    public string? PreviewUrl { get; }
+
     public InstitutionType Type { get; }
+
+    public string? WebSite { get; }
+
+    public float Lat { get; }
+
+    public float Lng { get; }
+
 
     public int RoadTripId { get; }
     public Roadtrip RoadTrip { get; } = null!;
@@ -32,7 +41,12 @@ public class Institution
         string? email,
         string address,
         InstitutionType type,
-        int roadTripId)
+        int roadTripId,
+        string? webSite,
+        float lat,  
+        float lng,
+        string? previewUrl
+        )
     {
         if (string.IsNullOrWhiteSpace(name))
         {
@@ -43,6 +57,11 @@ public class Institution
         {
             throw new InstitutionInvalidAddressException();
         }
+
+        if (lat == default || lng == default)
+        {
+            throw new InstitutionInvalidCoordinationException();
+        }
         
         Id = id;
         Name = name;
@@ -52,6 +71,10 @@ public class Institution
         Address = address;
         Type = type;
         RoadTripId = roadTripId;
+        WebSite = webSite;
+        Lat = lat;
+        Lng = lng;
+        PreviewUrl = previewUrl;    
     }
 
     public static Result<Institution> Create(
@@ -62,11 +85,15 @@ public class Institution
         string? email,
         string address,
         InstitutionType type,
-        int roadTripId)
+        int roadTripId,
+        string? webSite,
+        float lat,
+        float lng,
+        string? previewUrl)
     {
         try
         {
-            var institution = new Institution(id, name, price, phoneNumber, email, address, type, roadTripId);
+            var institution = new Institution(id, name, price, phoneNumber, email, address, type, roadTripId, webSite, lat, lng, previewUrl);
 
             return Result<Institution>.Success(institution);
         }

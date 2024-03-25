@@ -22,5 +22,9 @@ internal class InstitutionConfiguration : IEntityTypeConfiguration<Institution>
         builder.Property(institution => institution.Address);
         builder.Property(institution => institution.Type);
         builder.Property(institution => institution.RoadTripId);
+        builder.Property(institution => institution.Lat);
+        builder.Property(institution => institution.Lng);
+        builder.Property(institution => institution.PreviewUrl);
+        builder.Property(institution => institution.WebSite);
     }
 }

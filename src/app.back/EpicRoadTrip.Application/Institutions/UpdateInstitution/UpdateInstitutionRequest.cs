@@ -18,5 +18,11 @@ public record UpdateInstitutionRequest
 
     public InstitutionType Type { get; init; }
 
-    public int CityId { get; init; }
+    public int RoadTripId { get; init; }
+
+    public string? WebSite { get; init; }
+    public string? PreviewUrl { get; init; }
+
+    public required float Lat { get; init; }
+    public required float Lng { get; init; }
 }

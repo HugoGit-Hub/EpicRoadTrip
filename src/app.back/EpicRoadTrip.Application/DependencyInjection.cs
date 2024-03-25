@@ -10,6 +10,8 @@ using EpicRoadTrip.Domain.Routes;
 using EpicRoadTrip.Domain.Roadtrips;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
+using EpicRoadTrip.Domain.Institutions;
+using EpicRoadTrip.Application.Institutions;
 
 namespace EpicRoadTrip.Application;
 
@@ -27,6 +29,7 @@ public static class DependencyInjection
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IRouteService, RouteService>();
+        services.AddScoped<IInstitutionService, InstitutionService>();
         services.AddScoped<IRoadtripService, RoadtripService>();
     }
 }

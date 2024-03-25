@@ -14,9 +14,13 @@ public record GetInstitutionResponse
 
     public string? Email { get; init; }
 
+    public string? WebSite{ get; init; }
+
     public required string Address { get; init; }
+
+    public required float Lat { get; init; }
+    public required float Lng { get; init; }
 
     public InstitutionType Type { get; init; }
 
-    public int CityId { get; init; }
 }

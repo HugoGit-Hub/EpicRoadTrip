@@ -16,6 +16,10 @@ export const getTokenFromStorage = () : string | undefined =>{
     return getInformationsFromStorage()?.token;
 }
 
+export const getIdFromStorage = () : number | undefined =>{
+    return getInformationsFromStorage()?.id;
+}
+
 export const isLoggedIn = () => {
     const data = getInformationsFromStorage();
     return data ? data.token ? true : false : false;

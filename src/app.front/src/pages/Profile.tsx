@@ -13,8 +13,8 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "../components/ui/dialog";
-import { UserInformations, authResponse, updateUserInformations } from "../services/api";
-import { getInformationsFromStorage, getTokenFromStorage, isLoggedIn, setStorageFromResponse } from "../services/storage";
+import { UserInformations, authResponse, deleteAccount, updateUserInformations } from "../services/api";
+import { deleteAuthDataFromStorage, getIdFromStorage, getInformationsFromStorage, getTokenFromStorage, isLoggedIn, setStorageFromResponse } from "../services/storage";
 
 export default function Profile() {
     const initData = () => {
@@ -149,6 +149,37 @@ export default function Profile() {
         }
         setIsModifying(!isModifying);
     }
+
+    const handleDelete = async () => {
+        setIsLoading(true);
+        try {
+            const id = getIdFromStorage();
+            if (!id) {
+                throw new Error("No ID found in storage");
+            }
+    
+            await toast.promise(
+                deleteAccount(id),
+                {
+                    loading: 'Suppression...',
+                    success: () => {
+                        deleteAuthDataFromStorage();
+                        navigate('/');
+                        return <b>Suppression réussie !</b>;
+                    },
+                    error: (error) => {
+                        console.error("Erreur lors de la suppression :", error.message);
+                        return <b>{"Erreur lors de la suppression : " + error.message}</b>;
+                    },
+                }
+            );
+        } catch (error :any) {
+            console.error("Erreur lors de la récupération de l'ID :", error.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    
 
     const isButtonDisabled = !email || !isValidEmail(email) || !surname || !name || !age || !password || !passwordMatch();
 
@@ -437,7 +468,7 @@ export default function Profile() {
                                 </DialogHeader>
                                 <DialogFooter>
                                     <DialogClose>
-                                        <Button variant="red" type="submit" onClick={() => console.log("suppr")}>Supprimer le compte</Button>
+                                        <Button variant="red" type="submit" onClick={() => handleDelete()}>Supprimer le compte</Button>
                                     </DialogClose>
                                 </DialogFooter>
                             </DialogContent>

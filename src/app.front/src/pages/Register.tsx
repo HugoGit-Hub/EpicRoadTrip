@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { register, registerDataType } from "../services/api";
+import { authResponse, register, registerDataType } from "../services/api";
+import { isLoggedIn, setStorageFromResponse } from "../services/storage";
 
 export default function Register() {
+    useEffect(()=>{
+        if(isLoggedIn()){
+            navigate("/profile")
+        }
+    },[])
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirm_password, setConfirmPassword] = useState("");
@@ -48,7 +54,9 @@ export default function Register() {
                 register(data),
                 {
                     loading: 'Création du compte...',
-                    success: () => {
+                    success: (response) => {
+                        const castResponse = response as authResponse;
+                        setStorageFromResponse(castResponse);
                         navigate('/');
                         return <b>Création réussie !</b>;
                     },

@@ -20,8 +20,9 @@ const buttonVariants = cva(
         link: "text-neutral-900 underline-offset-4 hover:underline dark:text-neutral-50",
         red:"bg-red-500 hover:bg-red-600 text-white",
         green:"bg-green-500 hover:bg-green-600 text-white",
-        pink:"bg-pink-500 hover:bg-pink-600 text-white truncate w-full",
-        gradient: "bg-gradient-to-r from-rose-500 to-fuchsia-700  text-neutral-50 hover:from-rose-500/90 hover:to-fuchsia-700/90 "
+        pink:"bg-pink-500 hover:bg-pink-600 text-white truncate w-3/4",
+        gradient: "bg-gradient-to-r from-rose-500 to-fuchsia-700  text-neutral-50 hover:from-rose-500/90 hover:to-fuchsia-700/90 ",
+        supprRoadTrip: "bg-red-500 hover:bg-red-600 text-white w-1/4 mr-1 p-2"
       },
       size: {
         default: "h-10 px-4 py-2",

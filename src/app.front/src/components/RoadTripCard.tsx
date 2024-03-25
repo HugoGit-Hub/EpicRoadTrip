@@ -1,5 +1,9 @@
 import { PropsWithChildren, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import trashIcon from "../icons/delete.svg";
+import loadingIcon from "../icons/loading.svg";
+import { deleteRoadtrip } from "../services/api";
 import { Button } from "./ui/button";
 
 interface RoadTripCardProps extends PropsWithChildren {
@@ -17,13 +21,16 @@ const mapImages = [
     "../../public/card-map-montpellier.png",
 ];
 
-function getRandomInt(max : number) {
+function getRandomInt(max: number) {
     return Math.floor(Math.random() * max);
 }
 
-function RoadTripCard({ title, budget, dates , id}: RoadTripCardProps) {
+function RoadTripCard({ title, budget, dates, id }: RoadTripCardProps) {
     const navigate = useNavigate();
+    
     const [image, setImage] = useState('')
+    const [isLoading, setIsLoading] = useState(false);
+
     useEffect(() => {
         setImage(mapImages[getRandomInt(mapImages.length)])
     }, [])
@@ -31,10 +38,33 @@ function RoadTripCard({ title, budget, dates , id}: RoadTripCardProps) {
         navigate(`/?roadTripId=${id}`);
     }
 
+    async function handleDelete(){
+        setIsLoading(true);
+        try {
+            await toast.promise(
+                deleteRoadtrip(id),
+                {
+                    loading: 'Suppression...',
+                    success: () => {
+                        return <b>Suppression réussie !</b>;
+                    },
+                    error: (error) => {
+                        console.error("Erreur lors de la suppression :", error.message);
+                        return <b>{"Erreur lors de la suppression : " + error.message}</b>;
+                    },
+                }
+            );
+        } catch (error: any) {
+            console.error("Erreur lors de la suppression du roadtrip :", error.message);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 my-2 mr-1">
             <a href="#">
-                <img className="rounded-t-lg" src={image} alt=""/>
+                <img className="rounded-t-lg" src={image} alt="" />
             </a>
             <div className="p-5">
                 <a href="#">
@@ -42,7 +72,12 @@ function RoadTripCard({ title, budget, dates , id}: RoadTripCardProps) {
                 </a>
                 <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Budget : {budget}€</p>
                 <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Dates : {dates}</p>
-                <Button variant="pink" type="submit" onClick={() => handleView()}>Voir</Button>
+                <div className="flex">
+                    <Button variant="supprRoadTrip" size="icon" type="submit" onClick={() => handleDelete()}>
+                        <img src={isLoading ? loadingIcon : trashIcon}/>
+                    </Button>
+                    <Button variant="pink" type="submit" onClick={() => handleView()}>Voir</Button>
+                </div>
             </div>
         </div>
     );

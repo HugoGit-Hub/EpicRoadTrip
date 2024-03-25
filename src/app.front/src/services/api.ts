@@ -177,3 +177,20 @@ export const getAllRoadtrips = async (
     }
     throw new Error(response.status + " " + response.statusText);
 };
+
+export const deleteRoadtrip = async (id: number) => {
+    const url = BASE_URL + `api/Roadtrip/Delete?id=${id}`;
+
+    const token = getTokenFromStorage();
+
+    if (!token) {
+        throw new Error("No token found");
+    }
+
+    await fetch(url, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+};

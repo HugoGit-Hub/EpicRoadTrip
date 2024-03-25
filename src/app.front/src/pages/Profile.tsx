@@ -13,7 +13,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "../components/ui/dialog";
-import { UserInformations, authResponse, deleteAccount, updateUserInformations } from "../services/api";
+import { UserInformations, authResponse, deleteAccount, getAllRoadtrips, roadTripData, updateUserInformations } from "../services/api";
 import { deleteAuthDataFromStorage, getIdFromStorage, getInformationsFromStorage, getTokenFromStorage, isLoggedIn, setStorageFromResponse } from "../services/storage";
 
 export default function Profile() {
@@ -33,6 +33,12 @@ export default function Profile() {
             navigate("/login")
         } else {
             initData();
+            getAllRoadtrips().then((response) => {
+                const roadtrips = response as roadTripData[];
+                setRoadTripsCardData(roadtrips);
+            }).catch((error) =>{
+                console.error(error);
+            })
         }
     }, [])
 
@@ -48,22 +54,7 @@ export default function Profile() {
 
     const navigate = useNavigate();
 
-    const mockcardData = [
-        { title: "title", description: "desc" },
-        { title: "title1", description: "desc1" },
-        { title: "title2", description: "desc2" },
-        { title: "title3", description: "desc3" },
-        { title: "title3", description: "desc3" },
-        { title: "title3", description: "desc3" },
-        { title: "title3", description: "desc3" },
-        { title: "title3", description: "desc3" },
-        { title: "title3", description: "desc3" },
-        { title: "title3", description: "desc3" },
-        { title: "title3", description: "desc3" },
-        { title: "title3", description: "desc3" },
-        { title: "title3", description: "desc3" },
-
-    ]
+    const [roadTripsCardData, setRoadTripsCardData] = useState<roadTripData[]>([]);
 
     const isValidEmail = (email: string) => {
         // Expression régulière pour valider le format de l'email
@@ -80,6 +71,16 @@ export default function Profile() {
         } else {
             setGender(null);
         }
+    }
+
+    const formatDate = (dateString : string) : string =>{
+        const dateObject = new Date(dateString);
+
+        const day = dateObject.getDate().toString().padStart(2, '0');
+        const month = (dateObject.getMonth() + 1).toString().padStart(2, '0');
+        const year = dateObject.getFullYear();
+
+        return `${day}/${month}/${year}`;
     }
 
     const handleAgeChange = (value: any) => {
@@ -196,10 +197,10 @@ export default function Profile() {
                         </div>
                         <div className="w-3/4 h-1 bg-gradient-to-r from-pink-500 to-purple-500 mb-2"></div>
                         <h4 className="font-bold mb-2">Mes Roadtrips</h4>
-                        {(mockcardData.length == 0 ?
+                        {(roadTripsCardData.length == 0 ?
                             <div className="flex flex-col items-center justify-center h-full text-gray-500 text-sm font-bold">Vous n'avez aucun roadtrips enregistré !</div> :
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                                {mockcardData.map((data) => <RoadTripCard title={data.title} description={data.description} />)}
+                                {roadTripsCardData.map((data) => <RoadTripCard title={data.title} budget={data.budget} dates={`${formatDate(data.startDate)} - ${formatDate(data.endDate)}`} id={data.id}/>)}
                             </div>
                         )}
 

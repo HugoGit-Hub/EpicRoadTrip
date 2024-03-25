@@ -32,7 +32,15 @@ export interface UserInformations {
     firstName: string;
     lastName: string;
     age: number;
-    gender: boolean |null;
+    gender: boolean | null;
+}
+
+export interface roadTripData {
+    title : string;
+    id: number;
+    budget: number;
+    startDate: string;
+    endDate: string;
 }
 
 const BASE_URL = "http://localhost:5000/";
@@ -98,7 +106,9 @@ const hashPassword = async (password: string) => {
     }
 };
 
-export const updateUserInformations = async (data: UserInformations): Promise<UserInformations> => {
+export const updateUserInformations = async (
+    data: UserInformations
+): Promise<UserInformations> => {
     try {
         const hashedPassword = await hashPassword(data.password);
         data.password = hashedPassword;
@@ -108,7 +118,7 @@ export const updateUserInformations = async (data: UserInformations): Promise<Us
 
     const url = BASE_URL + "api/User/Update";
     const token = getTokenFromStorage();
-    
+
     if (!token) {
         throw new Error("No token found");
     }
@@ -117,11 +127,11 @@ export const updateUserInformations = async (data: UserInformations): Promise<Us
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
     });
-    
+
     if (response.ok) {
         return response.json() as Promise<UserInformations>;
     }
@@ -130,9 +140,9 @@ export const updateUserInformations = async (data: UserInformations): Promise<Us
 
 export const deleteAccount = async (id: number) => {
     const url = BASE_URL + `api/User/Delete?id=${id}`;
-    
+
     const token = getTokenFromStorage();
-    
+
     if (!token) {
         throw new Error("No token found");
     }
@@ -140,7 +150,30 @@ export const deleteAccount = async (id: number) => {
     await fetch(url, {
         method: "DELETE",
         headers: {
-            "Authorization": `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
         },
     });
-}
+};
+
+export const getAllRoadtrips = async (
+): Promise<roadTripData[]> => {
+
+    const url = BASE_URL + "api/Roadtrip/GetAll";
+    const token = getTokenFromStorage();
+
+    if (!token) {
+        throw new Error("No token found");
+    }
+
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    if (response.ok) {
+        return response.json();
+    }
+    throw new Error(response.status + " " + response.statusText);
+};

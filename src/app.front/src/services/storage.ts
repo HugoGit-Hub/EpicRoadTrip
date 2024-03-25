@@ -12,6 +12,10 @@ export const getInformationsFromStorage = (): authResponse | null => {
     return null;
 }
 
+export const getTokenFromStorage = () : string | undefined =>{
+    return getInformationsFromStorage()?.token;
+}
+
 export const isLoggedIn = () => {
     const data = getInformationsFromStorage();
     return data ? data.token ? true : false : false;

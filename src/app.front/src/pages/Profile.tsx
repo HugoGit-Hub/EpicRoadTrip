@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 import RoadTripCard from '../components/RoadTripCard';
 import { Button } from "../components/ui/button";
@@ -12,22 +13,36 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "../components/ui/dialog";
-import { registerDataType } from "../services/api";
-import { isLoggedIn } from "../services/storage";
+import { UserInformations, authResponse, updateUserInformations } from "../services/api";
+import { getInformationsFromStorage, getTokenFromStorage, isLoggedIn, setStorageFromResponse } from "../services/storage";
 
 export default function Profile() {
-    useEffect(()=>{
-        if(!isLoggedIn()){
-            navigate("/login")
+    const initData = () => {
+        const data: authResponse | null = getInformationsFromStorage();
+        if (data) {
+            setEmail(data.email);
+            setName(data.firstName);
+            setSurname(data.lastName);
+            setAge(data.age);
+            setGender(data.gender);
         }
-    },[])
+    }
+
+    useEffect(() => {
+        if (!isLoggedIn()) {
+            navigate("/login")
+        } else {
+            initData();
+        }
+    }, [])
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirm_password, setConfirmPassword] = useState("");
     const [surname, setSurname] = useState("");
     const [name, setName] = useState("");
     const [gender, setGender] = useState<boolean | null>(null);
-    const [age, setAge] = useState("");
+    const [age, setAge] = useState<number>(0);
     const [isLoading, setIsLoading] = useState(false);
     const [isModifying, setIsModifying] = useState(false);
 
@@ -67,28 +82,75 @@ export default function Profile() {
         }
     }
 
+    const handleAgeChange = (value: any) => {
+        setAge(Number(value))
+    }
+
     const handleRegister = async () => {
-        const data: registerDataType = {
-            "email": email,
-            "password": password,
-            "firstName": name,
-            "lastName": surname,
-            "age": Number(age),
-            "gender": gender
+        const id = getInformationsFromStorage()?.id;
+        if (id) {
+            const data: UserInformations = {
+                "id": id,
+                "email": email,
+                "password": password,
+                "firstName": name,
+                "lastName": surname,
+                "age": Number(age),
+                "gender": gender
+            };
+            setIsLoading(true);
+
+            try {
+                await toast.promise(
+                    (async () => {
+                        try {
+                            const response = await updateUserInformations(data);
+                            const token = getTokenFromStorage();
+                            if (!token) {
+                                throw new Error("No token found");
+                            }
+                            const dataUser: authResponse = {
+                                email: response.email,
+                                firstName: response.firstName,
+                                lastName: response.lastName,
+                                age: response.age,
+                                gender: response.gender,
+                                id: response.id,
+                                token: token
+                            };
+                            setStorageFromResponse(dataUser);
+                            handleModifying();
+                            return response;
+                        } catch (error: any) {
+                            console.error("Erreur lors de la modification :", error.message);
+                            throw error;
+                        }
+                    })(),
+                    {
+                        loading: 'Modification en cours...',
+                        success: () => <b>Modifications enregistrées !</b>,
+                        error: (error) => <b>{"Erreur lors de la modification : " + error.message}</b>,
+                    }
+                );
+            } finally {
+                setIsLoading(false);
+            }
         }
-        console.log(data)
     };
+
 
     const passwordMatch = () => {
         return confirm_password === password;
     }
 
-    const isButtonDisabled = !email || !isValidEmail(email) || !surname || !name || !age;
+    const handleModifying = () => {
+        if (isModifying) {
+            initData();
+        }
+        setIsModifying(!isModifying);
+    }
 
-    useEffect(() => {
-        console.log('???');
-        setEmail("test@example.com");
-    }, []);
+    const isButtonDisabled = !email || !isValidEmail(email) || !surname || !name || !age || !password || !passwordMatch();
 
     return (
         <div className="relative">
@@ -177,7 +239,7 @@ export default function Profile() {
                                     type="text"
                                     placeholder="Âge"
                                     value={age}
-                                    onChange={(e) => setAge(e.target.value.replace(/\D/, ''))}
+                                    onChange={(e) => handleAgeChange(e.target.value)}
                                     disabled={!isModifying}
                                 />
                             </div>
@@ -269,11 +331,47 @@ export default function Profile() {
                                     )}
                                 </div>
                             </div>
+                            {(isModifying &&
+                                <div>
+                                    <h4 className="font-bold mb-2">Modification du mot de passe</h4>
+                                    <div className="w-3/4 h-1 bg-gradient-to-r from-pink-500 to-purple-500 mb-2"></div>
+                                    <div className="mb-6">
+                                        <label className="block text-gray-500 text-sm font-bold mb-2" htmlFor="password">
+                                            Mot de passe
+                                        </label>
+                                        <input
+                                            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
+                                            id="password"
+                                            type="password"
+                                            placeholder="********"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="mb-6">
+                                        <label className="block text-gray-500 text-sm font-bold mb-2" htmlFor="confirm_password">
+                                            Confirmer le mot de passe
+                                        </label>
+                                        <input
+                                            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
+                                            id="confirm_password"
+                                            type="password"
+                                            placeholder="********"
+                                            value={confirm_password}
+                                            onChange={(e) => setConfirmPassword(e.target.value)}
+                                        />
+                                        {!passwordMatch() && confirm_password !== "" && (
+                                            <p className="text-red-500 text-xs italic mt-1">Les mots de passes ne correspondent pas.</p>
+                                        )}
+                                    </div>
+                                </div>
+
+                            )}
                             <div className="flex items-center">
                                 <button
                                     className={`py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2 text-white ${isModifying ? 'bg-red-400 hover:bg-red-500' : 'bg-yellow-500 hover:bg-yellow-600'}`}
                                     type="button"
-                                    onClick={() => setIsModifying(!isModifying)}
+                                    onClick={() => handleModifying()}
 
                                 >
                                     {isModifying ? 'Annuler' : 'Modifier'}
@@ -321,58 +419,6 @@ export default function Profile() {
                                 )}
                             </div>
                         </form>
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <button
-                                    className={`py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2 text-white bg-yellow-500 hover:bg-yellow-600 mt-2 truncate`}
-                                    type="button"
-                                >
-                                    Changer le mot de passe
-                                </button>
-                            </DialogTrigger>
-                            <DialogContent className="sm:max-w-[425px]">
-                                <DialogHeader>
-                                    <DialogTitle>Modification de votre mot de passe</DialogTitle>
-                                    <DialogDescription>
-                                        Formulaire de modification du mot de passe
-                                    </DialogDescription>
-                                </DialogHeader>
-                                <div className="mb-6">
-                                    <label className="block text-gray-500 text-sm font-bold mb-2" htmlFor="password">
-                                        Mot de passe
-                                    </label>
-                                    <input
-                                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                                        id="password"
-                                        type="password"
-                                        placeholder="********"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                    />
-                                </div>
-                                <div className="mb-6">
-                                    <label className="block text-gray-500 text-sm font-bold mb-2" htmlFor="confirm_password">
-                                        Confirmer le mot de passe
-                                    </label>
-                                    <input
-                                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                                        id="confirm_password"
-                                        type="password"
-                                        placeholder="********"
-                                        value={confirm_password}
-                                        onChange={(e) => setConfirmPassword(e.target.value)}
-                                    />
-                                    {!passwordMatch() && confirm_password !== "" && (
-                                        <p className="text-red-500 text-xs italic mt-1">Les mots de passes ne correspondent pas.</p>
-                                    )}
-                                </div>
-                                <DialogFooter>
-                                    <DialogClose>
-                                        <Button variant="green" type="submit" onClick={() => console.log("suppr")}>Confirmer</Button>
-                                    </DialogClose>
-                                </DialogFooter>
-                            </DialogContent>
-                        </Dialog>
                         <Dialog>
                             <DialogTrigger asChild>
                                 <button

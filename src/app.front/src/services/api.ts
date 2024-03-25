@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { getTokenFromStorage } from "./storage";
 
 export interface UserLogin {
     email: string;
@@ -6,13 +7,13 @@ export interface UserLogin {
 }
 
 export interface authResponse {
-    "id": number,
-    "firstName": string,
-    "lastName": string,
-    "email": string,
-    "age": number,
-    "gender": boolean,
-    "token": string
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    age: number;
+    gender: boolean | null;
+    token: string;
 }
 
 export interface registerDataType {
@@ -22,6 +23,16 @@ export interface registerDataType {
     lastName: string;
     age: number;
     gender: boolean | null;
+}
+
+export interface UserInformations {
+    id: number;
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    age: number;
+    gender: boolean |null;
 }
 
 const BASE_URL = "http://localhost:5000/";
@@ -85,4 +96,34 @@ const hashPassword = async (password: string) => {
         console.error("Error hashing password:", error);
         throw error;
     }
+};
+
+export const updateUserInformations = async (data: UserInformations): Promise<UserInformations> => {
+    try {
+        const hashedPassword = await hashPassword(data.password);
+        data.password = hashedPassword;
+    } catch (error) {
+        console.error("Error:", error);
+    }
+
+    const url = BASE_URL + "api/User/Update";
+    const token = getTokenFromStorage();
+    
+    if (!token) {
+        throw new Error("No token found");
+    }
+
+    const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(data),
+    });
+    
+    if (response.ok) {
+        return response.json() as Promise<UserInformations>;
+    }
+    throw new Error(response.status + " " + response.statusText);
 };

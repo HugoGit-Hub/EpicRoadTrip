@@ -10,7 +10,7 @@ interface IMultipleSelectProps {
   options: {
     icon: string;
     label: string;
-    value: string;
+    value: string | number;
     desactiveAll?: boolean;
   }[];
   active?: boolean;

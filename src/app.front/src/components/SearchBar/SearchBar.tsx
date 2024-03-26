@@ -1,18 +1,18 @@
 import { ForwardedRef, forwardRef, useState } from "react";
 import toast from "react-hot-toast";
 import asteriskIcon from "../../icons/asterisk.svg";
+import barIcon from "../../icons/bar.svg";
 import bikeIcon from "../../icons/bike.svg";
 import carIcon from "../../icons/car.svg";
+import eventIcon from "../../icons/event.svg";
+import hotelIcon from "../../icons/hotel.svg";
+import restaurantIcon from "../../icons/restaurant.svg";
 import subwayIcon from "../../icons/subway.svg";
 import walkIcon from "../../icons/walk.svg";
 import { City } from "../../services/cities";
 import BudgetSearchBar from "./BudgetSearchBar";
 import CitySearchBar from "./CitySearchBar";
 import DateRangePicker from "./DateRangePicker";
-import hotelIcon from "../../icons/hotel.svg";
-import barIcon from "../../icons/bar.svg";
-import restaurantIcon from "../../icons/restaurant.svg";
-import eventIcon from "../../icons/event.svg";
 import MultipleSelect from "./MultipleSelect";
 import SubmitButtonSearchBar from "./SubmitButtonSearchBar";
 
@@ -53,7 +53,7 @@ function SearchBar(
   const [activeField, setActiveField] = useState("");
 
   return (
-    <div id="searchBar" className="flex flex-col gap-2">
+    <div id="searchBar" className="flex flex-col gap-2 z-50">
       <div
         className={`"transition-all flex flex-row items-center w-fit`}
         ref={ref}

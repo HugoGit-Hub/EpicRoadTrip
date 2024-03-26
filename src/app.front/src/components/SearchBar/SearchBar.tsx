@@ -1,4 +1,5 @@
 import { ForwardedRef, forwardRef, useState } from "react";
+import toast from "react-hot-toast";
 import asteriskIcon from "../../icons/asterisk.svg";
 import bikeIcon from "../../icons/bike.svg";
 import carIcon from "../../icons/car.svg";
@@ -131,7 +132,7 @@ function SearchBar(
               ) {
                 onSubmit();
               } else {
-                alert("Il manque un ou plusieurs filtre");
+                toast.error("Il manque un ou plusieurs filtres !")
               }
             }}
             active={activeField != "" && active}

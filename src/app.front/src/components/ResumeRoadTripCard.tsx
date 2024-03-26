@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, SyntheticEvent, useState } from "react";
 import Card from "./Card";
 import { Button } from "./ui/button";
 import SaveIcon from "../icons/save.svg";
@@ -11,11 +11,20 @@ import barGradientIcon from "../icons/bar-gradient.svg";
 
 import { formatDate } from "../lib/utils";
 import { IFilters, loisirs, transports } from "./SearchBar/SearchBar";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
 
 interface IRoadTripCardProps {
   filters: IFilters;
   onEdit: () => void;
-  onSave: () => void;
+  onSave: (title: string) => void;
 }
 
 interface ITailwindRowProps extends PropsWithChildren {
@@ -36,6 +45,8 @@ function TailwindRow({ children, label, value }: ITailwindRowProps) {
 }
 
 function RoadTripCard({ filters, onEdit, onSave }: IRoadTripCardProps) {
+  const [title, setTitle] = useState('');
+
   return (
     <Card title="Votre trajet">
       <TailwindRow
@@ -58,7 +69,10 @@ function RoadTripCard({ filters, onEdit, onSave }: IRoadTripCardProps) {
       <TailwindRow
         label="Transports"
         value={filters.transports
-          .map((transport) => transports.find(({value}) => value === transport)?.label)
+          .map(
+            (transport) =>
+              transports.find(({ value }) => value === transport)?.label
+          )
           .join(", ")}
       >
         <img src={busGradientIcon} width={50} className="mx-[6px]" />
@@ -67,7 +81,7 @@ function RoadTripCard({ filters, onEdit, onSave }: IRoadTripCardProps) {
       <TailwindRow
         label="Loisirs"
         value={filters.loisirs
-          .map((loisir) => loisirs.find(({value}) => value === loisir)?.label)
+          .map((loisir) => loisirs.find(({ value }) => value === loisir)?.label)
           .join(", ")}
       >
         <img src={barGradientIcon} width={50} className="mx-[6px]" />
@@ -78,10 +92,36 @@ function RoadTripCard({ filters, onEdit, onSave }: IRoadTripCardProps) {
           <img src={EditIcon} width={20} className="filter invert text-white" />
           <span className="ml-[10px]">Modifier</span>
         </Button>
-        <Button variant="gradient" onClick={onSave}>
-          <img src={SaveIcon} width={20} className="filter invert text-white" />
-          Enregistrer
-        </Button>
+        <Dialog>
+          <DialogTrigger>
+            <Button variant="gradient">
+              <img
+                src={SaveIcon}
+                width={20}
+                className="filter invert text-white"
+              />
+              Enregistrer
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Enregistrer le roadTrip</DialogTitle>
+              <DialogDescription>
+                <form onSubmit={(e) => {
+                  e.preventDefault()
+                  onSave(title)
+                }}>
+                  <input value={title} onChange={((e) => {
+                    setTitle(e.target.value)
+                  })}/>
+                  <DialogClose>
+                  <Button type="submit" variant="gradient">Enregistrer</Button>
+                  </DialogClose>
+                </form>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
       </div>
     </Card>
   );

@@ -2,7 +2,7 @@ import { GeoJson, Map, Marker, Overlay } from "pigeon-maps";
 import { useMemo, useState } from "react";
 import RoadTripCard from "../components/ResumeRoadTripCard";
 import SearchBar, { IFilters } from "../components/SearchBar/SearchBar";
-import { getRouteBetweenPoints } from "../services/routes";
+import { createRoute, getRouteBetweenPoints } from "../services/routes";
 
 import { MultiPolygon } from "geojson";
 import toast from "react-hot-toast";
@@ -14,10 +14,23 @@ import TourrismCard from "../components/TourrismCard";
 import UserProfileDropdown from "../components/UserProfileDropdown";
 import { Button } from "../components/ui/button";
 import ProfileIcon from "../icons/profile.svg";
-import { getInstitutionAround } from "../services/institutions";
+import {
+  createInsitution,
+  getInstitutionAround,
+} from "../services/institutions";
 import { getIsochrone } from "../services/isochrone";
 import { isLoggedIn } from "../services/storage";
-const colors = ["red", "blue", "green", "black", "purple", "brown", "pink", "orange", "grey"];
+const colors = [
+  "red",
+  "blue",
+  "green",
+  "black",
+  "purple",
+  "brown",
+  "pink",
+  "orange",
+  "grey",
+];
 
 interface cityCoord {
   lng: number;
@@ -25,7 +38,8 @@ interface cityCoord {
 }
 
 import InstutitionCard, { IInstitution } from "../components/InstutitionCard";
-import { formatDate } from "../lib/utils";
+import { formatDate, formatDateToISO8601 } from "../lib/utils";
+import { createRoadTrip } from "../services/roadtrip";
 
 interface IInstitutions {
   0?: IInstitution[];
@@ -36,8 +50,10 @@ interface IInstitutions {
 
 function Home() {
   const navigate = useNavigate();
-  const [citiesGeoJson, setCitiesGeoJson] = useState<MultiPolygon[] | null>(null);
-  let citiesCoords : cityCoord[] = [];
+  const [citiesGeoJson, setCitiesGeoJson] = useState<MultiPolygon[] | null>(
+    null
+  );
+  let citiesCoords: cityCoord[] = [];
   const [coord, setCoord] = useState<[number, number]>([43.6, 3.894]);
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState<IFilters>({
@@ -67,17 +83,25 @@ function Home() {
   const [selectedLoisir, setSelectedLoisir] = useState<
     IInstitution | undefined
   >(undefined);
-  
+  const [selectedInstitutions, setSelectedInstitutions] = useState<
+    IInstitution[]
+  >([]);
+  const [selectedItinary, setSelectedItinary] = useState<any>();
+
   return (
     <>
       <div
-        className={`w-full h-screen relative flex flex-col ${data ? "" : "items-center"
-          } ${isLoading ? 'filter blur-sm' : ''}`}
+        className={`w-full h-screen relative flex flex-col ${
+          data ? "" : "items-center"
+        } ${isLoading ? "filter blur-sm" : ""}`}
       >
         {!data ? (
           <div
-            className={`flex items-center absolute z-50 mt-[32px] w-full justify-center mx-auto ${isLoading ? 'h-full' : ''}`}
-            onClick={() => setActiveSearchBar(true)}>
+            className={`flex items-center absolute z-50 mt-[32px] w-full justify-center mx-auto ${
+              isLoading ? "h-full" : ""
+            }`}
+            onClick={() => setActiveSearchBar(true)}
+          >
             {!isLoading ? (
               <>
                 <div className="absolute left-0 top-0 mt-1.5 ml-2 w-14 h-14 rounded-full bg-white border border-gray-300 flex items-center justify-center focus:outline-none p-2">
@@ -101,7 +125,10 @@ function Home() {
                             item1: Number(filters.destination?.lng),
                             item2: Number(filters.destination?.lat),
                           },
-                          transportationAllowedId: filters.transports[0] === -1 ? [0, 1, 4, 5] : filters.transports,
+                          transportationAllowedId:
+                            filters.transports[0] === -1
+                              ? [0, 1, 4, 5]
+                              : filters.transports,
                         });
                         setIsLoading(false);
                         const newObj = (json as any[]).reduce((acc, curr) => {
@@ -119,19 +146,21 @@ function Home() {
                           return acc;
                         }, {});
                         setData(newObj);
-                        citiesCoords = ([
+                        citiesCoords = [
                           {
-                            "lng": Number(filters.depart?.lng),
-                            "lat": Number(filters.depart?.lat)
+                            lng: Number(filters.depart?.lng),
+                            lat: Number(filters.depart?.lat),
                           },
                           {
-                            "lng": Number(filters.destination?.lng),
-                            "lat": Number(filters.destination?.lat)
+                            lng: Number(filters.destination?.lng),
+                            lat: Number(filters.destination?.lat),
                           },
-                        ]);
+                        ];
                         console.log(citiesCoords);
                         citiesCoords?.forEach((c) => {
-                          promises.push(getIsochrone(Number(c.lng), Number(c.lat)));
+                          promises.push(
+                            getIsochrone(Number(c.lng), Number(c.lat))
+                          );
                         });
                         console.log(promises);
                         const res = await Promise.all(promises);
@@ -159,7 +188,7 @@ function Home() {
                                   ? [0, 1, 2, 3]
                                   : filters.loisirs,
                             });
-      
+
                           setLoisirDepart(
                             jsonDepart.reduce(
                               (acc: IInstitutions, curr: IInstitution) => {
@@ -226,9 +255,11 @@ function Home() {
                             )
                           );
                         }
-                        console.log('Tous les résultats :', formatRes);
-                      }else{
-                        toast.error("Vous devez être connecté afin de rechercher !")
+                        console.log("Tous les résultats :", formatRes);
+                      } else {
+                        toast.error(
+                          "Vous devez être connecté afin de rechercher !"
+                        );
                       }
                     }
                   }}
@@ -243,137 +274,7 @@ function Home() {
                 <img src={LoaderIcon} alt="" />
               </div>
             )}
-            {/* <SearchBar
-              filters={filters}
-              onChange={(filters) => {
-                setFilters(filters);
-              }}
-              onSubmit={async () => {
-                if (filters.depart && filters.destination) {
-                  const json = await getRouteBetweenPoints({
-                    cityOneCoord: {
-                      item1: Number(filters.depart?.lng),
-                      item2: Number(filters.depart?.lat),
-                    },
-                    cityTwoCoord: {
-                      item1: Number(filters.destination?.lng),
-                      item2: Number(filters.destination?.lat),
-                    },
-                    transportationAllowedId:
-                      filters.transports[0] === -1
-                        ? [0, 1, 4, 5]
-                        : filters.transports,
-                  });
-                  const newObj = (json as any[]).reduce((acc, curr) => {
-                    const { routeGroup } = curr;
-                    if (!acc[routeGroup]) {
-                      acc[routeGroup] = [];
-                    }
-                    acc[routeGroup].push({
-                      ...curr,
-                      geoJsonData: {
-                        type: routeGroup,
-                        geometry: JSON.parse(curr.geoJson),
-                      },
-                    });
-                    return acc;
-                  }, {});
-                  setData(newObj);
-                  if (filters.loisirs.length > 0) {
-                    const jsonDepart: IInstitution[] =
-                      await getInstitutionAround({
-                        lat: Number(filters.depart?.lat),
-                        lng: Number(filters.depart?.lng),
-                        checkin:
-                          "20" +
-                          formatDate(filters.periode[0])
-                            .split("/")
-                            .reverse()
-                            .join("-"),
-                        checkout:
-                          "20" +
-                          formatDate(filters.periode[1])
-                            .split("/")
-                            .reverse()
-                            .join("-"),
-                        institutionTypes:
-                          filters.loisirs[0] === -1
-                            ? [0, 1, 2, 3]
-                            : filters.loisirs,
-                      });
-
-                    setLoisirDepart(
-                      jsonDepart.reduce(
-                        (acc: IInstitutions, curr: IInstitution) => {
-                          const { type } = curr;
-                          console.log(curr);
-                          if (!acc[type]) {
-                            acc[type] = [];
-                          }
-                          acc[type]?.push({
-                            ...curr,
-                            ...(curr.geoJson && {
-                              geoJsonData: {
-                                type: "Loisir",
-                                geometry: JSON.parse(curr.geoJson),
-                              },
-                            }),
-                          });
-                          return acc;
-                        },
-                        {}
-                      )
-                    );
-                    const jsonDestination: IInstitution[] =
-                      await getInstitutionAround({
-                        lat: Number(filters.destination?.lat),
-                        lng: Number(filters.destination?.lng),
-                        checkin:
-                          "20" +
-                          formatDate(filters.periode[0])
-                            .split("/")
-                            .reverse()
-                            .join("-"),
-                        checkout:
-                          "20" +
-                          formatDate(filters.periode[1])
-                            .split("/")
-                            .reverse()
-                            .join("-"),
-                        institutionTypes:
-                          filters.loisirs[0] === -1
-                            ? [0, 1, 2, 3]
-                            : filters.loisirs,
-                      });
-                    setLoisirDestination(
-                      jsonDestination.reduce(
-                        (acc: IInstitutions, curr: IInstitution) => {
-                          const { type } = curr;
-                          console.log(curr);
-                          if (!acc[type]) {
-                            acc[type] = [];
-                          }
-                          acc[type]?.push({
-                            ...curr,
-                            ...(curr.geoJson && {
-                              geoJsonData: {
-                                type: "Loisir",
-                                geometry: JSON.parse(curr.geoJson),
-                              },
-                            }),
-                          });
-                          return acc;
-                        },
-                        {}
-                      )
-                    );
-                  }
-                }
-              }}
-              active={activeSearchBar}
-            /> */}
           </div>
-
         ) : (
           <div
             className={`flex flex-col gap-[15px] h-full absolute z-50 p-[15px] backdrop-blur-md overflow-y-auto`}
@@ -384,7 +285,11 @@ function Home() {
                   <img src="../../public/epic_road_trip.svg" alt="" />
                 </div>
                 <Button variant="gradient" onClick={() => navigate("/profile")}>
-                  <img src={ProfileIcon} width={20} className="filter invert text-white" />
+                  <img
+                    src={ProfileIcon}
+                    width={20}
+                    className="filter invert text-white"
+                  />
                   <span className="ml-[10px]">Mon profil</span>
                 </Button>
               </div>
@@ -394,15 +299,66 @@ function Home() {
               onEdit={() => {
                 setData(undefined);
               }}
-              onSave={() => { }}
+              onSave={async (title: string) => {
+                if (selectedItinary && title !== "") {
+                  try {
+                    const { id } = await createRoadTrip({
+                      title,
+                      budget: filters.budget,
+                      startDate: formatDateToISO8601(
+                        filters.periode[0] as Date
+                      ),
+                      endDate: formatDateToISO8601(filters.periode[0] as Date),
+                      duration: 0,
+                      nbTransfers: 0,
+                      tags: [],
+                      co2Emission: "",
+                    });
+                    const promisesInstitutions = selectedInstitutions.map(
+                      (instution) => {
+                        const { geoJson, geoJsonData, ...data } = instution;
+                        return createInsitution({
+                          roadTripId: id,
+                          ...data,
+                        });
+                      }
+                    );
+                    const resultInstitutions = await Promise.all(
+                      promisesInstitutions
+                    );
+                    const promisesRoutes = selectedItinary.map((route: any) => {
+                      const { geoJsonData, ...data } = route;
+                      return createRoute({
+                        ...data,
+                        duration: 0,
+                        roadtripId: id,
+                      });
+                    });
+                    const resultItinerary = await Promise.all(promisesRoutes);
+                    toast.success("Le roadtrip a bien été créé");
+                  } catch (e) {
+                    toast.error(
+                      "Vous devez être connecté afin de rechercher !"
+                    );
+                  }
+                } else {
+                  toast.error("Il manque le titre ou l'itinéraire");
+                }
+              }}
             />
-            <ItineraryCard data={data} />
+            <ItineraryCard
+              data={data}
+              selectedItinary={selectedItinary}
+              onChange={setSelectedItinary}
+            />
 
             <TourrismCard
               cityDepart={filters.depart?.name || "Ville départ"}
               cityDestination={filters.destination?.name || "Ville destination"}
               loisirDestination={loisirDestination}
               loisirDepart={loisirDepart}
+              selectedInstitutions={selectedInstitutions}
+              onChange={setSelectedInstitutions}
             />
           </div>
         )}
@@ -419,13 +375,13 @@ function Home() {
                 width={50}
                 anchor={[filters.depart?.lat, filters.depart?.long]}
                 color={`hsl(${0 % 360}deg 39% 70%)`}
-              // onClick={() => setHue(hue + 20)}
+                // onClick={() => setHue(hue + 20)}
               />
               <Marker
                 width={50}
                 anchor={[filters.destination?.lat, filters.destination?.long]}
                 color={`hsl(${0 % 360}deg 39% 70%)`}
-              // onClick={() => setHue(hue + 20)}
+                // onClick={() => setHue(hue + 20)}
               />
             </>
           )}

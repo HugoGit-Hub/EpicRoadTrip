@@ -28,3 +28,33 @@ export const getRouteBetweenPoints = async (data: IRouteBetweenPointsParameters)
     });
     return await response.json()
 }
+
+interface IRouteParams {
+    distance: number
+    duration: number
+    cityOneName: string
+    cityTwoName: string
+    routeGroup: string
+    transportType: number
+    roadTripId: number
+    geoJson: string
+}
+ 
+
+export const createRoute = async (data: IRouteParams) => {
+    const token = getTokenFromStorage();
+
+    if (!token) {
+        throw new Error("No token found");
+    }
+    
+    const response = await fetch(`${url}/Create`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    });
+    return await response.json()
+}

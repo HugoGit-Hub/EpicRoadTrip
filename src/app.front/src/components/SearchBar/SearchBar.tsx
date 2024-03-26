@@ -9,6 +9,10 @@ import { City } from "../../services/cities";
 import BudgetSearchBar from "./BudgetSearchBar";
 import CitySearchBar from "./CitySearchBar";
 import DateRangePicker from "./DateRangePicker";
+import hotelIcon from "../../icons/hotel.svg";
+import barIcon from "../../icons/bar.svg";
+import restaurantIcon from "../../icons/restaurant.svg";
+import eventIcon from "../../icons/event.svg";
 import MultipleSelect from "./MultipleSelect";
 import SubmitButtonSearchBar from "./SubmitButtonSearchBar";
 
@@ -17,7 +21,8 @@ export interface IFilters {
   destination: City | undefined;
   budget: number;
   periode: [Date | undefined, Date | undefined];
-  transports: (string | number)[];
+  transports: (number)[];
+  loisirs: (number)[];
 }
 
 interface SearchBarProps {
@@ -32,6 +37,13 @@ export const transports = [
   { icon: walkIcon, value: 0, label: "A pieds" },
   { icon: bikeIcon, value: 1, label: "Vélo" },
   { icon: carIcon, value: 4, label: "Voiture" },
+];
+
+export const loisirs = [
+  { icon: barIcon, value: 0, label: "Bar" },
+  { icon: eventIcon, value: 1, label: "Evènements" },
+  { icon: hotelIcon, value: 2, label: "Hôtel" },
+  { icon: restaurantIcon, value: 3, label: "Restaurant" },
 ];
 
 function SearchBar(
@@ -89,11 +101,32 @@ function SearchBar(
               },
               ...transports
             ]}
-            onChange={(transports: string[]) => {
+            onChange={(transports: number[]) => {
               onChange({ ...filters, transports });
             }}
             onClick={() => {
               setActiveField("transports");
+            }}
+          />
+          <MultipleSelect
+            label="Loisirs"
+            placeholder="Vos loisirs"
+            value={filters.loisirs}
+            active={activeField === "loisirs" && active}
+            options={[
+              {
+                icon: asteriskIcon,
+                value: -1,
+                label: "Tous",
+                desactiveAll: true,
+              },
+              ...loisirs
+            ]}
+            onChange={(loisirs: number[]) => {
+              onChange({ ...filters, loisirs });
+            }}
+            onClick={() => {
+              setActiveField("loisirs");
             }}
           />
           <DateRangePicker

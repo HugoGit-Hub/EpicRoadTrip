@@ -6,15 +6,15 @@ import Box from "./Box";
 interface IMultipleSelectProps {
   label: string;
   placeholder: string;
-  value: string[];
+  value: number[];
   options: {
     icon: string;
     label: string;
-    value: string | number;
+    value: number;
     desactiveAll?: boolean;
   }[];
   active?: boolean;
-  onChange: (value: string[]) => void;
+  onChange: (value: number[]) => void;
   onClick: () => void;
 }
 
@@ -89,8 +89,7 @@ function MultipleSelect({
                           onChange([option.value]);
                         } else {
                           const valueDesactiveAllElement =
-                            options.find((el) => el.desactiveAll)?.value ||
-                            "NOT FIND";
+                            options.find((el) => el.desactiveAll)?.value || -99;
                           if (value.includes(valueDesactiveAllElement)) {
                             onChange([option.value]);
                           } else {
@@ -99,7 +98,7 @@ function MultipleSelect({
                         }
                       }
                     }}
-                    className={`w-[80px] h-[80px] cursor-pointer rounded flex flex-col items-center justify-center hover:shadow ${
+                    className={`w-[90px] h-[90px] cursor-pointer rounded flex flex-col items-center justify-center hover:shadow ${
                       optionChoosen
                         ? "bg-gradient-to-r from-rose-500 to-fuchsia-700"
                         : " hover:bg-zinc-100"

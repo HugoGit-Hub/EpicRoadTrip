@@ -1,9 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import closeIcon from "../../icons/close.svg";
 import { createPortal } from "react-dom";
 import Box from "./Box";
 import { Calendar } from "../ui/calendar";
-import { Matcher } from "react-day-picker";
 import { formatDate } from "../../lib/utils";
 
 interface DateRangePickerProps {
@@ -23,9 +22,6 @@ function DateRangePicker({
   placeholder,
 }: DateRangePickerProps) {
   const clearButton = useRef(null);
-  //   const [debut, setDebut] = useState<Matcher | undefined>(undefined);
-  //   const [fin, setFin] = useState<Matcher | undefined>(undefined);
-
   return (
     <>
       <div
@@ -34,7 +30,6 @@ function DateRangePicker({
         }  relative`}
         onClick={(event) => {
           if (!active && event.target != clearButton.current) {
-            // inputRef.current?.focus();
             onClick();
           }
         }}
@@ -54,7 +49,7 @@ function DateRangePicker({
             ref={clearButton}
             className="absolute right-[20px] rounded-full hover:bg-zinc-100 p-[2px] cursor-pointer"
             onClick={() => {
-                onChange([undefined, undefined]);
+              onChange([undefined, undefined]);
             }}
           >
             <img width={17} src={closeIcon} />

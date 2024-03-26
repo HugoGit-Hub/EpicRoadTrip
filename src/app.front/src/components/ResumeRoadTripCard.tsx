@@ -7,8 +7,10 @@ import moneyBagIcon from "../icons/moneyBag.svg";
 import calendarIcon from "../icons/calendar.svg";
 import mapIcon from "../icons/map.svg";
 import busGradientIcon from "../icons/bus-gradient.svg";
+import barGradientIcon from "../icons/bar-gradient.svg";
+
 import { formatDate } from "../lib/utils";
-import { IFilters, transports } from "./SearchBar/SearchBar";
+import { IFilters, loisirs, transports } from "./SearchBar/SearchBar";
 
 interface IRoadTripCardProps {
   filters: IFilters;
@@ -61,6 +63,16 @@ function RoadTripCard({ filters, onEdit, onSave }: IRoadTripCardProps) {
       >
         <img src={busGradientIcon} width={50} className="mx-[6px]" />
       </TailwindRow>
+
+      <TailwindRow
+        label="Loisirs"
+        value={filters.loisirs
+          .map((loisir) => loisirs.find(({value}) => value === loisir)?.label)
+          .join(", ")}
+      >
+        <img src={barGradientIcon} width={50} className="mx-[6px]" />
+      </TailwindRow>
+
       <div className="flex flex-row gap-[15px] items-center mt-[32px] justify-end">
         <Button variant="gradient" onClick={onEdit}>
           <img src={EditIcon} width={20} className="filter invert text-white" />

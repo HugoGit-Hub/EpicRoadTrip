@@ -1,4 +1,5 @@
-﻿using EpicRoadTrip.Domain.Roadtrips;
+﻿using Azure.Core;
+using EpicRoadTrip.Domain.Roadtrips;
 
 namespace EpicRoadTrip.Test.Domain.Roadtrips;
 
@@ -22,7 +23,8 @@ public class RoadtripTest
 
         // Act
         var roadtrip = Roadtrip.Create(
-            1, 
+            1,
+            "title",
             PositiveBudget,
             _dateTimeNow,
             endDate,
@@ -48,8 +50,9 @@ public class RoadtripTest
         const int userId = 1;
 
         // Act
-        var result =Roadtrip.Create(
+        var result = Roadtrip.Create(
             1,
+            "title",
             budget, 
             _dateTimeNow, 
             endDate, 
@@ -73,6 +76,7 @@ public class RoadtripTest
         // Act
         var result =Roadtrip.Create(
             1,
+            "title",
             PositiveBudget,
             startDate,
             _dateTimeNow, 

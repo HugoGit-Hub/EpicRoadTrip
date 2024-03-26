@@ -11,6 +11,8 @@ public sealed class Roadtrip
 {
     public int Id { get; }
 
+    public string Title { get; }
+
     public double Budget { get; }
 
     public DateTime StartDate { get; }
@@ -34,6 +36,7 @@ public sealed class Roadtrip
 
     private Roadtrip(
         int id,
+        string title,
         double budget,
         DateTime startDate,
         DateTime? endDate,
@@ -55,6 +58,7 @@ public sealed class Roadtrip
         }
 
         Id = id;
+        Title = title;
         StartDate = startDate;
         EndDate = endDate;
         UserId = userId;
@@ -67,6 +71,7 @@ public sealed class Roadtrip
 
     public static Result<Roadtrip> Create(
         int id,
+        string title,
         double budget,
         DateTime startDate,
         DateTime? endDate,
@@ -78,7 +83,7 @@ public sealed class Roadtrip
     {
         try
         {
-            var roadtrip = new Roadtrip(id, budget, startDate, endDate, userId, duration, nbTransfers, tags, co2Emission);
+            var roadtrip = new Roadtrip(id, title, budget, startDate, endDate, userId, duration, nbTransfers, tags, co2Emission);
 
             return Result<Roadtrip>.Success(roadtrip);
         }

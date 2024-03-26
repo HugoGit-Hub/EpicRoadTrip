@@ -15,6 +15,7 @@ internal class RoadtripConfiguration : IEntityTypeConfiguration<Roadtrip>
     {
         builder.ToTable("Roadtrip");
         builder.HasKey(b => b.Id);
+        builder.Property(b => b.Title);
         builder.Property(b => b.Budget);
         builder.Property(b => b.StartDate);
         builder.Property(b => b.EndDate);

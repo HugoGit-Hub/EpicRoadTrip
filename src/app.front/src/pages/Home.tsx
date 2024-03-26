@@ -41,7 +41,7 @@ import InstutitionCard, { IInstitution } from "../components/InstutitionCard";
 import { formatDate, formatDateToISO8601 } from "../lib/utils";
 import { createRoadTrip } from "../services/roadtrip";
 
-interface IInstitutions {
+export interface IInstitutions {
   0?: IInstitution[];
   1?: IInstitution[];
   2?: IInstitution[];

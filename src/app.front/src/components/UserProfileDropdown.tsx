@@ -16,11 +16,11 @@ const UserProfileDropdown = () => {
     };
 
     return (
-        <div className="relative">
+        <div className="relative mr-4">
             {/* Bouton rond avec l'icône utilisateur */}
             {(isLoggedIn() ?
                 <button
-                    className="w-10 h-10 rounded-full bg-white border border-gray-300 flex items-center justify-center focus:outline-none p-2"
+                    className="w-14 h-14 rounded-full bg-white border border-gray-300 flex items-center justify-center focus:outline-none p-2"
                     onClick={toggleDropdown}
                 >
                     {/* Icône utilisateur (Image) */}

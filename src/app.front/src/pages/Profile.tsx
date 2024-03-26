@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
+import ItineraryCard from "../components/ItineraryCard";
 import RoadTripCard from '../components/RoadTripCard';
+import TourrismCard from "../components/TourrismCard";
 import { Button } from "../components/ui/button";
 import {
     Dialog,
@@ -15,6 +17,31 @@ import {
 } from "../components/ui/dialog";
 import { UserInformations, authResponse, deleteAccount, getAllRoadtrips, roadTripData, updateUserInformations } from "../services/api";
 import { deleteAuthDataFromStorage, getIdFromStorage, getInformationsFromStorage, getTokenFromStorage, isLoggedIn, setStorageFromResponse } from "../services/storage";
+import { IInstitutions } from "./Home";
+
+export interface Itineraire {
+    id: number;
+    distance: number;
+    duration: string;
+    cityOneName: string;
+    cityTwoName: string;
+    routeGroup: string;
+    transportType: number;
+    roadtripId: number;
+    geoJson: string;
+    geoJsonData: {
+        type: string;
+        geometry: {
+            type: string;
+            coordinates: number[][];
+            properties: { length: number }[];
+        };
+    };
+};
+
+export interface groupeItineraire {
+    [groupId: string]: Itineraire[];
+}
 
 export default function Profile() {
     const initData = () => {
@@ -51,6 +78,13 @@ export default function Profile() {
     const [age, setAge] = useState<number>(0);
     const [isLoading, setIsLoading] = useState(false);
     const [isModifying, setIsModifying] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [loisirDestination, setLoisirDestination] = useState<IInstitutions>({});
+    const [loisirDepart, setLoisirDepart] = useState<IInstitutions>({});
+    const [cityOneName,setCityOneName] = useState("");
+    const [cityTwoName,setCityTwoName] = useState("");
+
+    const data: groupeItineraire = {};
 
     const navigate = useNavigate();
 
@@ -184,6 +218,11 @@ export default function Profile() {
 
     const isButtonDisabled = !email || !isValidEmail(email) || !surname || !name || !age || !password || !passwordMatch();
 
+    const handleView = (id: number) => {
+        console.log(id);
+        setIsDialogOpen(true);
+    }
+
     return (
         <div className="relative">
             <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-pink-500 to-purple-500">
@@ -200,7 +239,7 @@ export default function Profile() {
                         {(roadTripsCardData.length == 0 ?
                             <div className="flex flex-col items-center justify-center h-full text-gray-500 text-sm font-bold">Vous n'avez aucun roadtrips enregistré !</div> :
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                {roadTripsCardData.map((data) => <RoadTripCard title={data.title} budget={data.budget} dates={`${formatDate(data.startDate)} - ${formatDate(data.endDate)}`} id={data.id} />)}
+                                {roadTripsCardData.map((data) => <RoadTripCard title={data.title} budget={data.budget} dates={`${formatDate(data.startDate)} - ${formatDate(data.endDate)}`} id={data.id} isViewOpen={handleView} />)}
                             </div>
                         )}
 
@@ -470,6 +509,29 @@ export default function Profile() {
                                 <DialogFooter>
                                     <DialogClose>
                                         <Button variant="red" type="submit" onClick={() => handleDelete()}>Supprimer le compte</Button>
+                                    </DialogClose>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+                        <Dialog open={isDialogOpen}>
+                            <DialogContent>
+                                <DialogHeader>
+                                    <DialogTitle>Informations du Roadtrip</DialogTitle>
+                                    <DialogDescription>
+                                        <div className="my-2">
+                                            <ItineraryCard data={data} />
+                                        </div>
+                                        <TourrismCard
+                                            cityDepart={cityOneName || "Ville départ"}
+                                            cityDestination={cityTwoName || "Ville destination"}
+                                            loisirDestination={loisirDestination}
+                                            loisirDepart={loisirDepart}
+                                        />
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <DialogFooter>
+                                    <DialogClose>
+                                        <Button variant="gradient" type="submit" onClick={() => setIsDialogOpen(false)}>Fermer</Button>
                                     </DialogClose>
                                 </DialogFooter>
                             </DialogContent>

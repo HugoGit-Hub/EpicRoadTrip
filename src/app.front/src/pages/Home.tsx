@@ -27,7 +27,7 @@ interface cityCoord {
 import InstutitionCard, { IInstitution } from "../components/InstutitionCard";
 import { formatDate } from "../lib/utils";
 
-interface IInstitutions {
+export interface IInstitutions {
   0?: IInstitution[];
   1?: IInstitution[];
   2?: IInstitution[];

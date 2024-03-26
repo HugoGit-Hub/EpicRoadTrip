@@ -1,6 +1,7 @@
 ﻿using EpicRoadTrip.Application.Roadtrips.CreateRoadtrip;
 using EpicRoadTrip.Application.Roadtrips.DeleteRoadtrip;
 using EpicRoadTrip.Application.Roadtrips.GetAllRoadtrip;
+using EpicRoadTrip.Application.Roadtrips.GetAllRoadtripInformations;
 using EpicRoadTrip.Application.Roadtrips.GetRoadtrip;
 using EpicRoadTrip.Application.Roadtrips.UpdateRoadtrip;
 using MediatR;
@@ -44,6 +45,19 @@ public class RoadtripController(ISender sender) : Controller
     public async Task<ActionResult<IEnumerable<GetRoadtripResponse>>> GetAll(CancellationToken cancellationToken)
     {
         var result = await sender.Send(new GetAllRoadtripQuery(), cancellationToken);
+        if (result.IsFailure)
+        {
+            return BadRequest(result.Error);
+        }
+
+        return Ok(result.Value);
+    }
+
+    [Authorize]
+    [HttpGet(nameof(GetRoadtripInformations))]
+    public async Task<ActionResult<GetRoadtripResponse>> GetRoadtripInformations(int id, CancellationToken cancellationToken)
+    {
+        var result = await sender.Send(new GetRoadtripInformationsQuery(id), cancellationToken);
         if (result.IsFailure)
         {
             return BadRequest(result.Error);

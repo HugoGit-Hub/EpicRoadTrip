@@ -16,20 +16,21 @@ const UserProfileDropdown = () => {
     };
 
     return (
-        <div className="relative">
+        <div className="relative mr-4">
             {/* Bouton rond avec l'icône utilisateur */}
             {(isLoggedIn() ?
                 <button
-                    className="w-10 h-10 rounded-full bg-white border border-gray-300 flex items-center justify-center focus:outline-none p-2"
+                    className="w-14 h-14 rounded-full bg-white border border-gray-300 flex items-center justify-center focus:outline-none p-2"
                     onClick={toggleDropdown}
                 >
                     {/* Icône utilisateur (Image) */}
                     <img src="../../public/free-user.png" alt="User profile picture" width={200} height={200} />
                 </button>
                 :
-                <button className="bg-white rounded-full border border-gray-300 px-4 py-2 text-gray-800 font-semibold shadow hover:shadow-md focus:outline-none"
-                onClick={() => navigate("/login")}>
-                    Se connecter
+                <button
+                    className="w-14 h-14 rounded-full bg-white border border-gray-300 flex items-center justify-center focus:outline-none p-2"
+                    onClick={() => navigate("/login")}>
+                    <img src="../../public/point-d'interrogation.png" alt="User profile picture" width={200} height={200} />
                 </button>
 
             )}

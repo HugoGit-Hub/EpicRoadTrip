@@ -7,6 +7,7 @@ import { getRouteBetweenPoints } from "../services/routes";
 import { MultiPolygon } from "geojson";
 import ItineraryCard from "../components/ItineraryCard";
 import TourrismCard from "../components/TourrismCard";
+import UserProfileDropdown from "../components/UserProfileDropdown";
 import { getIsochrone } from "../services/isochrone";
 const colors = ["red", "blue", "green", "black", "purple", "brown"];
 
@@ -47,7 +48,7 @@ function Home() {
       >
         {!data ? (
           <div
-            className="flex flex-col items-center absolute z-50 mt-[32px]"
+            className="flex items-center absolute z-50 mt-[32px] w-full justify-center mx-auto"
             onClick={() => setActiveSearchBar(true)}
           >
             <SearchBar
@@ -106,6 +107,9 @@ function Home() {
               }}
               active={activeSearchBar}
             />
+            <div className="absolute right-0 top-0 mt-1.5">
+              <UserProfileDropdown></UserProfileDropdown>
+            </div>
           </div>
         ) : (
           <div

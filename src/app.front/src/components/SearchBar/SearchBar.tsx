@@ -1,15 +1,15 @@
-import React, { ForwardedRef, forwardRef, useState } from "react";
-import { City } from "../../services/cities";
-import SubmitButtonSearchBar from "./SubmitButtonSearchBar";
-import CitySearchBar from "./CitySearchBar";
-import BudgetSearchBar from "./BudgetSearchBar";
-import DateRangePicker from "./DateRangePicker";
-import bikeIcon from "../../icons/bike.svg";
-import walkIcon from "../../icons/walk.svg";
-import subwayIcon from "../../icons/subway.svg";
-import carIcon from "../../icons/car.svg";
+import { ForwardedRef, forwardRef, useState } from "react";
 import asteriskIcon from "../../icons/asterisk.svg";
+import bikeIcon from "../../icons/bike.svg";
+import carIcon from "../../icons/car.svg";
+import subwayIcon from "../../icons/subway.svg";
+import walkIcon from "../../icons/walk.svg";
+import { City } from "../../services/cities";
+import BudgetSearchBar from "./BudgetSearchBar";
+import CitySearchBar from "./CitySearchBar";
+import DateRangePicker from "./DateRangePicker";
 import MultipleSelect from "./MultipleSelect";
+import SubmitButtonSearchBar from "./SubmitButtonSearchBar";
 
 export interface IFilters {
   depart: City | undefined;

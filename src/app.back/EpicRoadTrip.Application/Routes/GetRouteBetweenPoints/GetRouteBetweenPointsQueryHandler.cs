@@ -10,7 +10,7 @@ public class GetRouteBetweenPointsQueryHandler(
     IRouteService routeService)
     : IRequestHandler<GetRouteBetweenPointsQuery, Result<IEnumerable<GetRouteResponse>>>
 {
-    public Task<Result<IEnumerable<GetRouteResponse>>> Handle(GetRouteBetweenPointsQuery query, CancellationToken cancellationToken)
+    public async Task<Result<IEnumerable<GetRouteResponse>>> Handle(GetRouteBetweenPointsQuery query, CancellationToken cancellationToken)
     {
         if ( query.request.TransportationAllowedId.Any()
             && query.request.CityOneCoord.Item1 != default
@@ -20,18 +20,18 @@ public class GetRouteBetweenPointsQueryHandler(
         {
             var result = new List<GetRouteResponse>();
 
-            var routes = routeService.GetRouteBetweenPoints(query.request.CityOneCoord, query.request.CityTwoCoord, query.request.TransportationAllowedId, cancellationToken);
+            var routes = await routeService.GetRouteBetweenPoints(query.request.CityOneCoord, query.request.CityTwoCoord, query.request.TransportationAllowedId, cancellationToken);
 
             foreach (var route in routes.Value)
             {
                 result.Add(route.Adapt<GetRouteResponse>());
             }
 
-            return Task.FromResult(Result<IEnumerable<GetRouteResponse>>.Success(result));
+            return Result<IEnumerable<GetRouteResponse>>.Success(result);
         }
         else
         {
-            return Task.FromResult(Result<IEnumerable<GetRouteResponse>>.Failure(new Error("999", "Undefined message error")));
+            return Result<IEnumerable<GetRouteResponse>>.Failure(new Error("999", "Undefined message error"));
         }
     }
 }

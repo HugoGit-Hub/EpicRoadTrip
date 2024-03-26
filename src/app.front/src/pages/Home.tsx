@@ -107,7 +107,7 @@ function Home() {
               }}
               active={activeSearchBar}
             />
-            <div className="absolute right-0 h-full flex items-center">
+            <div className="absolute right-0 top-0 mt-1.5">
               <UserProfileDropdown></UserProfileDropdown>
             </div>
           </div>

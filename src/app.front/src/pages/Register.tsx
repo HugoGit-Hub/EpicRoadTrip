@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import backArrowIcon from "../icons/back_arrow_icon.svg";
 import { authResponse, register, registerDataType } from "../services/api";
 import { getIsochrone } from "../services/isochrone";
 import { isLoggedIn, setStorageFromResponse } from "../services/storage";
 
 export default function Register() {
-    useEffect(()=>{
-        if(isLoggedIn()){
+    useEffect(() => {
+        if (isLoggedIn()) {
             navigate("/profile")
         }
-        getIsochrone(3.8767337,43.6112422);
-    },[])
+        getIsochrone(3.8767337, 43.6112422);
+    }, [])
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirm_password, setConfirmPassword] = useState("");
@@ -84,6 +85,9 @@ export default function Register() {
             <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-pink-500 to-purple-500">
                 <div className="bg-white p-8 rounded-lg shadow-lg w-full sm:w-3/4 md:w-2/4 my-8">
                     <div className="flex items-center justify-between mb-4">
+                    <a href="/login">
+            <img src={backArrowIcon} alt="" width={25} height={25} />
+        </a>
                         <h2 className="text-2xl font-bold">Epic Road Trip / Création de compte</h2>
                         <a href="/">
                             <img src={"../../public/epic_road_trip.svg"} className="w-[50px] h-[50px] mr-2" alt="Logo" />

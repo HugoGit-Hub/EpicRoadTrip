@@ -5,9 +5,13 @@ import SearchBar, { IFilters } from "../components/SearchBar/SearchBar";
 import { getRouteBetweenPoints } from "../services/routes";
 
 import { MultiPolygon } from "geojson";
+import { useNavigate } from "react-router";
+import Card from "../components/Card";
 import ItineraryCard from "../components/ItineraryCard";
 import TourrismCard from "../components/TourrismCard";
 import UserProfileDropdown from "../components/UserProfileDropdown";
+import { Button } from "../components/ui/button";
+import ProfileIcon from "../icons/profile.svg";
 import { getIsochrone } from "../services/isochrone";
 const colors = ["red", "blue", "green", "black", "purple", "brown"];
 
@@ -17,6 +21,7 @@ interface cityCoord {
 }
 
 function Home() {
+  const navigate = useNavigate();
   const [citiesGeoJson, setCitiesGeoJson] = useState<MultiPolygon[] | null>(null);
   const [citiesCoords, setCitiesCoords] = useState<cityCoord[] | null>(null);
   const [coord, setCoord] = useState<[number, number]>([43.6, 3.894]);
@@ -51,6 +56,9 @@ function Home() {
             className="flex items-center absolute z-50 mt-[32px] w-full justify-center mx-auto"
             onClick={() => setActiveSearchBar(true)}
           >
+            <div className="absolute left-0 top-0 mt-1.5 ml-4 w-14 h-14 rounded-full bg-white border border-gray-300 flex items-center justify-center focus:outline-none p-2">
+              <img src="../../public/epic_road_trip.svg" alt="" />
+            </div>
             <SearchBar
               filters={filters}
               onChange={(filters) => {
@@ -115,6 +123,17 @@ function Home() {
           <div
             className={`flex flex-col gap-[15px] h-full absolute z-50 p-[15px] backdrop-blur-md overflow-y-auto`}
           >
+            <Card title="Epic Road Trip">
+              <div className="mt-2 flex justify-between items-center">
+                <div className="w-14 h-14 rounded-full bg-white border border-gray-300 flex items-center justify-start focus:outline-none p-2">
+                  <img src="../../public/epic_road_trip.svg" alt="" />
+                </div>
+                <Button variant="gradient" onClick={() => navigate("/profile")}>
+                  <img src={ProfileIcon} width={20} className="filter invert text-white" />
+                  <span className="ml-[10px]">Mon profil</span>
+                </Button>
+              </div>
+            </Card>
             <RoadTripCard
               filters={filters}
               onEdit={() => {

@@ -23,11 +23,12 @@ public class CreateRoadtripCommandHandler(
         var request = command.Request;
         var roadtrip = Roadtrip.Create(
             0,
+            request.Title,
             request.Budget,
             request.StartDate,
             request.EndDate,
             user.Value.Id,
-            request.Duration,
+            TimeSpan.FromMinutes(request.Duration),
             request.NbTransfers,
             request.Tags,
             request.Co2Emission);

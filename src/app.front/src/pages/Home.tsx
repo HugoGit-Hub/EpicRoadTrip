@@ -1,7 +1,7 @@
+import { GeoJson, Map, Marker, Overlay } from "pigeon-maps";
 import { useMemo, useState } from "react";
-import { Map, GeoJson, Marker, Overlay } from "pigeon-maps";
-import SearchBar, { IFilters } from "../components/SearchBar/SearchBar";
 import RoadTripCard from "../components/ResumeRoadTripCard";
+import SearchBar, { IFilters } from "../components/SearchBar/SearchBar";
 import { getRouteBetweenPoints } from "../services/routes";
 
 import { MultiPolygon } from "geojson";
@@ -14,6 +14,7 @@ import TourrismCard from "../components/TourrismCard";
 import UserProfileDropdown from "../components/UserProfileDropdown";
 import { Button } from "../components/ui/button";
 import ProfileIcon from "../icons/profile.svg";
+import { getInstitutionAround } from "../services/institutions";
 import { getIsochrone } from "../services/isochrone";
 import { isLoggedIn } from "../services/storage";
 const colors = ["red", "blue", "green", "black", "purple", "brown", "pink", "orange", "grey"];
@@ -22,10 +23,9 @@ interface cityCoord {
   lng: number;
   lat: number;
 }
-import { getInstitutionAround } from "../services/institutions";
 
-import { formatDate } from "../lib/utils";
 import InstutitionCard, { IInstitution } from "../components/InstutitionCard";
+import { formatDate } from "../lib/utils";
 
 interface IInstitutions {
   0?: IInstitution[];
@@ -37,7 +37,7 @@ interface IInstitutions {
 function Home() {
   const navigate = useNavigate();
   const [citiesGeoJson, setCitiesGeoJson] = useState<MultiPolygon[] | null>(null);
-  const [citiesCoords, setCitiesCoords] = useState<cityCoord[] | null>(null);
+  let citiesCoords : cityCoord[] = [];
   const [coord, setCoord] = useState<[number, number]>([43.6, 3.894]);
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState<IFilters>({
@@ -80,7 +80,7 @@ function Home() {
             onClick={() => setActiveSearchBar(true)}>
             {!isLoading ? (
               <>
-                <div className="absolute left-0 top-0 mt-1.5 ml-4 w-14 h-14 rounded-full bg-white border border-gray-300 flex items-center justify-center focus:outline-none p-2">
+                <div className="absolute left-0 top-0 mt-1.5 ml-2 w-14 h-14 rounded-full bg-white border border-gray-300 flex items-center justify-center focus:outline-none p-2">
                   <img src="../../public/epic_road_trip.svg" alt="" />
                 </div>
                 <SearchBar
@@ -119,7 +119,7 @@ function Home() {
                           return acc;
                         }, {});
                         setData(newObj);
-                        setCitiesCoords([
+                        citiesCoords = ([
                           {
                             "lng": Number(filters.depart?.lng),
                             "lat": Number(filters.depart?.lat)
@@ -234,7 +234,7 @@ function Home() {
                   }}
                   active={activeSearchBar}
                 />
-                <div className="absolute right-0 top-0 mt-1.5">
+                <div className="absolute right-0 top-0 mt-1.5 z-10">
                   <UserProfileDropdown></UserProfileDropdown>
                 </div>
               </>
@@ -455,7 +455,7 @@ function Home() {
                   return { strokeWidth: "1", stroke: "black" };
                 }
                 return {
-                  fill: "#f13e6044",
+                  fill: "#318CE744",
                   strokeWidth: "1",
                   stroke: "white",
                   r: "20",

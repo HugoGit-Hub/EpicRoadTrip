@@ -16,7 +16,7 @@ const UserProfileDropdown = () => {
     };
 
     return (
-        <div className="relative mr-4">
+        <div className="relative mr-2">
             {/* Bouton rond avec l'icône utilisateur */}
             {(isLoggedIn() ?
                 <button

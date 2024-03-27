@@ -19,6 +19,8 @@ export interface IInstitution {
 interface IInstitutionProps extends IInstitution {
   onMap?: boolean;
   onClose?: () => void;
+  selected?: boolean
+  onSelected?: () => void
 }
 function InstutitionCard({
   name,
@@ -29,6 +31,8 @@ function InstutitionCard({
   previewUrl,
   onMap,
   onClose,
+  selected,
+  onSelected
 }: IInstitutionProps) {
   return (
     <div className="bg-white mb-10 p-4 rounded shadow flex flex-row gap-4 w-max-[400px]">
@@ -60,13 +64,14 @@ function InstutitionCard({
             )}
           </div>
         )}
-        <div className="flex flex-row justify-end mt-4">
+        <div className="flex flex-row justify-end mt-4 gap-4">
+          {onSelected && <Button variant={selected ? 'red' : 'default'} onClick={onSelected}>{selected ? "Dé-selectionner" : "Choisir"}</Button>}
           {onMap ? (
             <Button variant="gradient" onClick={onClose}>
               Fermer
             </Button>
           ) : (
-            <Button variant="gradient">Voir sur la carte</Button>
+            <Button variant="gradient">Voir</Button>
           )}
         </div>
       </div>

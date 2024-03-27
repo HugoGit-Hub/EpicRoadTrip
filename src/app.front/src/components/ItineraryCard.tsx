@@ -7,48 +7,62 @@ import {
   AccordionTrigger,
 } from "./ui/accordion";
 import { transports } from "./SearchBar/SearchBar";
+import { Button } from "./ui/button";
 
 function addTimes(timeList) {
-    // Initialiser les compteurs
-    let totalHours = 0;
-    let totalMinutes = 0;
-    let totalSeconds = 0;
+  // Initialiser les compteurs
+  let totalHours = 0;
+  let totalMinutes = 0;
+  let totalSeconds = 0;
 
-    // Parcourir la liste de temps
-    timeList.forEach((time) => {
-      // Convertir chaque temps en tableaux d'entiers
-      const [hours, minutes, seconds] = time.split(":").map(Number);
+  // Parcourir la liste de temps
+  timeList.forEach((time) => {
+    // Convertir chaque temps en tableaux d'entiers
+    const [hours, minutes, seconds] = time.split(":").map(Number);
 
-      // Ajouter les heures, les minutes et les secondes
-      totalHours += hours;
-      totalMinutes += minutes;
-      totalSeconds += seconds;
-    });
+    // Ajouter les heures, les minutes et les secondes
+    totalHours += hours;
+    totalMinutes += minutes;
+    totalSeconds += seconds;
+  });
 
-    // Traiter les retenues
-    totalMinutes += Math.floor(totalSeconds / 60);
-    totalSeconds %= 60;
+  // Traiter les retenues
+  totalMinutes += Math.floor(totalSeconds / 60);
+  totalSeconds %= 60;
 
-    totalHours += Math.floor(totalMinutes / 60);
-    totalMinutes %= 60;
+  totalHours += Math.floor(totalMinutes / 60);
+  totalMinutes %= 60;
 
-    totalHours %= 24; // Assurer que le total ne dépasse pas 24 heures
+  totalHours %= 24; // Assurer que le total ne dépasse pas 24 heures
 
-    // Formater le résultat
-    const result = [
-      String(totalHours).padStart(2, "0"),
-      String(totalMinutes).padStart(2, "0"),
-      String(totalSeconds).padStart(2, "0"),
-    ].join(":");
+  // Formater le résultat
+  const result = [
+    String(totalHours).padStart(2, "0"),
+    String(totalMinutes).padStart(2, "0"),
+    String(totalSeconds).padStart(2, "0"),
+  ].join(":");
 
-    return result;
-  }
-  
-function ItineraryCard({ data }: { data: any }) {
+  return result;
+}
+
+interface IItineraryCardProps {
+  data: any[];
+  selectedItinary?: any;
+  onChange: (itinary: any) => void;
+}
+
+function ItineraryCard({
+  data,
+  selectedItinary,
+  onChange,
+}: IItineraryCardProps) {
+  console.log(data);
+
   return (
     <Card title={`Itinéraires (${Object.entries(data).length})`}>
       <Accordion type="single" collapsible>
         {Object.values(data).map((trajet: any, id) => {
+          console.log(trajet);
           return (
             <AccordionItem value={`item-${id}`}>
               <AccordionTrigger>
@@ -75,6 +89,32 @@ function ItineraryCard({ data }: { data: any }) {
                     </div>
                   );
                 })}
+                {onChange && (
+                  <div className="mt-4 flex flex-row items-center justify-end">
+                    <Button
+                      variant={
+                        selectedItinary !== undefined &&
+                        selectedItinary[0].routeGroup === trajet[0].routeGroup
+                          ? "red"
+                          : "default"
+                      }
+                      onClick={() => {
+                        onChange(
+                          selectedItinary !== undefined &&
+                            selectedItinary[0].routeGroup ===
+                              trajet[0].routeGroup
+                            ? undefined
+                            : trajet
+                        );
+                      }}
+                    >
+                      {selectedItinary !== undefined &&
+                      selectedItinary[0].routeGroup === trajet[0].routeGroup
+                        ? "Dé-selectionner"
+                        : "Choisir"}
+                    </Button>
+                  </div>
+                )}
               </AccordionContent>
             </AccordionItem>
           );

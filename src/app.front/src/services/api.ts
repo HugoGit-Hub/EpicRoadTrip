@@ -194,3 +194,24 @@ export const deleteRoadtrip = async (id: number) => {
         },
     });
 };
+
+export const getRoadtripInformations = async (id: number) : Promise<any> => {
+    const url = BASE_URL + `api/Roadtrip/GetRoadtripInformations?id=${id}`;
+
+    const token = getTokenFromStorage();
+
+    if (!token) {
+        throw new Error("No token found");
+    }
+
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    if (response.ok) {
+        return response.json() as Promise<any>;
+    }
+    throw new Error(response.status + " " + response.statusText);
+};

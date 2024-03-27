@@ -1,12 +1,11 @@
-import React from "react";
 import Card from "./Card";
+import { transports } from "./SearchBar/SearchBar";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "./ui/accordion";
-import { transports } from "./SearchBar/SearchBar";
 import { Button } from "./ui/button";
 
 function addTimes(timeList) {
@@ -49,20 +48,19 @@ interface IItineraryCardProps {
   data: any[];
   selectedItinary?: any;
   onChange: (itinary: any) => void;
+  isSelectable : boolean;
 }
 
 function ItineraryCard({
   data,
   selectedItinary,
   onChange,
+  isSelectable
 }: IItineraryCardProps) {
-  console.log(data);
-
   return (
     <Card title={`Itinéraires (${Object.entries(data).length})`}>
       <Accordion type="single" collapsible>
         {Object.values(data).map((trajet: any, id) => {
-          console.log(trajet);
           return (
             <AccordionItem value={`item-${id}`}>
               <AccordionTrigger>
@@ -89,7 +87,7 @@ function ItineraryCard({
                     </div>
                   );
                 })}
-                {onChange && (
+                {isSelectable && onChange && (
                   <div className="mt-4 flex flex-row items-center justify-end">
                     <Button
                       variant={

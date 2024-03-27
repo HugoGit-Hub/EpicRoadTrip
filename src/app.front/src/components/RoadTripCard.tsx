@@ -1,6 +1,5 @@
 import { PropsWithChildren, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import trashIcon from "../icons/delete.svg";
 import loadingIcon from "../icons/loading.svg";
 import { deleteRoadtrip } from "../services/api";
@@ -11,6 +10,7 @@ interface RoadTripCardProps extends PropsWithChildren {
     budget: number;
     dates: string;
     id: number;
+    isViewOpen: any;
 }
 
 const mapImages = [
@@ -25,9 +25,7 @@ function getRandomInt(max: number) {
     return Math.floor(Math.random() * max);
 }
 
-function RoadTripCard({ title, budget, dates, id }: RoadTripCardProps) {
-    const navigate = useNavigate();
-    
+function RoadTripCard({ title, budget, dates, id, isViewOpen }: RoadTripCardProps) {
     const [image, setImage] = useState('')
     const [isLoading, setIsLoading] = useState(false);
 
@@ -35,7 +33,7 @@ function RoadTripCard({ title, budget, dates, id }: RoadTripCardProps) {
         setImage(mapImages[getRandomInt(mapImages.length)])
     }, [])
     function handleView(): void {
-        navigate(`/?roadTripId=${id}`);
+        isViewOpen(id)
     }
 
     async function handleDelete(){

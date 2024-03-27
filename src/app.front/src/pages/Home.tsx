@@ -156,13 +156,11 @@ function Home() {
                             lat: Number(filters.destination?.lat),
                           },
                         ];
-                        console.log(citiesCoords);
                         citiesCoords?.forEach((c) => {
                           promises.push(
                             getIsochrone(Number(c.lng), Number(c.lat))
                           );
                         });
-                        console.log(promises);
                         const res = await Promise.all(promises);
                         const formatRes = res as MultiPolygon[];
                         setCitiesGeoJson(formatRes);
@@ -255,7 +253,6 @@ function Home() {
                             )
                           );
                         }
-                        console.log("Tous les résultats :", formatRes);
                       } else {
                         toast.error(
                           "Vous devez être connecté afin de rechercher !"
@@ -350,6 +347,7 @@ function Home() {
               data={data}
               selectedItinary={selectedItinary}
               onChange={setSelectedItinary}
+              isSelectable={true}
             />
 
             <TourrismCard
